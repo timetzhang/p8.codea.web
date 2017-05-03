@@ -5,19 +5,10 @@
                 mu-list
                     mu-list-item(title="首页")
                         mu-icon(slot="left",value="home",href="/#/home")
-                    mu-list-item(title='语音',:toggleNested="true")
+                    mu-list-item(v-for="item in classify",:title="item.title",:toggleNested="true",:key="item")
                         mu-icon(slot="left",value="dns")
-                        mu-list-item(slot="nested",title="HTML")
-                        mu-list-item(slot="nested",title="HTML5")
-                        mu-list-item(slot="nested",title="CSS")
-                        mu-list-item(slot="nested",title="CSS3")
-                        mu-list-item(slot="nested",title="Bootstrap")
-                        mu-list-item(slot="nested",title="Semantic")
-                    mu-list-item(title='Javascript',:toggleNested="true")
-                        mu-icon(slot="left",value="dns")
-                        mu-list-item(slot="nested",title="JS")
-                        mu-list-item(slot="nested",title="HTML DOM")
-                        mu-list-item(slot="nested",title="jQuery")
+                        mu-list-item(v-for="list in item.list",slot="nested",:title="list",:key="list",value="list",href="/#/sdk/list" )
+                            mu-icon(slot="left")
         mu-col(:desktop="85")
             mu-paper(style='padding:10px 30px')
                 mu-text-field(label="搜索SDK",style='width:100%', icon='search')
@@ -30,7 +21,21 @@ export default {
     name: 'sdk',
     data() {
         return {
-
+            classify : [
+                {
+                    title : '语音控制',
+                    list : ['科大讯飞','百度语音'],
+                },
+                {
+                    title : '语音控制',
+                    list : ['科大讯飞','百度语音'],
+                },
+                {
+                    title : '语音控制',
+                    list : ['科大讯飞','百度语音'],
+                }
+            ],
+            
         }
     },
     mounted: function () {
