@@ -21,6 +21,18 @@ import SchoolContact from '@/components/school/contact'
 
 import Course from '@/components/course/course'
 import CourseHome from '@/components/course/home'
+import CourseClient from '@/components/course/client'
+import CourseServer from '@/components/course/server'
+import CourseDatabse from '@/components/course/database'
+import CourseMobile from '@/components/course/mobile'
+import CourseGraphics from '@/components/course/graphics'
+import CourseIDE from '@/components/course/ide'
+import CourseOS from '@/components/course/os'
+import CourseSoftBasic from '@/components/course/soft_basic'
+import CourseArduino from '@/components/course/arduino'
+import CourseSTM32 from '@/components/course/stm32'
+import CourseHardBasic from '@/components/course/hard_basic'
+
 import SDK from '@/components/sdk/sdk'
 import SDKHome from '@/components/sdk/home'
 import Tools from '@/components/tools/tools'
@@ -118,7 +130,53 @@ export default new Router({
             {
                 path: '/course/home',
                 component: CourseHome
-            }]
+            },
+            {
+                path: '/course/client',
+                component: CourseClient
+            },
+            {
+                path: '/course/server',
+                component: CourseServer
+            },
+            {
+                path: '/course/database',
+                component: CourseDatabse
+            },
+            {
+                path: '/course/mobile',
+                component: CourseMobile
+            },
+            {
+                path: '/course/graphics',
+                component: CourseGraphics
+            },
+            {
+                path: '/course/ide',
+                component: CourseIDE
+            },
+            {
+                path: '/course/os',
+                component: CourseOS
+            },
+            {
+                path: '/course/soft_basic',
+                component: CourseSoftBasic
+            },
+            {
+                path: '/course/arduino',
+                component: CourseArduino
+            },
+            {
+                path: '/course/stm32',
+                component: CourseSTM32
+            },
+            {
+                path: '/course/hard_basic',
+                component: CourseHardBasic
+            }
+
+        ]
     },
     {
         path: '/sdk',

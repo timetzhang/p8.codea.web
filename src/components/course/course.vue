@@ -1,24 +1,37 @@
 <template lang="jade">
     mu-row(gutter)
-        mu-col(:desktop="15")
+        mu-col(desktop="20")
             mu-paper(height="100")
                 mu-list
                     mu-list-item(title="首页")
-                        mu-icon(slot="left",value="home",href="/#/home")
-                    mu-list-item(title='HTML/CSS',:toggleNested="true")
-                        mu-icon(slot="left",value="dns")
-                        mu-list-item(slot="nested",title="HTML")
-                        mu-list-item(slot="nested",title="HTML5")
-                        mu-list-item(slot="nested",title="CSS")
-                        mu-list-item(slot="nested",title="CSS3")
-                        mu-list-item(slot="nested",title="Bootstrap")
-                        mu-list-item(slot="nested",title="Semantic")
-                    mu-list-item(title='Javascript',:toggleNested="true")
-                        mu-icon(slot="left",value="dns")
-                        mu-list-item(slot="nested",title="JS")
-                        mu-list-item(slot="nested",title="HTML DOM")
-                        mu-list-item(slot="nested",title="jQuery")
-        mu-col(:desktop="85")
+                        mu-icon(slot="left",value="home",to="/course/home")
+                    mu-divider
+                    mu-sub-header 软件开发
+                    mu-list-item(title='前端', to="/course/client")
+                        mu-icon(slot="left",value="code")
+                    mu-list-item(title='服务器端', to="/course/server")
+                        mu-icon(slot="left",value="code")
+                    mu-list-item(title='数据库', to="/course/database")
+                        mu-icon(slot="left",value="code")
+                    mu-list-item(title='移动端', to="/course/mobile")
+                        mu-icon(slot="left",value="code")
+                    mu-list-item(title='图形开发', to="/course/graphics")
+                        mu-icon(slot="left",value="code")
+                    mu-list-item(title='IDE', to="/course/ide")
+                        mu-icon(slot="left",value="code")
+                    mu-list-item(title='操作系统', to="/course/os")
+                        mu-icon(slot="left",value="code")
+                    mu-list-item(title='基础理论', to="/course/soft_basic")
+                        mu-icon(slot="left",value="code")
+                    mu-divider
+                    mu-sub-header 硬件开发
+                    mu-list-item(title='Arduino', to="/course/arduino")
+                        mu-icon(slot="left",value="code")
+                    mu-list-item(title='STM32', to="/course/STM32")
+                        mu-icon(slot="left",value="code")
+                    mu-list-item(title='基础理论', to="/course/hard_basic")
+                        mu-icon(slot="left",value="code")
+        mu-col(desktop="80")
             router-view
 </template>
 

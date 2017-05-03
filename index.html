@@ -48,11 +48,32 @@
         .title.huge {
             font-size: 50px;
         }
+        
+        .container {
+            width: 1002px;
+            margin: 0 auto;
+        }
+        
+        @media (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
+            /*iphone 6*/
+            .container {
+                width: 100%;
+            }
+        }
+        
+        @media (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) {
+            /*iphone 6 plus*/
+            .container {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 
 <body>
     <div id="app"></div>
 </body>
+
+</html>
 
 </html>

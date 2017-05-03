@@ -1,6 +1,6 @@
 <template lang="jade">
     mu-row(gutter)
-        mu-col(:desktop="15")
+        mu-col(desktop="15")
             mu-paper(height="100")
                 mu-list
                     mu-list-item(title="首页")
@@ -18,7 +18,7 @@
                         mu-list-item(slot="nested",title="JS")
                         mu-list-item(slot="nested",title="HTML DOM")
                         mu-list-item(slot="nested",title="jQuery")
-        mu-col(:desktop="85")
+        mu-col(desktop="85")
             mu-paper(style='padding:10px 30px')
                 mu-text-field(label="搜索SDK",style='width:100%', icon='search')
             br
