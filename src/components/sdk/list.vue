@@ -13,9 +13,7 @@
                         mu-chip 语音听写
                         mu-chip 语义理解
                         mu-chip 个性化识别
-                        mu-chip 语法识别
-
-                            
+                        mu-chip 语法识别        
             br
             hr
 
