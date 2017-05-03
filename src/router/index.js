@@ -4,6 +4,21 @@ import Home from '@/components/home/home'
 
 import School from '@/components/school/school'
 import SchoolHome from '@/components/school/home'
+import SchoolVision from '@/components/school/vision'
+import SchoolMission from '@/components/school/mission'
+import SchoolRevolution from '@/components/school/revolution'
+import SchoolStudy from '@/components/school/study'
+import SchoolDorm from '@/components/school/dorm'
+import SchoolParkathon from '@/components/school/parkathon'
+import SchoolCourse from '@/components/school/course'
+import SchoolTeam from '@/components/school/team'
+import SchoolCareer from '@/components/school/career'
+import SchoolProjectLecture from '@/components/school/project_lecture'
+import SchoolProjectBus from '@/components/school/project_bus'
+import SchoolEntrance from '@/components/school/entrance'
+import SchoolRegister from '@/components/school/register'
+import SchoolContact from '@/components/school/contact'
+
 import Course from '@/components/course/course'
 import CourseHome from '@/components/course/home'
 import SDK from '@/components/sdk/sdk'
@@ -33,7 +48,64 @@ export default new Router({
             {
                 path: '/school/home',
                 component: SchoolHome
-            }]
+            },
+            {
+                path: '/school/vision',
+                component: SchoolVision
+            },
+            {
+                path: '/school/mission',
+                component: SchoolMission
+            },
+            {
+                path: '/school/revolution',
+                component: SchoolRevolution
+            },
+            {
+                path: '/school/study',
+                component: SchoolStudy
+            },
+            {
+                path: '/school/dorm',
+                component: SchoolDorm
+            },
+            {
+                path: '/school/parkathon',
+                component: SchoolParkathon
+            },
+            {
+                path: '/school/course',
+                component: SchoolCourse
+            },
+            {
+                path: '/school/team',
+                component: SchoolTeam
+            },
+            {
+                path: '/school/career',
+                component: SchoolCareer
+            },
+            {
+                path: '/school/project_lecture',
+                component: SchoolProjectLecture
+            },
+            {
+                path: '/school/project_bus',
+                component: SchoolProjectBus
+            },
+            {
+                path: '/school/entrance',
+                component: SchoolEntrance
+            },
+            {
+                path: '/school/register',
+                component: SchoolRegister
+            },
+            {
+                path: '/school/contact',
+                component: SchoolContact
+            }
+        ]
     },
     {
         path: '/course',
