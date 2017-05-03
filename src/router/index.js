@@ -2,6 +2,15 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/home/home'
 
+import School from '@/components/school/school'
+import SchoolHome from '@/components/school/home'
+import Course from '@/components/course/course'
+import CourseHome from '@/components/course/home'
+import SDK from '@/components/sdk/sdk'
+import SDKHome from '@/components/sdk/home'
+import Tools from '@/components/tools/tools'
+import ToolsHome from '@/components/tools/home'
+
 Vue.use(Router)
 
 export default new Router({
@@ -12,7 +21,59 @@ export default new Router({
     {
         path: '/home',
         component: Home
-    }
+    },
+    {
+        path: '/school',
+        component: School,
+        children: [
+            {
+                path: '/school/',
+                redirect: '/school/home'
+            },
+            {
+                path: '/school/home',
+                component: SchoolHome
+            }]
+    },
+    {
+        path: '/course',
+        component: Course,
+        children: [
+            {
+                path: '/course/',
+                redirect: '/course/home'
+            },
+            {
+                path: '/course/home',
+                component: CourseHome
+            }]
+    },
+    {
+        path: '/sdk',
+        component: SDK,
+        children: [
+            {
+                path: '/sdk/',
+                redirect: '/sdk/home'
+            },
+            {
+                path: '/sdk/home',
+                component: SDKHome
+            }]
+    },
+    {
+        path: '/tools',
+        component: Tools,
+        children: [
+            {
+                path: '/tools/',
+                redirect: '/tools/home'
+            },
+            {
+                path: '/tools/home',
+                component: ToolsHome
+            }]
+    },
         // {
         //     path: '/profile',
         //     component: Profile,

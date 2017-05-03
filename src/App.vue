@@ -1,57 +1,21 @@
 ﻿<template lang="jade">
     div.app
-        mu-row.menu
-            mu-col
-                img(src='/static/img/logo.png',style='margin:18px')
-            mu-col
-                mu-flat-button(label='学校', color="white")
-                mu-flat-button(label='教程', color="white")
-                mu-flat-button(label='SDK', color="white")
-                mu-flat-button(label='工具', color="white")
-        mu-row.content(gutter)
-            mu-col(:desktop="menuWidth",v-if="menuVisible")
-                mu-paper(height="100")
-                    mu-list
-                        mu-list-item(title="首页")
-                            mu-icon(slot="left",value="home",href="/#/home")
-                        mu-list-item(title="学校",:toggleNested="true")
-                            mu-icon(slot="left",value="dns")
-                            mu-list-item(slot="nested",title="愿景")
-                                mu-icon(slot="left",value="grade")
-                            mu-list-item(slot="nested",title="目标")
-                                mu-icon(slot="left",value="my_location")
-                            mu-list-item(slot="nested",title="革新")
-                                mu-icon(slot="left",value="extension")
-                            mu-list-item(slot="nested",title="学习环境")
-                                mu-icon(slot="left",value="event_seat")
-                            mu-list-item(slot="nested",title="居住环境")
-                                mu-icon(slot="left",value="nature_people")
-                        mu-list-item(title="课程",:toggleNested="true")
-                            mu-icon(slot="left",value="school")
-                            mu-list-item(slot="nested",title="集训")
-                                mu-icon(slot="left",value="looks_one")
-                            mu-list-item(slot="nested",title="两年课程")
-                                mu-icon(slot="left",value="looks_two")
-                            mu-list-item(slot="nested",title="项目组")
-                                mu-icon(slot="left",value="looks_3")
-                            mu-list-item(slot="nested",title="就业")
-                                mu-icon(slot="left",value="looks_4")
-                        mu-list-item(title="项目",:toggleNested="true")
-                            mu-icon(slot="left",value="assessment")
-                            mu-list-item(slot="nested",title="课程项目")
-                                mu-icon(slot="left",value="looks_4")
-                            mu-list-item(slot="nested",title="商业项目")
-                                mu-icon(slot="left",value="looks_4")
-                        mu-list-item(title="报名",:toggleNested="true")
-                            mu-icon(slot="left",value="inbox")
-                            mu-list-item(slot="nested",title="入学考试")
-                                mu-icon(slot="left",value="create")
-                            mu-list-item(slot="nested",title="注册")
-                                mu-icon(slot="left",value="account_box")
-                        mu-list-item(title="联系我们")
-                            mu-icon(slot="left",value="phone")
-            mu-col(:desktop="100-menuWidth")
-                router-view
+        mu-flexbox.menu
+            mu-flexbox-item
+                a(href='/#/')
+                    img(src='/static/img/logo.png',style='vertical-align:-2px; cursor: pointer')
+                a(href='/#/school')
+                    mu-flat-button.item(label='学校', color="white")
+                a(href='/#/course')
+                    mu-flat-button.item(label='教程', color="white")
+                a(href='/#/sdk')
+                    mu-flat-button.item(label='SDK', color="white")
+                a(href='/#/tools')
+                    mu-flat-button.item(label='工具', color="white")
+            mu-flexbox-item(style='text-align:right')
+                mu-text-field.search-box(hintText="搜索", hintTextClass='search-hint', inputClass='search-input')
+                mu-icon-button(icon='search', tooltip="搜索", style='color:white')
+        router-view.content
         mu-row.bottom(gutter)
             mu-col(desktop="50")
                 p 地址：长沙远大三路远大城J57
@@ -72,15 +36,11 @@ import Browser from './common/browser'
 export default {
     data() {
         return {
-            menuVisible: true,
-            menuWidth: 15
+
         };
     },
     methods: {
-        menuToggle() {
-            this.menuVisible = !this.menuVisible;
-            this.menuWidth = this.menuVisible ? 15 : 0;
-        }
+
     }
 }
 </script>
@@ -91,13 +51,28 @@ export default {
 }
 
 .menu {
-    height: 67px;
-    line-height: 67px;
     background-color: #424242;
 }
 
-.top {
-    width: 100%;
+.menu .item {
+    height: 54px;
+    vertical-align: 17px;
+    border-left: 1px solid #383838;
+}
+
+.search-box {
+    vertical-align: 13px;
+    font-size: 10px;
+}
+
+.search-hint {
+    font-size: 12px;
+    color: #888 !important;
+}
+
+.search-input {
+    font-size: 12px !important;
+    color: white !important;
 }
 
 .content {
