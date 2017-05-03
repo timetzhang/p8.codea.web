@@ -1,8 +1,13 @@
 ﻿<template lang="jade">
     div.app
-        mu-appbar.top
-            img(src='/static/img/logo.png',slot="left")
-            mu-icon-button(icon="menu",slot="right",@click="menuToggle")
+        mu-row.menu
+            mu-col
+                img(src='/static/img/logo.png',style='margin:18px')
+            mu-col
+                mu-flat-button(label='学校', color="white")
+                mu-flat-button(label='教程', color="white")
+                mu-flat-button(label='SDK', color="white")
+                mu-flat-button(label='工具', color="white")
         mu-row.content(gutter)
             mu-col(:desktop="menuWidth",v-if="menuVisible")
                 mu-paper(height="100")
@@ -81,8 +86,14 @@ export default {
 </script>
 
 <style>
-  .app {
+.app {
     background-color: #f4f4f4;
+}
+
+.menu {
+    height: 67px;
+    line-height: 67px;
+    background-color: #424242;
 }
 
 .top {
