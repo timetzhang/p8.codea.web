@@ -35,6 +35,7 @@ import CourseHardBasic from '@/components/course/hard_basic'
 
 import SDK from '@/components/sdk/sdk'
 import SDKHome from '@/components/sdk/home'
+import SDKList from '@/components/sdk/list'
 import Tools from '@/components/tools/tools'
 import ToolsHome from '@/components/tools/home'
 
@@ -189,7 +190,12 @@ export default new Router({
             {
                 path: '/sdk/home',
                 component: SDKHome
-            }]
+            },
+            {
+                path: '/sdk/list',
+                component: SDKList
+            }
+        ]
     },
     {
         path: '/tools',
