@@ -8,6 +8,8 @@ import 'muse-ui/dist/theme-carbon.css' // 使用 carbon 主题
 
 import Cookie from './common/cookie'
 Vue.prototype.$cookie = Cookie;
+import Config from './common/config'
+Vue.prototype.$config = Config;
 
 Vue.use(MuseUI);
 Vue.use(VueResource);

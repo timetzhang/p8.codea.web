@@ -1,24 +1,21 @@
 <template lang="jade">
     mu-row(gutter)
-        mu-col(:desktop="15")
+        mu-col(desktop="20")
             mu-paper(height="100")
                 mu-list
                     mu-list-item(title="首页")
-                        mu-icon(slot="left",value="home",href="/#/home")
-                    mu-list-item(title='HTML/CSS',:toggleNested="true")
-                        mu-icon(slot="left",value="dns")
-                        mu-list-item(slot="nested",title="HTML")
-                        mu-list-item(slot="nested",title="HTML5")
-                        mu-list-item(slot="nested",title="CSS")
-                        mu-list-item(slot="nested",title="CSS3")
-                        mu-list-item(slot="nested",title="Bootstrap")
-                        mu-list-item(slot="nested",title="Semantic")
-                    mu-list-item(title='Javascript',:toggleNested="true")
-                        mu-icon(slot="left",value="dns")
-                        mu-list-item(slot="nested",title="JS")
-                        mu-list-item(slot="nested",title="HTML DOM")
-                        mu-list-item(slot="nested",title="jQuery")
-        mu-col(:desktop="85")
+                        mu-icon(slot="left",value="home",to="/course/home")
+                    mu-divider
+                    mu-sub-header 软件开发
+                    mu-list-item(v-for='item in items_soft', :key='item.id', :title='item.name', :to='"/course/" + item.id')
+                        mu-icon(slot="left",value="code")
+                    mu-divider
+                    mu-sub-header 硬件开发
+                    mu-list-item(title='MCU/STM32', to="/course/mcu")
+                        mu-icon(slot="left",value="code")
+                    mu-list-item(title='基础理论', to="/course/hard_basic")
+                        mu-icon(slot="left",value="code")
+        mu-col(desktop="80")
             router-view
 </template>
 
@@ -27,18 +24,51 @@ export default {
     name: 'school',
     data() {
         return {
-
+            items_soft: [],
+            items_hard: []
         }
     },
     mounted: function () {
-
+        this.getCourseType(1);
     },
     methods: {
-
+        getCourseType(id) {
+            var _this = this;
+            this.dbUrl = this.$config.dbBaseUrl + '/getCourseType?id=' + id;
+            this.$http({
+                url: this.dbUrl,
+                method: 'GET'
+            }).then(res => {
+                if (res.data.length) {
+                    _this.items_soft = res.data;
+                }
+                else {
+                    _this.items_soft = [];
+                }
+            });
+        }
     }
 }
 </script>
 
-<style scoped>
+<style>
+.mu-card-header {
+    font-weight: bold !important;
+}
 
+.mu-sub-header {
+    font-weight: bold !important;
+}
+
+.card {
+    margin: 8px 0;
+}
+
+.card-text {
+    height: 75px;
+}
+
+.content {
+    padding: 20px;
+}
 </style>

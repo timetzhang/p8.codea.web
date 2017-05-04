@@ -10,7 +10,7 @@
                 mu-col(desktop="33")
                     mu-raised-button(label="Primary",backgroundColor="grey500",:fullWidth="true")
             div(style="padding: 80px 0")
-                mu-icon(value="people",size="50")
+                mu-icon(value='people',:size='50')
                 div Co-Learning
                 div.huge.title(style="margin-top:40px") 没有老师 没有教室
                 p 我们的核心是Co-Learning，大家聚在一起学习与交流. 可以通过网络获取知识，解决知识更新过快的问题
@@ -39,7 +39,7 @@
                     p 你生来就不一样，不需要同进退
             hr
             div(style="padding: 80px 0")
-                mu-icon(value="group_work",size="50")
+                mu-icon(value="group_work",:size='50')
                 div Group-Work
                 div.huge.title(style="margin-top:40px") 没有课程 只有项目
                 p 了解项目需求后便开始与团队合作
