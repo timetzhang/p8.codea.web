@@ -24,6 +24,8 @@ import Course from '@/components/course/course'
 import SDK from '@/components/sdk/sdk'
 import SDKHome from '@/components/sdk/home'
 import SDKList from '@/components/sdk/list'
+import SDKCourse from '@/components/sdk/course'
+
 import Tools from '@/components/tools/tools'
 import ToolsHome from '@/components/tools/home'
 
@@ -125,8 +127,12 @@ export default new Router({
                 component: SDKHome
             },
             {
-                path: '/sdk/list',
-                component: SDKList
+                path: '/sdk/:id',
+                component: SDKList,
+            },
+            {
+                path: '/sdk/:id/course',
+                component: SDKCourse
             }
         ]
     },

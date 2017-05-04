@@ -18,6 +18,7 @@
                     mu-text-field.search-box(hintText="搜索", hintTextClass='search-hint', inputClass='search-input')
                     mu-icon-button(icon='search', tooltip="搜索", style='color:white')
         router-view.container.content
+        mu-raised-button(v-on:click="returnTop",icon="eject",id="gotoTop",v-show="isHide") 返回顶部
         div.bottom
             mu-row.container(gutter)
                 mu-col(desktop="50")
@@ -39,14 +40,24 @@ export default {
             curMenu: this.$route.path.split('/')[1]
         };
     },
-    mounted: function () {
-
-    },
-    beforeUpdate: function () {
-
-    },
     methods: {
-    }
+        handleScroll: function () {
+            this.scrolled = document.body.scrollTop;
+            console.log(this.scrolled)
+            if (this.scrolled > 350) {
+                this.isHide = true
+            } else {
+                this.isHide = false
+            }
+        },
+        returnTop: function () {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0
+        }
+    },
+    mounted: function () {
+        window.addEventListener('scroll', this.handleScroll)
+    },
 }
 </script>
 
@@ -100,5 +111,11 @@ export default {
 
 .router-link-active {
     background-color: #d3d3d3;
+}
+
+#gotoTop {
+    position: fixed;
+    right: 200px;
+    bottom: 195px;
 }
 </style>
