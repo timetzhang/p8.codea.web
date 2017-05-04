@@ -3,7 +3,6 @@ import Router from 'vue-router'
 import Home from '@/components/home/home'
 
 import School from '@/components/school/school'
-import SchoolHome from '@/components/school/home'
 import SchoolVision from '@/components/school/vision'
 import SchoolMission from '@/components/school/mission'
 import SchoolRevolution from '@/components/school/revolution'
@@ -46,11 +45,7 @@ export default new Router({
         children: [
             {
                 path: '/school/',
-                redirect: '/school/home'
-            },
-            {
-                path: '/school/home',
-                component: SchoolHome
+                redirect: '/school/vision'
             },
             {
                 path: '/school/vision',
