@@ -1,7 +1,5 @@
 // config.js
 
-const menuWidth = 15;
-
 export default {
-    MenuWidth
+    dbBaseUrl: 'http://codeadb.joinp8.com'
 };

@@ -39,10 +39,10 @@ export default {
             curMenu: this.$route.path.split('/')[1]
         };
     },
-    mounted:function(){
-        
+    mounted: function () {
+
     },
-    beforeUpdate: function(){
+    beforeUpdate: function () {
 
     },
     methods: {
@@ -51,7 +51,7 @@ export default {
 </script>
 
 <style>
-.app{
+.app {
     background-color: #f4f4f4;
 }
 
@@ -62,7 +62,7 @@ export default {
 .menu .item {
     line-height: 54px;
     height: 54px;
-    color:white;
+    color: white;
 }
 
 .search-box {
@@ -91,13 +91,13 @@ export default {
     font-size: 12px;
 }
 
-.router-link-active .mu-flat-button-wrapper{
+.router-link-active .mu-flat-button-wrapper {
     background-color: #d00000;
     color: white;
     border-bottom: 2px solid #d00000;
 }
 
-.router-link-active{
+.router-link-active {
     background-color: #d3d3d3;
 }
 </style>

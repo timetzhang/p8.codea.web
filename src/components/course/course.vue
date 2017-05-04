@@ -7,27 +7,11 @@
                         mu-icon(slot="left",value="home",to="/course/home")
                     mu-divider
                     mu-sub-header 软件开发
-                    mu-list-item(title='前端', to="/course/client")
-                        mu-icon(slot="left",value="code")
-                    mu-list-item(title='服务器端', to="/course/server")
-                        mu-icon(slot="left",value="code")
-                    mu-list-item(title='数据库', to="/course/database")
-                        mu-icon(slot="left",value="code")
-                    mu-list-item(title='移动端', to="/course/mobile")
-                        mu-icon(slot="left",value="code")
-                    mu-list-item(title='图形开发', to="/course/graphics")
-                        mu-icon(slot="left",value="code")
-                    mu-list-item(title='IDE', to="/course/ide")
-                        mu-icon(slot="left",value="code")
-                    mu-list-item(title='操作系统', to="/course/os")
-                        mu-icon(slot="left",value="code")
-                    mu-list-item(title='基础理论', to="/course/soft_basic")
+                    mu-list-item(v-for='item in items_soft', :key='item.id', :title='item.name', :to='"/course/" + item.id')
                         mu-icon(slot="left",value="code")
                     mu-divider
                     mu-sub-header 硬件开发
-                    mu-list-item(title='Arduino', to="/course/arduino")
-                        mu-icon(slot="left",value="code")
-                    mu-list-item(title='STM32', to="/course/STM32")
+                    mu-list-item(title='MCU/STM32', to="/course/mcu")
                         mu-icon(slot="left",value="code")
                     mu-list-item(title='基础理论', to="/course/hard_basic")
                         mu-icon(slot="left",value="code")
@@ -40,18 +24,51 @@ export default {
     name: 'school',
     data() {
         return {
-
+            items_soft: [],
+            items_hard: []
         }
     },
     mounted: function () {
-
+        this.getCourseType(1);
     },
     methods: {
-
+        getCourseType(id) {
+            var _this = this;
+            this.dbUrl = this.$config.dbBaseUrl + '/getCourseType?id=' + id;
+            this.$http({
+                url: this.dbUrl,
+                method: 'GET'
+            }).then(res => {
+                if (res.data.length) {
+                    _this.items_soft = res.data;
+                }
+                else {
+                    _this.items_soft = [];
+                }
+            });
+        }
     }
 }
 </script>
 
-<style scoped>
+<style>
+.mu-card-header {
+    font-weight: bold !important;
+}
 
+.mu-sub-header {
+    font-weight: bold !important;
+}
+
+.card {
+    margin: 8px 0;
+}
+
+.card-text {
+    height: 75px;
+}
+
+.content {
+    padding: 20px;
+}
 </style>

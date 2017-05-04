@@ -4,7 +4,7 @@
 
 <script>
 export default {
-    name: 'school-home',
+    name: 'course-mcu',
     data() {
         return {
 
