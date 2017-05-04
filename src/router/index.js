@@ -20,8 +20,6 @@ import SchoolRegister from '@/components/school/register'
 import SchoolContact from '@/components/school/contact'
 
 import Course from '@/components/course/course'
-import CourseHome from '@/components/course/home'
-import CourseList from '@/components/course/list'
 
 import SDK from '@/components/sdk/sdk'
 import SDKHome from '@/components/sdk/home'
@@ -111,22 +109,8 @@ export default new Router({
         ]
     },
     {
-        path: '/course',
-        component: Course,
-        children: [
-            {
-                path: '/course/',
-                redirect: '/course/home'
-            },
-            {
-                path: '/course/home',
-                component: CourseHome
-            },
-            {
-                path: '/course/:id',
-                component: CourseList
-            }
-        ]
+        path: '/course/',
+        component: Course
     },
     {
         path: '/sdk',

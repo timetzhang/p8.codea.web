@@ -6,14 +6,14 @@ import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
 import 'muse-ui/dist/theme-carbon.css' // 使用 carbon 主题
 
-import Cookie from './common/cookie'
-Vue.prototype.$cookie = Cookie;
-import Config from './common/config'
-Vue.prototype.$config = Config;
-
 Vue.use(MuseUI);
 Vue.use(VueResource);
 Vue.config.productionTip = false
+
+import Cookie from './common/cookie'
+Vue.prototype.$cookie = Cookie;
+import Db from './common/db'
+Vue.prototype.$db = Db;
 
 /* eslint-disable no-new */
 new Vue({
