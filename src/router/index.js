@@ -26,6 +26,8 @@ import CourseList from '@/components/course/list'
 import SDK from '@/components/sdk/sdk'
 import SDKHome from '@/components/sdk/home'
 import SDKList from '@/components/sdk/list'
+import SDKCourse from '@/components/sdk/course'
+
 import Tools from '@/components/tools/tools'
 import ToolsHome from '@/components/tools/home'
 
@@ -33,7 +35,6 @@ Vue.use(Router)
 
 export default new Router({
     routes: [{
-<<<<<<< HEAD
             path: '/',
             redirect: '/home'
         },
@@ -51,6 +52,62 @@ export default new Router({
                 {
                     path: '/school/home',
                     component: SchoolHome
+                },
+                {
+                    path: '/school/vision',
+                    component: SchoolVision
+                },
+                {
+                    path: '/school/mission',
+                    component: SchoolMission
+                },
+                {
+                    path: '/school/revolution',
+                    component: SchoolRevolution
+                },
+                {
+                    path: '/school/study',
+                    component: SchoolStudy
+                },
+                {
+                    path: '/school/dorm',
+                    component: SchoolDorm
+                },
+                {
+                    path: '/school/parkathon',
+                    component: SchoolParkathon
+                },
+                {
+                    path: '/school/course',
+                    component: SchoolCourse
+                },
+                {
+                    path: '/school/team',
+                    component: SchoolTeam
+                },
+                {
+                    path: '/school/career',
+                    component: SchoolCareer
+                },
+                {
+                    path: '/school/project_lecture',
+                    component: SchoolProjectLecture
+                },
+                {
+                    path: '/school/project_bus',
+                    component: SchoolProjectBus
+                },
+                {
+                    path: '/school/entrance',
+                    component: SchoolEntrance
+                },
+                {
+                    path: '/school/register',
+                    component: SchoolRegister
+                },
+                {
+                    path: '/school/contact',
+                    component: SchoolContact
                 }
             ]
         },
@@ -64,6 +121,10 @@ export default new Router({
                 {
                     path: '/course/home',
                     component: CourseHome
+                },
+                {
+                    path: '/course/:id',
+                    component: CourseList
                 }
             ]
         },
@@ -79,13 +140,13 @@ export default new Router({
                     component: SDKHome
                 },
                 {
-                    path: '/sdk/',
-                    redirect: '/sdk/list'
+                    path: '/sdk/:id',
+                    component: SDKList,
                 },
                 {
-                    path: '/sdk/list',
-                    component: SDKList
-                },
+                    path: '/sdk/:id/course',
+                    component: SDKCourse
+                }
             ]
         },
         {
@@ -100,171 +161,6 @@ export default new Router({
                     component: ToolsHome
                 }
             ]
-        },
-=======
-        path: '/',
-        redirect: '/home'
-    },
-    {
-        path: '/home',
-        component: Home
-    },
-    {
-        path: '/school',
-        component: School,
-        children: [
-            {
-                path: '/school/',
-                redirect: '/school/home'
-            },
-            {
-                path: '/school/home',
-                component: SchoolHome
-            },
-            {
-                path: '/school/vision',
-                component: SchoolVision
-            },
-            {
-                path: '/school/mission',
-                component: SchoolMission
-            },
-            {
-                path: '/school/revolution',
-                component: SchoolRevolution
-            },
-            {
-                path: '/school/study',
-                component: SchoolStudy
-            },
-            {
-                path: '/school/dorm',
-                component: SchoolDorm
-            },
-            {
-                path: '/school/parkathon',
-                component: SchoolParkathon
-            },
-            {
-                path: '/school/course',
-                component: SchoolCourse
-            },
-            {
-                path: '/school/team',
-                component: SchoolTeam
-            },
-            {
-                path: '/school/career',
-                component: SchoolCareer
-            },
-            {
-                path: '/school/project_lecture',
-                component: SchoolProjectLecture
-            },
-            {
-                path: '/school/project_bus',
-                component: SchoolProjectBus
-            },
-            {
-                path: '/school/entrance',
-                component: SchoolEntrance
-            },
-            {
-                path: '/school/register',
-                component: SchoolRegister
-            },
-            {
-                path: '/school/contact',
-                component: SchoolContact
-            }
-        ]
-    },
-    {
-        path: '/course',
-        component: Course,
-        children: [
-            {
-                path: '/course/',
-                redirect: '/course/home'
-            },
-            {
-                path: '/course/home',
-                component: CourseHome
-            },
-            {
-                path: '/course/:id',
-                component: CourseList
-            }
-        ]
-    },
-    {
-        path: '/sdk',
-        component: SDK,
-        children: [
-            {
-                path: '/sdk/',
-                redirect: '/sdk/home'
-            },
-            {
-                path: '/sdk/home',
-                component: SDKHome
-            },
-            {
-                path: '/sdk/list',
-                component: SDKList
-            }
-        ]
-    },
-    {
-        path: '/tools',
-        component: Tools,
-        children: [
-            {
-                path: '/tools/',
-                redirect: '/tools/home'
-            },
-            {
-                path: '/tools/home',
-                component: ToolsHome
-            }]
-    },
->>>>>>> 2db0d03c151b3a73533a1403972803ff19662870
-        // {
-        //     path: '/profile',
-        //     component: Profile,
-        //     children: [{
-        //         path: '/profile/fav/factory',
-        //         component: ProfileFavFactory
-        //     },
-        //     {
-        //         path: '/profile/fav/tour',
-        //         component: ProfileFavTour
-        //     },
-        //     {
-        //         path: '/profile/fav/activity',
-        //         component: ProfileFavActivity
-        //     },
-        //     {
-        //         path: '/profile/fav/Video',
-        //         component: ProfileFavVideo
-        //     },
-        //     {
-        //         path: '/profile/order',
-        //         component: ProfileOrder
-        //     },
-        //     {
-        //         path: '/profile/footprint',
-        //         component: ProfileFootprint
-        //     },
-        //     {
-        //         path: '/profile/info',
-        //         component: ProfileInfo
-        //     },
-        //     {
-        //         path: '/about',
-        //         component: About
-        //     }
-        //     ]
-        // }
+        }
     ]
 })

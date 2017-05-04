@@ -1,15 +1,14 @@
 <template lang="jade">
     mu-row(gutter)
-        mu-col(:desktop="15")
+        mu-col(:desktop="20")
             mu-paper(height="100")
                 mu-list
                     mu-list-item(title="首页")
                         mu-icon(slot="left",value="home",href="/#/home")
-                    mu-list-item(v-for="item in classify",:title="item.title",:toggleNested="true",:key="item")
-                        mu-icon(slot="left",value="dns")
-                        mu-list-item(v-for="list in item.list",slot="nested",:title="list",:key="list",value="list",href="/#/sdk/list" )
-                            mu-icon(slot="left")
-        mu-col(:desktop="85")
+                    mu-divider
+                    mu-list-item(v-for="(item,index) in classify",:title="item",:key="item.id",:to='"/sdk/" + index')
+                        mu-icon(slot="left",value="list")
+        mu-col(:desktop="80")
             mu-paper(style='padding:10px 30px')
                 mu-text-field(label="搜索SDK",style='width:100%', icon='search')
             br
@@ -21,21 +20,7 @@ export default {
     name: 'sdk',
     data() {
         return {
-            classify : [
-                {
-                    title : '语音控制',
-                    list : ['科大讯飞','百度语音'],
-                },
-                {
-                    title : '语音控制',
-                    list : ['科大讯飞','百度语音'],
-                },
-                {
-                    title : '语音控制',
-                    list : ['科大讯飞','百度语音'],
-                }
-            ],
-            
+            classify : ["语音控制","通讯协议","数据解析"],
         }
     },
     mounted: function () {

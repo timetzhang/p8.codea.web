@@ -1,7 +1,6 @@
 <template lang="jade">
     div
         mu-paper.center.aligned
-            img(src="/static/img/home/home.png",style="padding: 60px 0")
             mu-row
                 mu-col(desktop="33")
                     mu-raised-button(label="Primary",backgroundColor="grey700",:fullWidth="true")
