@@ -37,7 +37,9 @@ import Browser from './common/browser'
 export default {
     data() {
         return {
-            curMenu: this.$route.path.split('/')[1]
+            curMenu: this.$route.path.split('/')[1],
+            isHide: false,
+            scrolled: 0
         };
     },
     methods: {
