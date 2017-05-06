@@ -59,22 +59,20 @@ export default {
 </script>
 
 <style scoped>
-
-.sdkimg{
-    display:inline-block;
-    width:150px;
-    height:150px;
-    padding:4px;
-    margin-bottom:10px;
+.sdkimg {
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    padding: 4px;
+    margin-bottom: 10px;
 }
 
-.sdkimg img{
-    width:142px;
-    height:142px;
+.sdkimg img {
+    width: 142px;
+    height: 142px;
 }
 
-.mu-chip{
-    margin:4px;
+.mu-chip {
+    margin: 4px;
 }
-
 </style>

@@ -3,50 +3,70 @@
         mu-col(desktop="20")
             mu-paper(height="100")
                 mu-list
-                    mu-list-item(title="首页")
-                        mu-icon(slot="left",value="home",to="/course/home")
-                    mu-divider
                     mu-sub-header 软件开发
-                    mu-list-item(v-for='item in items_soft', :key='item.id', :title='item.name', :to='"/course/" + item.id')
+                    mu-list-item(v-for='item in menuSoft',:key='item.id',:title='item.name', @click='loadCourse(item.id)', :class='currentMenu == item.id ? "router-link-active" : ""')
                         mu-icon(slot="left",value="code")
                     mu-divider
                     mu-sub-header 硬件开发
-                    mu-list-item(title='MCU/STM32', to="/course/mcu")
+                    mu-list-item(v-for='item in menuHard',:key='item.id',:title='item.name', @click='loadCourse(item.id)', :class='currentMenu == item.id ? "router-link-active" : ""')
                         mu-icon(slot="left",value="code")
-                    mu-list-item(title='基础理论', to="/course/hard_basic")
+                    mu-divider
+                    mu-sub-header 艺术
+                    mu-list-item(v-for='item in menuArt',:key='item.id',:title='item.name', @click='loadCourse(item.id)', :class='currentMenu == item.id ? "router-link-active" : ""')
                         mu-icon(slot="left",value="code")
         mu-col(desktop="80")
-            router-view
+            mu-row(gutter)
+                mu-col(desktop='33', tablet='50', width='100', v-for="item in course", key='item.id')
+                    mu-card.card
+                        mu-card-header(:title='item.name')
+                        mu-card-media
+                            img(:src='item.logo_url')
+                        mu-card-text.card-text {{item.brief}}
+                        mu-card-actions
+                            mu-raised-button(label='开始课程', :fullWidth='true')
 </template>
 
 <script>
 export default {
-    name: 'school',
+    name: 'course',
     data() {
         return {
-            items_soft: [],
-            items_hard: []
+            subject: [],
+            menuSoft: [],
+            menuHard: [],
+            menuArt: [],
+            course: [],
+            currentMenu: 0
         }
     },
-    mounted: function () {
-        this.getCourseType(1);
+    created: function () {
+        this.loadType();
+        this.loadCourse(1);
     },
     methods: {
-        getCourseType(id) {
+        loadType() {
             var _this = this;
-            this.dbUrl = this.$config.dbBaseUrl + '/getCourseType?id=' + id;
-            this.$http({
-                url: this.dbUrl,
-                method: 'GET'
-            }).then(res => {
-                if (res.data.length) {
-                    _this.items_soft = res.data;
-                }
-                else {
-                    _this.items_soft = [];
-                }
+            //获取Subject
+            this.$db.getCourseSubject(this).then(res => {
+                _this.subject = res;
             });
-        }
+            _this.$db.getCourseType(_this, { subject_id: 1 }).then(res => {
+                _this.menuSoft = res;
+            });
+            _this.$db.getCourseType(_this, { subject_id: 2 }).then(res => {
+                _this.menuHard = res;
+            });
+            _this.$db.getCourseType(_this, { subject_id: 3 }).then(res => {
+                _this.menuArt = res;
+            });
+        },
+        loadCourse(id) {
+            var _this = this;
+            this.currentMenu = id;
+            this.$db.getCourse(this, { type_id: id }).then(res => {
+                _this.course = res;
+            });
+        },
     }
 }
 </script>
@@ -61,7 +81,7 @@ export default {
 }
 
 .card {
-    margin: 8px 0;
+    margin-bottom: 15px;
 }
 
 .card-text {

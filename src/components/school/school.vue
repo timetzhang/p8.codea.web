@@ -3,8 +3,6 @@
         mu-col(desktop="20")
             mu-paper(height="100")
                 mu-list.column
-                    mu-list-item(title="首页",to="/school/home")
-                        mu-icon(slot="left",value="home")
                     mu-list-item(title="学校",:toggleNested="true")
                         mu-icon(slot="left",value="dns")
                         mu-list-item(slot="nested",title="愿景", to='/school/vision')

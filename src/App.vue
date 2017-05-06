@@ -38,30 +38,27 @@ export default {
     data() {
         return {
             curMenu: this.$route.path.split('/')[1],
-            scrolled: 0,
             isHide: false,
+            scrolled: 0
         };
     },
-    beforeUpdate: function () {
-
-    },
     methods: {
-        handleScroll:function() {
+        handleScroll: function () {
             this.scrolled = document.body.scrollTop;
             console.log(this.scrolled)
-            if(this.scrolled > 350){
+            if (this.scrolled > 350) {
                 this.isHide = true
-            }else{
+            } else {
                 this.isHide = false
             }
         },
-        returnTop: function (){
+        returnTop: function () {
             document.body.scrollTop = 0;
             document.documentElement.scrollTop = 0
         }
     },
     mounted: function () {
-        window.addEventListener('scroll',this.handleScroll)
+        window.addEventListener('scroll', this.handleScroll)
     },
 }
 </script>
@@ -98,6 +95,7 @@ export default {
 
 .content {
     padding: 10px 0;
+    min-height: 600px;
 }
 
 .bottom {
