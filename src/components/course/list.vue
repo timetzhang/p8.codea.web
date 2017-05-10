@@ -8,7 +8,7 @@
                         img(:src='item.logo_url')
                     mu-card-text.card-text {{item.brief}}
                     mu-card-actions
-                        mu-raised-button(label='开始课程', :fullWidth='true',:to='"/sdk/"+ item.id +"/course"')
+                        mu-raised-button(label='开始课程', :fullWidth='true')
 </template>
 
 <script>
@@ -16,24 +16,32 @@ export default {
     name: 'course-list',
     data() {
         return {
-            items: [
-                {
-                    id: 1,
-                    name: '科大讯飞',
-                },
-                {
-                    id: 2,
-                    name: '百度语音',
-                }
-
-            ]
+            items: []
         }
     },
     mounted: function () {
+        this.getCourse();
     },
     beforeUpdate: function () {
+        this.getCourse();
     },
     methods: {
+        getCourse() {
+            var _this = this;
+            this.dbUrl = this.$config.dbBaseUrl + '/getCourse?type_id=' + this.$route.params.id;
+            this.$http({
+                url: this.dbUrl,
+                method: 'GET'
+            }).then(res => {
+                if (res.data.length) {
+                    _this.items = res.data;
+                }
+                else {
+                    _this.items = [];
+                }
+            });
+            console.log(this.items);
+        }
     }
 }
 </script>
