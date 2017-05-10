@@ -24,7 +24,6 @@ import SDK from '@/components/sdk/sdk'
 import SDKCourse from '@/components/sdk/course'
 
 import Tools from '@/components/tools/tools'
-import ToolsHome from '@/components/tools/home'
 
 Vue.use(Router)
 
@@ -117,15 +116,6 @@ export default new Router({
     {
         path: '/tools',
         component: Tools,
-        children: [{
-            path: '/tools/',
-            redirect: '/tools/home'
-        },
-        {
-            path: '/tools/home',
-            component: ToolsHome
-        }
-        ]
     },
     ]
 })
