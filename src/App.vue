@@ -94,8 +94,7 @@ export default {
 }
 
 .content {
-    padding: 10px 0;
-    min-height: 600px;
+    padding: 10px 0 !important;
 }
 
 .bottom {

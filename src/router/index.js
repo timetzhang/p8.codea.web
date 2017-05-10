@@ -6,8 +6,8 @@ import School from '@/components/school/school'
 import SchoolVision from '@/components/school/vision'
 import SchoolMission from '@/components/school/mission'
 import SchoolRevolution from '@/components/school/revolution'
-import SchoolStudy from '@/components/school/study'
-import SchoolDorm from '@/components/school/dorm'
+import SchoolStudySpace from '@/components/school/study_space'
+import SchoolDormSpace from '@/components/school/dorm_space'
 import SchoolParkathon from '@/components/school/parkathon'
 import SchoolCourse from '@/components/school/course'
 import SchoolTeam from '@/components/school/team'
@@ -60,12 +60,12 @@ export default new Router({
                 component: SchoolRevolution
             },
             {
-                path: '/school/study',
-                component: SchoolStudy
+                path: '/school/study_space',
+                component: SchoolStudySpace
             },
             {
-                path: '/school/dorm',
-                component: SchoolDorm
+                path: '/school/dorm_space',
+                component: SchoolDormSpace
             },
             {
                 path: '/school/parkathon',
