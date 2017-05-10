@@ -4,22 +4,12 @@
             mu-paper(style='padding:10px 30px')
                 mu-text-field(label="搜索SDK",style='width:100%', icon='search')
             br
-            mu-paper.content
+            mu-paper(style='padding:30px')
                 mu-row(gutter)
-                    mu-col(desktop="50",v-for="item in classify",style='padding: 0 20px;')  
-                        h2 {{item.title}}
-                        mu-menu(:desktop="100")
-                            mu-menu-item(:desktop="50",v-for="list in item.list",:title="list")
-            //-
-                mu-row(gutter)
-                    mu-col(desktop='33', tablet='50', width='100', v-for="item in items", key='item.id')
-                        mu-card.card
-                            mu-card-header(:title='item.name')
-                            mu-card-media
-                                img(:src='item.logo_url')
-                            mu-card-text.card-text {{item.brief}}
-                            mu-card-actions
-                                mu-raised-button(label='开始课程', :fullWidth='true',:to='"/sdk/"+ item.id +"/course"')
+                    mu-col(desktop="50",v-for="item in classify")  
+                        h3 {{item.title}}
+                        mu-menu
+                            mu-menu-item(v-for="list in item.list",:title="list", style='width:80%')
 </template>
 
 <script>
