@@ -27,7 +27,6 @@ export default {
     name: 'sdk',
     data() {
         return {
-            //classify: ["应用和数据", "DevOps", "实用工具","商业工具"],
             classify: [
                 {
                     title : "应用和数据",

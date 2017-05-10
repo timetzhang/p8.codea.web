@@ -130,11 +130,9 @@ export default {
     created:function (){
         if (document.documentElement && document.documentElement.clientHeight){
             this.height = document.documentElement.clientHeight;
-            
         }
     },
     mounted: function () {
-        
     },
     methods: {
         
