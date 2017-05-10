@@ -36,12 +36,12 @@ export default {
             menuHard: [],
             menuArt: [],
             course: [],
-            currentMenu: 0
+            currentMenu: 13
         }
     },
     created: function () {
         this.loadType();
-        this.loadCourse(1);
+        this.loadCourse(13);
     },
     methods: {
         loadType() {
@@ -66,7 +66,12 @@ export default {
             this.$db.getCourse(this, { type_id: id }).then(res => {
                 _this.course = res;
             });
+            this.goTop();
         },
+        goTop() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
     }
 }
 </script>

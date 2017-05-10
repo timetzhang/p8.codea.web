@@ -70,6 +70,11 @@ export default {
 
 .menu {
     background-color: #424242;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 100;
 }
 
 .menu .item {
@@ -94,8 +99,7 @@ export default {
 }
 
 .content {
-    padding: 10px 0;
-    min-height: 600px;
+    padding: 70px 0 10px 0 !important;
 }
 
 .bottom {
