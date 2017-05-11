@@ -1,6 +1,6 @@
 <template lang="jade">
     mu-row(gutter)
-        mu-row.fullscreen(v-bind:style="{height : (height - 56) + 'px'}" style="background-image: url(../../../static/img/home/onepage.png);color: #00FFFF;")
+        mu-row.fullscreen(v-bind:style="{height : height + 'px'}" style="background-image: url(../../../static/img/home/onepage.png);color: #00FFFF;")
             mu-col.half(desktop="50" style="padding: 0 200px 0 0;")
                 h1 采用最先进的教学方式
                 .line(style="background-color:#00FFFF")
@@ -130,11 +130,9 @@ export default {
     created:function (){
         if (document.documentElement && document.documentElement.clientHeight){
             this.height = document.documentElement.clientHeight;
-            
         }
     },
     mounted: function () {
-        
     },
     methods: {
         

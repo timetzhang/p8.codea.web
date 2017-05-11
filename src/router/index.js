@@ -21,7 +21,9 @@ import SchoolContact from '@/components/school/contact'
 import Course from '@/components/course/course'
 
 import SDK from '@/components/sdk/sdk'
+import SDKList from '@/components/sdk/list'
 import SDKCourse from '@/components/sdk/course'
+import SDKClassfiy from '@/components/sdk/classfiy'
 
 import Tools from '@/components/tools/tools'
 
@@ -29,93 +31,99 @@ Vue.use(Router)
 
 export default new Router({
     routes: [{
-        path: '/',
-        redirect: '/home'
-    },
-    {
-        path: '/home',
-        component: Home
-    },
-    {
-        path: '/school',
-        component: School,
-        children: [{
-            path: '/school/',
-            redirect: '/school/vision'
+            path: '/',
+            redirect: '/home'
         },
         {
-            path: '/school/vision',
-            component: SchoolVision
+            path: '/home',
+            component: Home
         },
         {
-            path: '/school/mission',
-            component: SchoolMission
+            path: '/school',
+            component: School,
+            children: [{
+                    path: '/school/',
+                    redirect: '/school/vision'
+                },
+                {
+                    path: '/school/vision',
+                    component: SchoolVision
+                },
+                {
+                    path: '/school/mission',
+                    component: SchoolMission
+                },
+                {
+                    path: '/school/revolution',
+                    component: SchoolRevolution
+                },
+                {
+                    path: '/school/study_space',
+                    component: SchoolStudySpace
+                },
+                {
+                    path: '/school/dorm_space',
+                    component: SchoolDormSpace
+                },
+                {
+                    path: '/school/parkathon',
+                    component: SchoolParkathon
+                },
+                {
+                    path: '/school/course',
+                    component: SchoolCourse
+                },
+                {
+                    path: '/school/team',
+                    component: SchoolTeam
+                },
+                {
+                    path: '/school/career',
+                    component: SchoolCareer
+                },
+                {
+                    path: '/school/project_lecture',
+                    component: SchoolProjectLecture
+                },
+                {
+                    path: '/school/project_bus',
+                    component: SchoolProjectBus
+                },
+                {
+                    path: '/school/entrance',
+                    component: SchoolEntrance
+                },
+                {
+                    path: '/school/register',
+                    component: SchoolRegister
+                },
+                {
+                    path: '/school/contact',
+                    component: SchoolContact
+                }
+            ]
         },
         {
-            path: '/school/revolution',
-            component: SchoolRevolution
+            path: '/course/',
+            component: Course
         },
         {
-            path: '/school/study_space',
-            component: SchoolStudySpace
+            path: '/sdk',
+            component: SDK,
+            children: [{
+                path: '/sdk',
+                component: SDKClassfiy
+            }, {
+                path: '/sdk/list',
+                component: SDKList
+            }, {
+                path: '/sdk/:id/course',
+                component: SDKCourse
+            }]
         },
         {
-            path: '/school/dorm_space',
-            component: SchoolDormSpace
+            path: '/tools',
+            component: Tools,
         },
-        {
-            path: '/school/parkathon',
-            component: SchoolParkathon
-        },
-        {
-            path: '/school/course',
-            component: SchoolCourse
-        },
-        {
-            path: '/school/team',
-            component: SchoolTeam
-        },
-        {
-            path: '/school/career',
-            component: SchoolCareer
-        },
-        {
-            path: '/school/project_lecture',
-            component: SchoolProjectLecture
-        },
-        {
-            path: '/school/project_bus',
-            component: SchoolProjectBus
-        },
-        {
-            path: '/school/entrance',
-            component: SchoolEntrance
-        },
-        {
-            path: '/school/register',
-            component: SchoolRegister
-        },
-        {
-            path: '/school/contact',
-            component: SchoolContact
-        }
-        ]
-    },
-    {
-        path: '/course/',
-        component: Course
-    },
-    {
-        path: '/sdk',
-        component: SDK,
-        children: [{
-            path: '/sdk/:id/course',
-            component: SDKCourse
-        }]
-    },
-    {
-        path: '/tools',
-        component: Tools,
-    },
     ]
 })
