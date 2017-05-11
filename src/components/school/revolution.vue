@@ -1,9 +1,8 @@
 <template lang="jade">
     div
-        mu-paper
+        mu-paper.page.title
             mu-content-block
                 mu-flat-button(label="Revolution 革新",class="demo-flat-button",icon="dashboard",primary,style='font-weight:bold')
-        br
         mu-paper.para
             mu-content-block
                 .center.aligned

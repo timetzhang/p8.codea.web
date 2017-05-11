@@ -1,9 +1,8 @@
 <template lang="jade">
     div
-        mu-paper
+        mu-paper.page.title
             mu-content-block
                 mu-flat-button(label="VISION 愿景",class="demo-flat-button",icon="dashboard",primary,style='font-weight:bold')
-        br
         mu-paper
             mu-content-block.para
                 .center.aligned

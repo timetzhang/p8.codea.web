@@ -1,9 +1,8 @@
 <template lang="jade">
     div
-        mu-paper
+        mu-paper.page.title
             mu-content-block
                 mu-flat-button(label="MISSION 目标",class="demo-flat-button",icon="dashboard",primary,style='font-weight:bold')
-        br
         mu-paper.center.aligned(style='padding:100px 0px; font-size:19px') 
             mu-content-block
                 mu-icon(value='settings_input_component', :size='64')
