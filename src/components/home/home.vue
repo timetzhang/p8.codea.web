@@ -113,15 +113,15 @@ export default {
             ]
         }
     },
-    created:function (){
-        if (document.documentElement && document.documentElement.clientHeight){
+    created: function () {
+        if (document.documentElement && document.documentElement.clientHeight) {
             this.height = document.documentElement.clientHeight;
         }
     },
     mounted: function () {
     },
     methods: {
-        
+
     }
 }
 </script>
@@ -139,7 +139,7 @@ export default {
     background-size: 100% 100%;
 }
 
-.fullscreen > .half {
+.fullscreen>.half {
     height: 100%;
     display: flex;
     justify-content: center;
@@ -159,13 +159,13 @@ export default {
     height: 39%;
     margin: 0 37.5px;
     padding-top: 30px;
-    padding-right:30px;
+    padding-right: 30px;
     background-repeat: no-repeat;
     background-size: 92% 90%;
     background-position: right top;
 }
 
-.img > .identifie {
+.img>.identifie {
     height: 100%;
     width: 100%;
 }
