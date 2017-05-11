@@ -45,7 +45,6 @@ export default {
     methods: {
         handleScroll: function () {
             this.scrolled = document.body.scrollTop;
-            console.log(this.scrolled)
             if (this.scrolled > 350) {
                 this.isHide = true
             } else {
@@ -75,6 +74,8 @@ export default {
     top: 0;
     width: 100%;
     z-index: 100;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
 }
 
 .menu .item {
@@ -123,5 +124,13 @@ export default {
     position: fixed;
     right: 200px;
     bottom: 195px;
+}
+
+.mu-paper-1 {
+    box-shadow: none !important;
+}
+
+.mu-card {
+    box-shadow: none !important;
 }
 </style>

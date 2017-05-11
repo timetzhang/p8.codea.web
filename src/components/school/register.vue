@@ -3,50 +3,63 @@
         mu-paper.page.title
             mu-content-block
                 mu-flat-button(label="Register 注册成学员",class="demo-flat-button",icon="dashboard",primary,style='font-weight:bold')
-        mu-paper
+        mu-paper.page.title
             mu-content-block(style='padding:10px 40px')
                 p
                 h3 基本信息
                 p
-                    mu-text-field(label="姓名", :fullWidth='true')
+                    mu-text-field(label="姓名", :fullWidth='true', v-model='name')
                     br
-                    mu-text-field(label="年龄", :fullWidth='true')
+                    mu-select-field(v-model="sex",label="性别",:fullWidth='true')
+                        mu-menu-item(value="男",title="男")
+                        mu-menu-item(value="女",title="女")
                     br
-                    mu-date-picker(label="出生年月", :fullWidth='true')
+                    mu-date-picker(v-model="dob",label="出生年月", :fullWidth='true')
                     br
+                    mu-text-field(v-model="id_number",label="身份证号码", :fullWidth='true')
+                    br
+        mu-paper.page.title
+            mu-content-block(style='padding:10px 40px')
+                p
                 h3 联系与登录信息
                 p
-                    mu-text-field(label="手机号码", :fullWidth='true')
+                    mu-text-field(v-model="cellphone",label="手机号码", :fullWidth='true')
                     br
-                    mu-text-field(label="Email", :fullWidth='true')
+                    mu-text-field(v-model="email",label="Email", :fullWidth='true')
                     br
-                    mu-text-field(label="密码", :fullWidth='true', type="password")
+                    mu-text-field(v-model="password",label="密码", :fullWidth='true', type="password")
                     br
-                    mu-text-field(label="重复密码", :fullWidth='true', type="password")
+                    mu-text-field(v-model="password_confirm",label="重复密码", :fullWidth='true', type="password")
                     br
+        mu-paper.page.title
+            mu-content-block(style='padding:10px 40px')
+                p
                 h3 地址
                 p
                     mu-picker(:slots="addressSlots",:visible-item-count="5",@change="addressChange",:values="city")
                     p 您选择的城市是： {{addressProvince}} {{addressCity}}
                     br
-                    mu-text-field(label="地址", :fullWidth='true')
+                    mu-text-field(v-model="address",label="地址", :fullWidth='true')
                     br
-                    mu-text-field(label="邮政编码", :fullWidth='true')
+                    mu-text-field(v-model="zipcode",label="邮政编码", :fullWidth='true')
+        mu-paper.page.title
+            mu-content-block(style='padding:10px 40px')
+                p
                 h3 监护人信息
                 p
-                    mu-text-field(label="第一监护人姓名", :fullWidth='true')
+                    mu-text-field(v-model="guardian_01_name",label="第一监护人姓名", :fullWidth='true')
                     br
-                    mu-text-field(label="第一监护人关系", :fullWidth='true')
+                    mu-text-field(v-model="guardian_01_relation",label="第一监护人关系", :fullWidth='true')
                     br
-                    mu-text-field(label="第一监护人联系方式", :fullWidth='true')
+                    mu-text-field(v-model="guardian_01_cellphone",label="第一监护人联系方式", :fullWidth='true')
                     br
-                    mu-text-field(label="第二监护人姓名", :fullWidth='true')
+                    mu-text-field(v-model="guardian_02_name",label="第二监护人姓名", :fullWidth='true')
                     br
-                    mu-text-field(label="第二监护人关系", :fullWidth='true')
+                    mu-text-field(v-model="guardian_01_relation",label="第二监护人关系", :fullWidth='true')
                     br
-                    mu-text-field(label="第二监护人联系方式", :fullWidth='true')
-                div.center.aligned(style='margin-bottom:20px')
-                    mu-raised-button(label='提交注册信息',secondary)
+                    mu-text-field(v-model="guardian_01_cellphone",label="第二监护人联系方式", :fullWidth='true')
+        div.center.aligned(style='margin-bottom:20px')
+            mu-raised-button(label='提交注册信息',secondary)
 </template>
 
 <script>
@@ -90,6 +103,14 @@ export default {
     name: 'school-contact',
     data() {
         return {
+            name: '',
+            sex: '男',
+            dob: '',
+            id_number: '',
+            cellphone: '',
+            email: '',
+            password: '',
+            password_confirm: '',
             addressSlots: [
                 {
                     width: '100%',
@@ -103,7 +124,14 @@ export default {
             ],
             city: ['北京', '北京'],
             addressProvince: '北京',
-            addressCity: '北京'
+            addressCity: '北京',
+            address: '',
+            guardian_01_name: '',
+            guardian_01_relation: '',
+            guardian_01_cellphone: '',
+            guardian_02_name: '',
+            guardian_02_relation: '',
+            guardian_02_cellphone: ''
         }
     },
     mounted: function () {

@@ -1,129 +1,129 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/home/home'
+const Home = (resolve) => { require(['@/components/home/home.vue'], resolve) };
 
-import School from '@/components/school/school'
-import SchoolVision from '@/components/school/vision'
-import SchoolMission from '@/components/school/mission'
-import SchoolRevolution from '@/components/school/revolution'
-import SchoolStudySpace from '@/components/school/study_space'
-import SchoolDormSpace from '@/components/school/dorm_space'
-import SchoolParkathon from '@/components/school/parkathon'
-import SchoolCourse from '@/components/school/course'
-import SchoolTeam from '@/components/school/team'
-import SchoolCareer from '@/components/school/career'
-import SchoolProjectLecture from '@/components/school/project_lecture'
-import SchoolProjectBus from '@/components/school/project_bus'
-import SchoolEntrance from '@/components/school/entrance'
-import SchoolRegister from '@/components/school/register'
-import SchoolContact from '@/components/school/contact'
+const School = (resolve) => { require(['@/components/school/school.vue'], resolve) };
+const SchoolVision = (resolve) => { require(['@/components/school/vision.vue'], resolve) };
+const SchoolMission = (resolve) => { require(['@/components/school/mission.vue'], resolve) };
+const SchoolRevolution = (resolve) => { require(['@/components/school/revolution.vue'], resolve) };
+const SchoolStudySpace = (resolve) => { require(['@/components/school/study_space.vue'], resolve) };
+const SchoolDormSpace = (resolve) => { require(['@/components/school/dorm_space.vue'], resolve) };
+const SchoolParkathon = (resolve) => { require(['@/components/school/parkathon.vue'], resolve) };
+const SchoolCourse = (resolve) => { require(['@/components/school/course.vue'], resolve) };
+const SchoolTeam = (resolve) => { require(['@/components/school/team.vue'], resolve) };
+const SchoolCareer = (resolve) => { require(['@/components/school/career.vue'], resolve) };
+const SchoolProjectLecture = (resolve) => { require(['@/components/school/project_lecture.vue'], resolve) };
+const SchoolProjectBus = (resolve) => { require(['@/components/school/project_bus.vue'], resolve) };
+const SchoolEntrance = (resolve) => { require(['@/components/school/entrance.vue'], resolve) };
+const SchoolRegister = (resolve) => { require(['@/components/school/register.vue'], resolve) };
+const SchoolContact = (resolve) => { require(['@/components/school/contact.vue'], resolve) };
 
-import Course from '@/components/course/course'
+const Course = (resolve) => { require(['@/components/course/course.vue'], resolve) };
 
-import SDK from '@/components/sdk/sdk'
-import SDKList from '@/components/sdk/list'
-import SDKCourse from '@/components/sdk/course'
-import SDKClassfiy from '@/components/sdk/classfiy'
+const SDK = (resolve) => { require(['@/components/sdk/sdk.vue'], resolve) };
+const SDKList = (resolve) => { require(['@/components/sdk/list.vue'], resolve) };
+const SDKCourse = (resolve) => { require(['@/components/sdk/course.vue'], resolve) };
+const SDKClassfiy = (resolve) => { require(['@/components/sdk/classfiy.vue'], resolve) };
 
-import Tools from '@/components/tools/tools'
+const Tools = (resolve) => { require(['@/components/tools/tools.vue'], resolve) };
 
 Vue.use(Router)
 
 export default new Router({
     routes: [{
-            path: '/',
-            redirect: '/home'
+        path: '/',
+        redirect: '/home'
+    },
+    {
+        path: '/home',
+        component: Home
+    },
+    {
+        path: '/school',
+        component: School,
+        children: [{
+            path: '/school/',
+            redirect: '/school/vision'
         },
         {
-            path: '/home',
-            component: Home
+            path: '/school/vision',
+            component: SchoolVision
         },
         {
-            path: '/school',
-            component: School,
-            children: [{
-                    path: '/school/',
-                    redirect: '/school/vision'
-                },
-                {
-                    path: '/school/vision',
-                    component: SchoolVision
-                },
-                {
-                    path: '/school/mission',
-                    component: SchoolMission
-                },
-                {
-                    path: '/school/revolution',
-                    component: SchoolRevolution
-                },
-                {
-                    path: '/school/study_space',
-                    component: SchoolStudySpace
-                },
-                {
-                    path: '/school/dorm_space',
-                    component: SchoolDormSpace
-                },
-                {
-                    path: '/school/parkathon',
-                    component: SchoolParkathon
-                },
-                {
-                    path: '/school/course',
-                    component: SchoolCourse
-                },
-                {
-                    path: '/school/team',
-                    component: SchoolTeam
-                },
-                {
-                    path: '/school/career',
-                    component: SchoolCareer
-                },
-                {
-                    path: '/school/project_lecture',
-                    component: SchoolProjectLecture
-                },
-                {
-                    path: '/school/project_bus',
-                    component: SchoolProjectBus
-                },
-                {
-                    path: '/school/entrance',
-                    component: SchoolEntrance
-                },
-                {
-                    path: '/school/register',
-                    component: SchoolRegister
-                },
-                {
-                    path: '/school/contact',
-                    component: SchoolContact
-                }
-            ]
+            path: '/school/mission',
+            component: SchoolMission
         },
         {
-            path: '/course/',
-            component: Course
+            path: '/school/revolution',
+            component: SchoolRevolution
         },
         {
+            path: '/school/study_space',
+            component: SchoolStudySpace
+        },
+        {
+            path: '/school/dorm_space',
+            component: SchoolDormSpace
+        },
+        {
+            path: '/school/parkathon',
+            component: SchoolParkathon
+        },
+        {
+            path: '/school/course',
+            component: SchoolCourse
+        },
+        {
+            path: '/school/team',
+            component: SchoolTeam
+        },
+        {
+            path: '/school/career',
+            component: SchoolCareer
+        },
+        {
+            path: '/school/project_lecture',
+            component: SchoolProjectLecture
+        },
+        {
+            path: '/school/project_bus',
+            component: SchoolProjectBus
+        },
+        {
+            path: '/school/entrance',
+            component: SchoolEntrance
+        },
+        {
+            path: '/school/register',
+            component: SchoolRegister
+        },
+        {
+            path: '/school/contact',
+            component: SchoolContact
+        }
+        ]
+    },
+    {
+        path: '/course/',
+        component: Course
+    },
+    {
+        path: '/sdk',
+        component: SDK,
+        children: [{
             path: '/sdk',
-            component: SDK,
-            children: [{
-                path: '/sdk',
-                component: SDKClassfiy
-            }, {
-                path: '/sdk/list',
-                component: SDKList
-            }, {
-                path: '/sdk/:id/course',
-                component: SDKCourse
-            }]
-        },
-        {
-            path: '/tools',
-            component: Tools,
-        },
+            component: SDKClassfiy
+        }, {
+            path: '/sdk/list',
+            component: SDKList
+        }, {
+            path: '/sdk/:id/course',
+            component: SDKCourse
+        }]
+    },
+    {
+        path: '/tools',
+        component: Tools,
+    },
     ]
 })
