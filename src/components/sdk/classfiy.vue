@@ -1,8 +1,8 @@
 <template lang="jade">
     mu-row(gutter)
-        mu-col(desktop="50",v-for="item in classify",style='padding: 0 20px;')  
+        mu-col(desktop="50",v-for="item in classify",style='padding: 0 20px;',:key="item.id")  
             h2 {{item.title}}
-            mu-menu(:desktop="100")
+            mu-menu(desktop="100")
                 mu-menu-item(desktop="50",v-for="list in item.list",:title="list",to='/sdk/list')
 </template>
 
