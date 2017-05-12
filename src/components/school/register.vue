@@ -1,9 +1,6 @@
 <template lang="jade">
     div
         mu-paper.page.title
-            mu-content-block
-                mu-flat-button(label="Register 注册成学员",class="demo-flat-button",icon="dashboard",primary,style='font-weight:bold')
-        mu-paper.page.title
             mu-content-block(style='padding:10px 40px')
                 p
                 h3 基本信息

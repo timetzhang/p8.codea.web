@@ -18,15 +18,14 @@
                     mu-text-field.search-box(hintText="搜索", hintTextClass='search-hint', inputClass='search-input')
                     mu-icon-button(icon='search', tooltip="搜索", style='color:white')
         mu-paper.mobile-menu(v-if='isMobile')
-            mu-bottom-nav(:value="bottomNav",@change="handleMobileMenuChange")
+            mu-bottom-nav(:value="bottomNav",@change="handleMobileMenuChange",shift)
                 mu-bottom-nav-item(value="home",title="主页",icon="home",to='/home')
                 mu-bottom-nav-item(value="school",title="学校",icon="school",to='/school')
                 mu-bottom-nav-item(value="course",title="教程",icon="book",to='/course')
                 mu-bottom-nav-item(value="sdk",title="SDK",icon="note",to='/sdk')
                 mu-bottom-nav-item(value="tools",title="工具",icon="build",to='/tools')
-
         router-view.container.content
-        mu-raised-button(v-on:click="returnTop",icon="eject",id="gotoTop",v-show="isHide") 返回顶部
+        mu-raised-button(@click="returnTop",icon="eject",id="gotoTop",v-show="isHide") 返回顶部
         div.bottom
             mu-row.container(gutter)
                 mu-col(desktop="50")
@@ -49,8 +48,8 @@ export default {
             isHide: false,
             scrolled: 0,
             isMobile: Browser.mobile,
-            bottomNav: 'home',
-            bottomNavColor: 'home'
+            bottomNav: this.$route.path.split('/')[1],
+            bottomNavColor: this.$route.path.split('/')[1]
         };
     },
     methods: {
@@ -82,7 +81,7 @@ export default {
 }
 
 .desktop-menu {
-    background-color: #222;
+    background-color: #424242;
     position: fixed;
     left: 0;
     top: 0;
@@ -101,7 +100,7 @@ export default {
     z-index: 100;
 }
 
-.menu .item {
+.desktop-menu .item {
     line-height: 54px;
     height: 54px;
     color: white;
@@ -129,14 +128,14 @@ export default {
 @media (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
     /*iphone 6*/
     .content {
-        padding: 0 0 70px 0 !important;
+        padding: 0 !important;
     }
 }
 
 @media (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) {
     /*iphone 6 plus*/
     .content {
-        padding: 0 0 70px 0 !important;
+        padding: 0 !important;
     }
 }
 
@@ -159,8 +158,8 @@ export default {
 
 #gotoTop {
     position: fixed;
-    right: 200px;
-    bottom: 195px;
+    right: 10px;
+    bottom: 60px;
 }
 
 .mu-paper-1 {

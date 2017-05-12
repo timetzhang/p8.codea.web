@@ -1,12 +1,9 @@
 <template lang="jade">
     div
-        mu-paper.page.title
-            mu-content-block
-                mu-flat-button(label="Space 居住环境",class="demo-flat-button",icon="dashboard",primary,style='font-weight:bold')
         mu-paper
             mu-content-block
                 .center.aligned
-                    h1 开放空间
+                    h2 开放空间
                     h3 Open Space
                     mu-icon(value="bubble_chart", :size='64')
                 p 我们提供能够很好互动的空间，来吸引更多的像你这样的年轻人，和我们在这里一起交流，交换想法，碰撞火花。
