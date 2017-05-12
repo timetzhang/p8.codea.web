@@ -19,6 +19,8 @@ const SchoolRegister = (resolve) => { require(['@/components/school/register.vue
 const SchoolContact = (resolve) => { require(['@/components/school/contact.vue'], resolve) };
 
 const Course = (resolve) => { require(['@/components/course/course.vue'], resolve) };
+const CourseDetails = (resolve) => { require(['@/components/course/details.vue'], resolve) };
+const CourseEditor = (resolve) => { require(['@/components/course/editor.vue'], resolve) };
 
 const SDK = (resolve) => { require(['@/components/sdk/sdk.vue'], resolve) };
 const SDKList = (resolve) => { require(['@/components/sdk/list.vue'], resolve) };
@@ -108,15 +110,25 @@ export default new Router({
         component: Course
     },
     {
+        path: '/course/:course_id/lecture/:lecture_id',
+        component: CourseDetails
+    },
+    {
+        path: '/course/editor/',
+        component: CourseEditor
+    },
+    {
         path: '/sdk',
         component: SDK,
         children: [{
             path: '/sdk',
             component: SDKClassfiy
-        }, {
+        },
+        {
             path: '/sdk/list',
             component: SDKList
-        }, {
+        },
+        {
             path: '/sdk/:id/course',
             component: SDKCourse
         }]

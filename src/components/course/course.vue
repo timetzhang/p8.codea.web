@@ -5,15 +5,15 @@
                 mu-list
                     mu-sub-header 软件开发
                     mu-list-item(v-for='item in menuSoft',:key='item.id',:title='item.name', @click='loadCourse(item.id)', :class='currentMenu == item.id ? "router-link-active" : ""')
-                        mu-icon(slot="left",value="code")
+                        i.icon(slot="left",:class='item.icon')
                     mu-divider
                     mu-sub-header 硬件开发
                     mu-list-item(v-for='item in menuHard',:key='item.id',:title='item.name', @click='loadCourse(item.id)', :class='currentMenu == item.id ? "router-link-active" : ""')
-                        mu-icon(slot="left",value="code")
+                        i.icon(slot="left",:class='item.icon')
                     mu-divider
                     mu-sub-header 艺术
                     mu-list-item(v-for='item in menuArt',:key='item.id',:title='item.name', @click='loadCourse(item.id)', :class='currentMenu == item.id ? "router-link-active" : ""')
-                        mu-icon(slot="left",value="code")
+                        i.icon(slot="left",:class='item.icon')
         mu-col(desktop="80")
             mu-row(gutter)
                 mu-col(desktop='33', tablet='50', width='100', v-for="item in course", key='item.id')
@@ -23,7 +23,7 @@
                             img(:src='item.logo_url')
                         mu-card-text.card-text {{item.brief}}
                         mu-card-actions
-                            mu-raised-button(label='开始课程', :fullWidth='true')
+                            mu-raised-button(label='开始课程', :fullWidth='true', :href='"/#/course/"+item.id+ "/lecture/"+item.first_lecture')
 </template>
 
 <script>

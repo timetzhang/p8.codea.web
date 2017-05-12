@@ -1,0 +1,71 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    font-family: "微软雅黑", "苹果雅黑", Verdana, Tahoma, sans-serif !important;
+}
+
+a,
+a:link,
+a:active,
+a:visited {
+    color: #222 !important;
+    text-decoration: none;
+}
+
+a.red {
+    color: #f44336;
+}
+
+hr {
+    border: none;
+    height: 2px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.left.aligned {
+    text-align: left;
+}
+
+.center.aligned {
+    text-align: center;
+}
+
+.right.aligned {
+    text-align: right;
+}
+
+.title {
+    font-size: 15px;
+}
+
+.page.title {
+    margin-bottom: 15px;
+}
+
+.title.huge {
+    font-size: 50px;
+}
+
+.para {
+    line-height: 25px;
+}
+
+.container {
+    width: 1002px;
+    margin: 0 auto;
+}
+
+@media (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
+    /*iphone 6*/
+    .container {
+        width: 100%;
+    }
+}
+
+@media (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) {
+    /*iphone 6 plus*/
+    .container {
+        width: 100%;
+    }
+}
