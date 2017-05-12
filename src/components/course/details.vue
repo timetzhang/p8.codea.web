@@ -1,10 +1,11 @@
 <template lang="jade">
     div
-        mu-appbar(title="课程", v-if='isMobile')
-                mu-icon-button(icon="menu",slot="right",@click='toggleMenu')
+        mu-appbar(:title="name", v-if='isMobile')
+            mu-icon-button(icon="keyboard_arrow_left",slot="left",@click='back')
+            mu-icon-button(icon="menu",slot="right",@click='toggleMenu',v-if='showMenuButton')
         mu-row(gutter)
-            mu-col(:desktop='lecture_count > 1 ? 20 : 0', v-if='showMenu')
-                mu-paper(height="100")
+            mu-col(:desktop='20', v-if='showMenu')
+                mu-paper
                     mu-list
                         mu-list-item(v-for='item in menu',:key='item.id',:title='item.name', 
                         :class='lecture_id == item.id ? "router-link-active" : ""', 
@@ -38,13 +39,16 @@ export default {
             course_id: this.$route.params.course_id,
             lecture_id: this.$route.params.lecture_id,
             isMobile: Browser.mobile,
-            showMenu: true
+            showMenu: false,
+            showMenuButton: false
         }
     },
-    created: function () {
+    mounted: function () {
         if (this.isMobile) {
             this.showMenu = false;
         }
+    },
+    created: function () {
         this.loadLectureList();
         this.loadLecture();
     },
@@ -53,11 +57,15 @@ export default {
             this.$router.push('/course/' + this.course_id + '/lecture/' + id);
             this.course_id = this.$route.params.course_id;
             this.lecture_id = this.$route.params.lecture_id;
+
             this.loadLectureList();
             this.loadLecture();
             if (this.isMobile) {
                 this.showMenu = false;
             }
+        },
+        back() {
+            this.$router.go(-1);
         },
         loadLectureList() {
             var _this = this;
@@ -65,6 +73,14 @@ export default {
             this.$db.getCourseLectureList(this, { course_id: this.course_id }).then(res => {
                 _this.menu = res;
                 _this.lecture_count = res.length;
+                if (this.lecture_count > 1) {
+                    if (!this.isMobile) {
+                        this.showMenu = true;
+                    }
+                    else {
+                        this.showMenuButton = true;
+                    }
+                }
             });
         },
         loadLecture() {
