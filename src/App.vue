@@ -48,12 +48,17 @@ export default {
             isHide: false,
             scrolled: 0,
             isMobile: Browser.mobile,
-            bottomNav: this.$route.path.split('/')[1],
-            bottomNavColor: this.$route.path.split('/')[1]
+            bottomNav: this.$route.path.split('/')[1]
         };
     },
+    mounted: function () {
+        window.addEventListener('scroll', this.handleScroll)
+    },
+    beforeUpdate: function () {
+        this.bottomNav = this.$route.path.split('/')[1];
+    },
     methods: {
-        handleScroll: function () {
+        handleScroll() {
             this.scrolled = document.body.scrollTop;
             if (this.scrolled > 350) {
                 this.isHide = true
@@ -61,17 +66,14 @@ export default {
                 this.isHide = false
             }
         },
-        returnTop: function () {
+        returnTop() {
             document.body.scrollTop = 0;
             document.documentElement.scrollTop = 0
         },
         handleMobileMenuChange(val) {
             this.bottomNav = val
         }
-    },
-    mounted: function () {
-        window.addEventListener('scroll', this.handleScroll)
-    },
+    }
 }
 </script>
 

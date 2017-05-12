@@ -213,20 +213,21 @@ export default {
         if (document.documentElement && document.documentElement.clientHeight) {
             this.height = document.documentElement.clientHeight;
         }
-        if (this.isMobile){
-                this.isClass = 'half';
-                this.featureListClass = 'feature-list-half';
-                this.isProgram = ''
-            }else{
-                this.isClass = "full";
-                this.featureListClass = 'feature-list-full'
-            }
-            console.log(this.isClass)
+        if (this.isMobile) {
+            this.isClass = 'half';
+            this.featureListClass = 'feature-list-half';
+            this.isProgram = ''
+        }
+        else {
+            this.isClass = "full";
+            this.featureListClass = 'feature-list-full'
+        }
+        //console.log(this.isClass)
     },
     mounted: function () {
     },
     methods: {
-        
+
     }
 }
 </script>
@@ -308,7 +309,7 @@ p {
 }
 
 .feature-list-half div {
-    padding-top:10%;
+    padding-top: 10%;
     height: 100% !important;
 }
 
