@@ -3,17 +3,20 @@
         mu-col(desktop="20")
             mu-paper(height="100")
                 mu-list
-                    mu-sub-header 软件开发
+                    mu-sub-header 
+                        i.icon.browser
+                        span &nbsp; 软件开发
                     mu-list-item(v-for='item in menuSoft',:key='item.id',:title='item.name', @click='loadCourse(item.id)', :class='currentMenu == item.id ? "router-link-active" : ""')
-                        i.icon(slot="left",:class='item.icon')
                     mu-divider
-                    mu-sub-header 硬件开发
+                    mu-sub-header 
+                        i.icon.disk.outline
+                        span &nbsp; 硬件开发
                     mu-list-item(v-for='item in menuHard',:key='item.id',:title='item.name', @click='loadCourse(item.id)', :class='currentMenu == item.id ? "router-link-active" : ""')
-                        i.icon(slot="left",:class='item.icon')
                     mu-divider
-                    mu-sub-header 艺术
+                    mu-sub-header 
+                        i.icon.file.image.outline
+                        span &nbsp; 艺术
                     mu-list-item(v-for='item in menuArt',:key='item.id',:title='item.name', @click='loadCourse(item.id)', :class='currentMenu == item.id ? "router-link-active" : ""')
-                        i.icon(slot="left",:class='item.icon')
         mu-col(desktop="80")
             mu-row(gutter)
                 mu-col(desktop='33', tablet='50', width='100', v-for="item in course", key='item.id')

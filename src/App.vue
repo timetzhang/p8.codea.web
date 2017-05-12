@@ -68,7 +68,7 @@ export default {
 }
 
 .menu {
-    background-color: #424242;
+    background-color: #222;
     position: fixed;
     left: 0;
     top: 0;

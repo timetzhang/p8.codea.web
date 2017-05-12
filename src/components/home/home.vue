@@ -1,44 +1,69 @@
 <template lang="jade">
     mu-row(gutter)
-        mu-row.fullscreen(v-bind:style="{height : height + 'px'}" style="color: #111111;background-image:url('../../../static/img/home/homebg.jpg')")
-            mu-col.half(desktop="100")
-                img(src="../../../static/img/home/hello_world.jpg")
-
+        mu-row.fullscreen(v-bind:style="{height : height + 'px'}" style="background-image:url('/static/img/home/homebg.jpg')")
         mu-row.fullscreen(v-bind:style="{height : height + 'px'}" style="color: #b00000;background-color:#eaeaea")
             mu-col.half(desktop="50" style="padding: 0 200px 0 0;")
-                h1 采用最先进的教学方式
+                h1 Co-Learning
                 .line(style="background-color:#b00000")
-                p 我们的核心是Co-Learning，大家聚在一起学习与交流可以通过网络获取知识，解决知识更新过快的问题
+                br
+                i.icon.users.huge
+                br
+                p 我们的核心是Co-Learning（联合学习）
+                p 在自我探索和与群体分享的过程中，大家聚在一起学习与交流，获取全面、最新的知识，解决知识更新过快的问题。
             mu-col.half(desktop="50")
                 .img(style="background-image: url(../../../static/img/home/one.jpg)")
                     .identifie(style="border: 4px solid white")
 
-        mu-row.fullscreen(v-bind:style="{height : height + 'px'}" style="color: black;background-color:#f3f3f3")
+        mu-row.fullscreen(v-bind:style="{height : height + 'px'}" style="color: black;background-color:#f4f4f4")
+            mu-col.half(desktop="50")
+                .img(style="background-image: url(../../../static/img/home/three.png)")
+                    .identifie(style="border: 4px solid white")
+            mu-col.half(desktop="50" style="padding: 0 0 0 200px;")
+                h1 项目驱使的教学方法
+                .line(style="background-color:#b00000")
+                br
+                i.icon.calendar.huge
+                br
+                p 一进入学校，便开始真正进入项目合作。
+                p 你可以选择项目中感兴趣的部分所有获取的知识都来自于实际的项目。CodeA会为你提供可选择的项目，了解项目需求后，你可以自行选择：UI设计或者数据库等
+                p 你完成的项目越多，级别越高，每到达7级或7的倍数时，可进入实习与培训项目
+                p 毕业时，你的履历中将是满满的经验值.
+
+        mu-row.fullscreen(v-bind:style="{height : height + 'px'}" style="color: black;background-color:#eaeaea")
             mu-col.half(desktop="50" style="padding: 0 200px 0 0;")
                 h1 教和学是一体的
-                .line(style="background-color:#111111")
+                .line(style="background-color:#222")
+                br
+                i.icon.spy.huge
+                br
                 p 老师就是你身边的任何一个人，他可以是学校的聘任的编程大师，也可以是刚入学的同学；不要吝啬你的知识，分享给你身边的人
             mu-col.half(desktop="50")
                 .img(style="background-image: url(../../../static/img/home/two.jpg);height:64%;width:80%")
                     .identifie(style="border: 4px solid white")
 
-        mu-row.fullscreen(v-bind:style="{height : height + 'px'}" style="color: black;background-color:#eaeaea")
+        mu-row.fullscreen(v-bind:style="{height : height + 'px'}" style="color: black;background-color:#f4f4f4")
             mu-col.half(desktop="50")
                 .img(style="background-image: url(../../../static/img/home/three.png)")
                     .identifie(style="border: 4px solid white")
             mu-col.half(desktop="50" style="padding: 0 0 0 200px;")
                 h1 按照自己的节奏
                 .line(style="background-color:black")
-                p 学校里，所有人都要用同样的时间，学同一样东西，这个不是Bad idea吗 <br/> 你将按照自己的节奏来学习 <br/>你生来就不一样，不需要同进退
+                br
+                i.icon.rocket.huge
+                br
+                p 如果能用一天的时间学习完课表上五天的内容，为什么不呢？在大多数学校里，所有人都要用同样的时间，学同一样的东西
+                p 但在CodeA，你可以自由地按照自己的节奏学习
+                p 你生来就不一样，不需要同进退
 
-        mu-row.fullscreen(v-bind:style="{height : height + 'px'}" style="color: #3b3b3b;padding: 0 10%;background-color:#f3f3f3")
+
+        mu-row.fullscreen(v-bind:style="{height : height + 'px'}" style="color: #3b3b3b;padding: 0 10%;background-color:#eaeaea")
             mu-col.half(desktop="30" v-for="item in features")
                 div(style="height: 70%;background-color: white;" align="center")
                     img(:src="item.img" style="width:51%;margin:17% 0;")
                     p(style="padding:0 15%;" v-html="item.textfile" align="left")  {{item.textfile}}
                     h2(style="margin: 14% 0") {{item.name}}
 
-        mu-row.fullscreen(v-bind:style="{height : height + 'px'}" style="padding:0;background-color:#eaeaea")
+        mu-row.fullscreen(v-bind:style="{height : height + 'px'}" style="padding:0;background-color:#f4f4f4")
                 mu-col.half(desktop="100" style="height:27%")
                     h1(align="center") 在这里 <br/> 你可以参与到的项目
                 mu-col.half(desktop="50" style="height:20%;background-color:#d7d7d7;padding:0 8% 0 3%;")
@@ -86,7 +111,7 @@
                 mu-col.half(desktop="100" align="center" style="height:13%")
                     mu-raised-button(style="width:300px;height:50px;font-size:18px;color:#b00000") 更多项目
         
-        mu-row.fullscreen(v-bind:style="{height : height + 'px'}" style="padding:0;background-color:#f3f3f3")
+        mu-row.fullscreen(v-bind:style="{height : height + 'px'}" style="padding:0;background-color:#eaeaea")
             mu-col.half(desktop="100" style="height:27%")
                 h1(align="center") 所想 <br/> 即所得
             mu-col.half(desktop="100" align="center" style="height:73%")
@@ -96,7 +121,7 @@
                 h2 成为P8的一员
                 
 
-        mu-row.fullscreen(v-bind:style="{height : height + 'px'}" style="padding:0;background-color:#eaeaea")
+        mu-row.fullscreen(v-bind:style="{height : height + 'px'}" style="padding:0;background-color:#f4f4f4")
             mu-col.half(align="center" desktop="100" style="position: relative")
                 div.last-title
                     h1 Geek文化
@@ -156,6 +181,14 @@ export default {
     padding: 0 !important;
 }
 
+.first-page {
+    font-size: 70px;
+    background-color: #151515;
+    color: white;
+    margin: 0 auto;
+    padding: 20px;
+}
+
 .fullscreen {
     width: 100%;
     padding: 0 20%;
@@ -172,6 +205,8 @@ export default {
 
 .half p {
     font-size: 15px;
+    line-height: 27px;
+    margin: 10px 0;
 }
 
 .line {
@@ -199,40 +234,40 @@ h2 {
 
 .last-title {
     position: relative;
-    color:#b00000;
-    top:4%;
+    color: #b00000;
+    top: 4%;
     left: -10%;
     z-index: 99;
-    background-color: #eaeaea;
+    background-color: #f4f4f4;
     width: 20%;
 }
 
 .last-content {
     position: relative;
-    color:#b00000;
-    width:25%;
-    top:5%;
+    color: #b00000;
+    width: 25%;
+    top: 5%;
     left: -1%;
     padding: 0 10px;
     z-index: 99;
     line-height: 25px;
     text-align: left;
-    background-color: #eaeaea;
+    background-color: #f4f4f4;
 }
 
 .last-img {
-    position:relative;
-    top:-15%;
-    width:75%;
-    height:65%;
-    border:4px solid white;
+    position: relative;
+    top: -15%;
+    width: 75%;
+    height: 65%;
+    border: 4px solid white;
 }
 
-.last-img img{
-    width:90%;
-    height:98%;
+.last-img img {
+    width: 90%;
+    height: 98%;
     position: relative;
-    top:15%;
-    left:1%;
+    top: 15%;
+    left: 1%;
 }
 </style>
