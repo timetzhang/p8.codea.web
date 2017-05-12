@@ -1,12 +1,13 @@
 <template lang="jade">
     mu-row(gutter)
-        mu-col(desktop="20", v-if='lecture_count > 1')
+        mu-col(:desktop='lecture_count > 1 ? 20 : 0')
             mu-paper(height="100")
                 mu-list
-                    mu-list-item(v-for='item in menu',:key='item.id',:title='item.name', :class='this.$route.params.lecture_id == item.id ? "router-link-active" : ""')
-                        mu-icon(slot="left",value="code")
+                    mu-list-item(v-for='item in menu',:key='item.id',:title='item.name', 
+                    :class='lecture_id == item.id ? "router-link-active" : ""', 
+                    @click='redirect(item.id)')
                     mu-divider
-        mu-col(:desktop="lecture_count > 1 ? 80 : 100")
+        mu-col(:desktop='lecture_count > 1 ? 80 : 100')
             mu-paper
                 mu-content-block
                     div.center.aligned
@@ -20,6 +21,7 @@
 
 <script>
 import DateTime from '@/common/datetime.js'
+
 export default {
     name: 'course',
     data() {
@@ -28,7 +30,9 @@ export default {
             name: '',
             details: '',
             time: '',
-            lecture_count: 0
+            lecture_count: 0,
+            course_id: this.$route.params.course_id,
+            lecture_id: this.$route.params.lecture_id
         }
     },
     created: function () {
@@ -36,17 +40,24 @@ export default {
         this.loadLecture();
     },
     methods: {
+        redirect(id) {
+            this.$router.push('/course/' + this.course_id + '/lecture/' + id);
+            this.course_id = this.$route.params.course_id;
+            this.lecture_id = this.$route.params.lecture_id;
+            this.loadLectureList();
+            this.loadLecture();
+        },
         loadLectureList() {
             var _this = this;
             //获取Subject
-            this.$db.getCourseLectureList(this, { course_id: this.$route.params.course_id }).then(res => {
+            this.$db.getCourseLectureList(this, { course_id: this.course_id }).then(res => {
                 _this.menu = res;
                 _this.lecture_count = res.length;
             });
         },
         loadLecture() {
             var _this = this;
-            this.$db.getCourseLecture(this, { lecture_id: this.$route.params.lecture_id }).then(res => {
+            this.$db.getCourseLecture(this, { lecture_id: this.lecture_id }).then(res => {
                 _this.name = res[0].name;
                 _this.time = DateTime.dateFormat(res[0].time);
                 _this.details = res[0].details;
@@ -56,6 +67,13 @@ export default {
         goTop() {
             document.body.scrollTop = 0;
             document.documentElement.scrollTop = 0;
+        }
+    },
+    watch: {
+        lecture_id() {
+            console.log('asdsad');
+            this.loadLectureList();
+            this.loadLecture();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿<template lang="jade">
     div.app
-        div.menu
-            mu-row.container
+        div.desktop-menu
+            mu-row.container(v-if='isMobile == false')
                 mu-col(desktop='50')
                     router-link(to='/home')
                         mu-flat-button.item(style='vertical-align:-19px')
@@ -17,6 +17,14 @@
                 mu-col(desktop='50',style='text-align:right')
                     mu-text-field.search-box(hintText="搜索", hintTextClass='search-hint', inputClass='search-input')
                     mu-icon-button(icon='search', tooltip="搜索", style='color:white')
+        mu-paper.mobile-menu(v-if='isMobile')
+            mu-bottom-nav(:value="bottomNav",@change="handleMobileMenuChange")
+                mu-bottom-nav-item(value="home",title="主页",icon="home",to='/home')
+                mu-bottom-nav-item(value="school",title="学校",icon="school",to='/school')
+                mu-bottom-nav-item(value="course",title="教程",icon="book",to='/course')
+                mu-bottom-nav-item(value="sdk",title="SDK",icon="note",to='/sdk')
+                mu-bottom-nav-item(value="tools",title="工具",icon="build",to='/tools')
+
         router-view.container.content
         mu-raised-button(v-on:click="returnTop",icon="eject",id="gotoTop",v-show="isHide") 返回顶部
         div.bottom
@@ -32,14 +40,17 @@
 </template>
 
 <script>
-import Browser from './common/browser'
+import Browser from '@/common/browser'
 
 export default {
     data() {
         return {
             curMenu: this.$route.path.split('/')[1],
             isHide: false,
-            scrolled: 0
+            scrolled: 0,
+            isMobile: Browser.mobile,
+            bottomNav: 'home',
+            bottomNavColor: 'home'
         };
     },
     methods: {
@@ -54,6 +65,9 @@ export default {
         returnTop: function () {
             document.body.scrollTop = 0;
             document.documentElement.scrollTop = 0
+        },
+        handleMobileMenuChange(val) {
+            this.bottomNav = val
         }
     },
     mounted: function () {
@@ -67,7 +81,7 @@ export default {
     background-color: #f4f4f4;
 }
 
-.menu {
+.desktop-menu {
     background-color: #222;
     position: fixed;
     left: 0;
@@ -76,6 +90,15 @@ export default {
     z-index: 100;
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
+}
+
+.mobile-menu {
+    background-color: #222;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 100;
 }
 
 .menu .item {
@@ -101,6 +124,20 @@ export default {
 
 .content {
     padding: 70px 0 10px 0 !important;
+}
+
+@media (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
+    /*iphone 6*/
+    .content {
+        padding: 0 0 70px 0 !important;
+    }
+}
+
+@media (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) {
+    /*iphone 6 plus*/
+    .content {
+        padding: 0 0 70px 0 !important;
+    }
 }
 
 .bottom {
