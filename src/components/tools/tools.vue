@@ -1,7 +1,7 @@
 <template lang="jade">
     div
         mu-appbar(title='Web 前端工具')
-        mu-row(gutter,:class="isMobile? 'padded':''")
+        mu-row.padded(gutter)
             mu-col(desktop="25", width="50")
                 a(href='/#/tools/html_compressor')
                     mu-grid-tile.tile
@@ -140,7 +140,7 @@
                         mu-icon-button(icon="play_arrow",slot="action")
         br
         mu-appbar(title='Colors 颜色转换工具')
-        mu-row(gutter,:class="isMobile? 'padded':''")
+        mu-row.padded(gutter)
             mu-col(desktop="25", width="50")
                 a(href='/#/tools/html_compressor')
                     mu-grid-tile.tile

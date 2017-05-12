@@ -1,5 +1,5 @@
 <template lang="jade">
-    div
+    div.padded
         mu-paper
             mu-content-block
                 .center.aligned
