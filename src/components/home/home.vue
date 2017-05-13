@@ -233,7 +233,7 @@ p {
 }
 
 .full .img {
-    height: 43%;
+    height: 38%;
 }
 
 .feature-list-half {

@@ -1,5 +1,5 @@
 <template lang="jade">
-    div.padded
+    mu-paper
         mu-paper
             mu-content-block.para
                 h2 致中国
