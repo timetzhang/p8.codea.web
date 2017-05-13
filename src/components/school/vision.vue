@@ -1,5 +1,5 @@
 <template lang="jade">
-    div.padded
+    mu-paper
         mu-paper
             mu-content-block.para(style='padding: 60px')
                 p “每一个才华横溢的个体都能以他们自己的方式将他们最杰出的作品交到他们培育的用户手中，并将这些用户吸纳进我们的世界里。”
