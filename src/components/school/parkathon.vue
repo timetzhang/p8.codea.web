@@ -19,9 +19,9 @@
                 br
                 p.center.aligned
                     mu-raised-button(label='Javascript', secondary)
-                    &nbsp; &nbsp; OR &nbsp; &nbsp;
+                p.center.aligned
                     mu-raised-button(label='C', secondary)
-                    &nbsp; &nbsp; OR &nbsp;
+                p.center.aligned
                     mu-raised-button(label='C#', secondary)
                 br
                 br

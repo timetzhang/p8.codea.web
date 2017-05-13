@@ -9,33 +9,33 @@
                         mu-sub-header 
                             i.icon.university
                             span &nbsp; 学校 School
-                        mu-list-item.item(title="愿景", @click="redirect('vision','愿景')", to='/school/vision')
-                        mu-list-item.item(title="目标", @click="redirect('mission','目标')", to='/school/mission')
-                        mu-list-item.item(title="革新", @click="redirect('revolution','革新')", to='/school/revolution')
-                        mu-list-item.item(title="Geek文化", @click="redirect('geek','革新')", to='/school/geek')
-                        mu-list-item.item(title="学习环境", @click="redirect('study_space','学习环境')", to='/school/study_space')
-                        mu-list-item.item(title="居住环境", @click="redirect('dorm_space','居住环境')", to='/school/dorm_space')
+                        mu-list-item.item(title="愿景", @click="redirect('vision','愿景')")
+                        mu-list-item.item(title="目标", @click="redirect('mission','目标')")
+                        mu-list-item.item(title="革新", @click="redirect('revolution','革新')")
+                        mu-list-item.item(title="Geek文化", @click="redirect('geek','革新')")
+                        mu-list-item.item(title="学习环境", @click="redirect('study_space','学习环境')")
+                        mu-list-item.item(title="居住环境", @click="redirect('dorm_space','居住环境')")
                         mu-divider
                         mu-sub-header 
                             i.icon.student
                             span &nbsp; 课程 Courses 
-                        mu-list-item.item(title="集训营", @click="redirect('parkathon','集训营')", to='/school/parkathon')
-                        mu-list-item.item(title="两年课程", @click="redirect('course','两年课程')", to='/school/course')
-                        mu-list-item.item(title="项目组", @click="redirect('team','项目组')", to='/school/team')
-                        mu-list-item.item(title="就业", @click="redirect('career','就业')", to='/school/career')
+                        mu-list-item.item(title="集训营", @click="redirect('parkathon','集训营')")
+                        mu-list-item.item(title="两年课程", @click="redirect('course','两年课程')")
+                        mu-list-item.item(title="项目组", @click="redirect('team','项目组')")
+                        mu-list-item.item(title="就业", @click="redirect('career','就业')")
                         mu-divider
                         mu-sub-header 
                             i.icon.laptop
                             span &nbsp; 项目 Projects
-                        mu-list-item.item(title="课程项目", @click="redirect('project_lecture','课程项目')", to='/school/project_lecture')
-                        mu-list-item.item(title="商业项目", @click="redirect('project_bus','商业项目')", to='/school/project_bus')
+                        mu-list-item.item(title="课程项目", @click="redirect('project_lecture','课程项目')")
+                        mu-list-item.item(title="商业项目", @click="redirect('project_bus','商业项目')")
                         mu-divider
                         mu-sub-header 
                             i.icon.add.user
                             span &nbsp; 报名 Register
-                        mu-list-item.item(title="注册", @click="redirect('register','注册')", to='/school/register')
-                        mu-list-item.item(title="入学考试", @click="redirect('entrance','入学考试')", to='/school/entrance')
-                        mu-list-item.item(title="联系我们", @click="redirect('contact','联系我们')", to='/school/contact')
+                        mu-list-item.item(title="注册", @click="redirect('register','注册')")
+                        mu-list-item.item(title="入学考试", @click="redirect('entrance','入学考试')")
+                        mu-list-item.item(title="联系我们", @click="redirect('contact','联系我们')")
             mu-col(desktop="80", width="100")
                 router-view
 </template>
