@@ -25,7 +25,7 @@ div.padded
                 mu-col(width='50', desktop='50',style='margin-bottom:10px')
                     mu-grid-tile(rows='2')
                         img(src="/static/img/school/revolution01.jpg")
-                        span(slot="title") Scrum
+         g               span(slot="title") Scrum
                 mu-col(width='50', desktop='50',style='margin-bottom:10px')
                     mu-grid-tile(rows='2')
                         img(src="/static/img/school/revolution02.jpg")
