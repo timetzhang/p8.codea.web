@@ -20,12 +20,11 @@
                     mu-col(desktop="50" tablet="100" width="100" v-for="item in program" key="pro" v-bind:class="item.colorId" style="padding:2% 5%;vertical-align: middle;")
                         img(:src="item.img" style="width:10%;display:inline-block;margin:0% 5%;float:left;")
                         div(style="display:inline-block;width:70%")
-                            h3(style="margin-top:0;") {{item.title}} 
-                            p(style="margin:0;") {{item.content}}
+                            h3 {{item.title}}
                     mu-col.center.aligned(desktop="100" tablet="100" width="100")
-                        mu-flat-button(label="项目详情" backgroundColor="white" color="#d00000" style="margin: 1% 0;border:2px solid #d00000;padding:0 5%;")
+                        mu-flat-button(label="项目详情" to="/school/team" backgroundColor="white" color="#d00000" style="margin: 1% 0;border:2px solid #d00000;padding:0 5%;")
         
-        mu-row.mar-space(gutter v-for="item in lastList" key="id")
+        mu-row.mar-space(gutter v-for="item in lastList" key="id" style="margin-bottom:60px;")
             mu-col(desktop="10" tablet="10" width="10")
             mu-col(desktop="70" tablet="80" width="80")
                 mu-flexbox(:orient="orient")
@@ -75,40 +74,34 @@ export default {
             ],
             program: [
                 {
-                    colorId: 'graybg',
-                    img: '/static/img/home/game.png',
-                    title: '游戏项目',
-                    content: '使用cocos2D或是unit3D来开发制作你所喜欢的游戏使用'
+                    colorId : 'graybg',
+                    img : '/static/img/home/game.png',
+                    title : '游戏项目'
                 },
                 {
-                    colorId: 'whitebg',
-                    img: '/static/img/home/data.png',
-                    title: '数据库项目',
-                    content: '使用cocos2D或是unit3D来开发制作你所喜欢的游戏'
+                    colorId : 'whitebg',
+                    img : '/static/img/home/data.png',
+                    title : '数据库项目'
                 },
                 {
-                    colorId: 'whitebg',
-                    img: '/static/img/home/text.png',
-                    title: '文本操作项目',
-                    content: '使用cocos2D或是unit3D来开发制作你所喜欢的游戏'
+                    colorId : 'whitebg',
+                    img : '/static/img/home/text.png',
+                    title : '文本操作项目'
                 },
                 {
-                    colorId: 'graybg',
-                    img: '/static/img/home/file.png',
-                    title: '文件处理项目',
-                    content: '使用cocos2D或是unit3D来开发制作你所喜欢的游戏'
+                    colorId : 'graybg',
+                    img : '/static/img/home/file.png',
+                    title : '文件处理项目'
                 },
                 {
-                    colorId: 'graybg',
-                    img: '/static/img/home/web.png',
-                    title: 'Web项目',
-                    content: '使用cocos2D或是unit3D来开发制作你所喜欢的游戏'
+                    colorId : 'graybg',
+                    img : '/static/img/home/web.png',
+                    title : 'Web项目'
                 },
                 {
-                    colorId: 'whitebg',
-                    img: '/static/img/home/media.png',
-                    title: '图像与多媒体项目',
-                    content: '使用cocos2D或是unit3D来开发制作你所喜欢的游戏'
+                    colorId : 'whitebg',
+                    img : '/static/img/home/media.png',
+                    title : '图像与多媒体项目'
                 }
             ],
             lastList: [
@@ -176,9 +169,7 @@ export default {
                 this.timer = true
                 let that = this
                 setTimeout(function () {
-                    // that.screenWidth = that.$store.state.canvasWidth
-                    console.log(that.screenWidth)
-                    if (that.screenWidth < 900) {
+                    if (that.screenWidth < 900){
                         that.orient = 'vertical';
                         for (var i = 0; i < that.lastList.length; i++) {
                             that.lastList[i].imgId = 0;
@@ -203,6 +194,10 @@ export default {
 .container {
     width: 100% !important;
     padding: 0 !important;
+}
+
+p {
+    line-height: 25px;
 }
 
 .first-page {
