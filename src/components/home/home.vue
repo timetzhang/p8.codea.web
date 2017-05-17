@@ -48,66 +48,66 @@ export default {
     data() {
         return {
             height: 0,
-            isMobile:Browser.mobile,
+            isMobile: Browser.mobile,
             orient: '',
-            learning:[
+            learning: [
                 {
-                    title : 'Co-Learning',
-                    content : '我们的核心是Co-Learning（联合学习）<br/>在自我探索和与群体分享的过程中，大家聚在一起学习与交流，获取全面、最新的知识，解决知识更新过快的问题。',
-                    img : '/static/img/home/1.jpg'
+                    title: 'Co-Learning',
+                    content: '我们的核心是Co-Learning，大家聚在一起学习与交流，在自我探索和与群体分享的过程中，获取全面、最新的知识，解决知识更新过快的问题。<br />学生之间相互合作，互相学习，能培育出最具创新能力和学习能力的计算机专业人才。他们工作热情主动，他们有最好的学习能力，面临新的障碍有解决方案。',
+                    img: '/static/img/home/1.jpg'
                 },
                 {
-                    title : '项目驱使的教学方式',
-                    content : '一进入学校，便开始真正进入项目合作。<br/>你可以选择项目中感兴趣的部分所有获取的知识都来自于实际的项目。CodeA会为你提供可选择的项目，了解项目需求后，你可以自行选择：UI设计或者数据库等<br/>你完成的项目越多，级别越高，每到达7级或7的倍数时，可进入实习与培训项目<br/>毕业时，你的履历中将是满满的经验值.',
-                    img : '/static/img/home/2.jpg'
+                    title: '基于项目的实战教学模式 - 团队协作 项目主导',
+                    content: '一旦进入学校，便开始了项目合作。你可以选择项目中感兴趣的部分，所有获取的知识都来自于实际的项目。<br />CodeA会为你提供可选择的项目，了解项目需求后，你可以自行组建自己的项目组，你可以选择UI设计，逻辑开发或者数据库管理等。你完成的项目越多，级别越高，每到达7级或7的倍数时，可进入实习与商业项目开发组。<br/>在CodeA，每个人都是一个独特的个体，都根据自己学习的进展，根据自己的私人化课程来学习。',
+                    img: '/static/img/home/2.jpg'
                 },
                 {
-                    title : '教和学是一体的',
-                    content : '老师就是你身边的任何一个人，他可以是学校的聘任的编程大师，也可以是刚入学的同学；<br/>不要吝啬你的知识，分享给你身边的人',
-                    img : '/static/img/home/3.jpg'
+                    title: '教和学是一体的',
+                    content: '老师就是你身边的任何一个人,他可以是学校聘任的编程大师，也可以是刚入学的同学。同时，你也会成为其他人的老师，也不要吝啬你的知识，分享给你身边的人。<br />求知若饥 虚心若愚',
+                    img: '/static/img/home/3.jpg'
                 },
                 {
-                    img : '/static/img/home/4.jpg',
-                    content : '我们提供能够很好互动的空间，来吸引更多的想你这样的年轻人，和我们在这里一起交流，交换想法，碰撞火花<br/>空间准则：不用提高声音，就可以同时和7位同学进行交流',
-                    title : '开放空间'
+                    img: '/static/img/home/4.jpg',
+                    content: '我们提供能够很好互动的空间，来吸引更多的想你这样的年轻人，和我们在这里一起交流，交换想法，碰撞火花<br/>空间准则：不用提高声音，就可以同时和7位同学进行交流',
+                    title: '开放空间'
                 }
             ],
-            program:[
+            program: [
                 {
-                    colorId : 'graybg',
-                    img : '/static/img/home/game.png',
-                    title : '游戏项目',
-                    content : '使用cocos2D或是unit3D来开发制作你所喜欢的游戏使用'
+                    colorId: 'graybg',
+                    img: '/static/img/home/game.png',
+                    title: '游戏项目',
+                    content: '使用cocos2D或是unit3D来开发制作你所喜欢的游戏使用'
                 },
                 {
-                    colorId : 'whitebg',
-                    img : '/static/img/home/data.png',
-                    title : '数据库项目',
-                    content : '使用cocos2D或是unit3D来开发制作你所喜欢的游戏'
+                    colorId: 'whitebg',
+                    img: '/static/img/home/data.png',
+                    title: '数据库项目',
+                    content: '使用cocos2D或是unit3D来开发制作你所喜欢的游戏'
                 },
                 {
-                    colorId : 'whitebg',
-                    img : '/static/img/home/text.png',
-                    title : '文本操作项目',
-                    content : '使用cocos2D或是unit3D来开发制作你所喜欢的游戏'
+                    colorId: 'whitebg',
+                    img: '/static/img/home/text.png',
+                    title: '文本操作项目',
+                    content: '使用cocos2D或是unit3D来开发制作你所喜欢的游戏'
                 },
                 {
-                    colorId : 'graybg',
-                    img : '/static/img/home/file.png',
-                    title : '文件处理项目',
-                    content : '使用cocos2D或是unit3D来开发制作你所喜欢的游戏'
+                    colorId: 'graybg',
+                    img: '/static/img/home/file.png',
+                    title: '文件处理项目',
+                    content: '使用cocos2D或是unit3D来开发制作你所喜欢的游戏'
                 },
                 {
-                    colorId : 'graybg',
-                    img : '/static/img/home/web.png',
-                    title : 'Web项目',
-                    content : '使用cocos2D或是unit3D来开发制作你所喜欢的游戏'
+                    colorId: 'graybg',
+                    img: '/static/img/home/web.png',
+                    title: 'Web项目',
+                    content: '使用cocos2D或是unit3D来开发制作你所喜欢的游戏'
                 },
                 {
-                    colorId : 'whitebg',
-                    img : '/static/img/home/media.png',
-                    title : '图像与多媒体项目',
-                    content : '使用cocos2D或是unit3D来开发制作你所喜欢的游戏'
+                    colorId: 'whitebg',
+                    img: '/static/img/home/media.png',
+                    title: '图像与多媒体项目',
+                    content: '使用cocos2D或是unit3D来开发制作你所喜欢的游戏'
                 }
             ],
             lastList: [
@@ -148,7 +148,7 @@ export default {
         }
         if (this.isMobile) {
             this.orient = 'vertical';
-            for (var i=0;i < this.lastList.length;i++) {
+            for (var i = 0; i < this.lastList.length; i++) {
                 this.lastList[i].imgId = 0;
             }
             console.log(this.lastList)
@@ -186,7 +186,7 @@ export default {
     background-size: 100% 100%;
 }
 
-@media screen and (min-width:1200px){
+@media screen and (min-width:1200px) {
     .mar-space {
         margin-top: 160px;
     }
@@ -195,25 +195,26 @@ export default {
     }
 }
 
-@media screen and (min-width:960px) and (max-width: 1199px){
-    .mar-space{
-        margin-top : 160px;
+@media screen and (min-width:960px) and (max-width: 1199px) {
+    .mar-space {
+        margin-top: 160px;
     }
 }
-@media only screen and (min-width:768px) and (max-width:959px){
+
+@media only screen and (min-width:768px) and (max-width:959px) {
     .mar-space {
         margin-top: 60px;
     }
 }
 
-@media screen and (max-width:767px){
+@media screen and (max-width:767px) {
     .fullscreen {
         background-image: url('/static/img/home/home_mobile.jpg') !important;
     }
 }
 
 .mar-space img {
-    width:100%;
+    width: 100%;
 }
 
 .whitebg {
@@ -223,5 +224,4 @@ export default {
 .graybg {
     background-color: #d7d7d7;
 }
-
 </style>
