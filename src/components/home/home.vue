@@ -12,8 +12,8 @@
             mu-col(desktop="20" tablet="10" width="10")
         
         mu-row.mar-space(gutter style="background-color:#eaeaea")
-            mu-col.center.aligned(desktop="100")
-                div(style="border:4px solid black;display:inline-block;padding:1% 5%;margin:4% 0;text-align:left")
+            mu-col.center.aligned(desktop="100" tablet="100" width="100")
+                div(style="border:4px solid black;display:inline-block;padding:1% 5%;margin:4% auto;text-align:left")
                     h1 在这里<br/>你可以参与到的项目
             mu-col(desktop="100")
                 mu-row
@@ -22,7 +22,7 @@
                         div(style="display:inline-block;width:70%")
                             h3(style="margin-top:0;") {{item.title}} 
                             p(style="margin:0;") {{item.content}}
-                    mu-col.center.aligned(desktop="100")
+                    mu-col.center.aligned(desktop="100" tablet="100" width="100")
                         mu-flat-button(label="项目详情" backgroundColor="white" color="#d00000" style="margin: 1% 0;border:2px solid #d00000;padding:0 5%;")
         
         mu-row.mar-space(gutter v-for="item in lastList" key="id")
@@ -49,6 +49,7 @@ export default {
         return {
             height: 0,
             isMobile: Browser.mobile,
+            screenWidth: document.body.clientWidth,
             orient: '',
             learning: [
                 {
@@ -151,17 +152,49 @@ export default {
             for (var i = 0; i < this.lastList.length; i++) {
                 this.lastList[i].imgId = 0;
             }
-            console.log(this.lastList)
         }
         else {
             this.orient = 'horizontal';
         }
-        //console.log(this.isClass)
     },
     mounted: function () {
+        const that = this
+        window.onresize = () => {
+            return (() => {
+                window.screenWidth = document.body.clientWidth
+                that.screenWidth = window.screenWidth
+            })()
+        }
     },
     methods: {
 
+    },
+    watch: {
+        screenWidth(val) {
+            if (!this.timer) {
+                this.screenWidth = val
+                this.timer = true
+                let that = this
+                setTimeout(function () {
+                    // that.screenWidth = that.$store.state.canvasWidth
+                    console.log(that.screenWidth)
+                    if (that.screenWidth < 900) {
+                        that.orient = 'vertical';
+                        for (var i = 0; i < that.lastList.length; i++) {
+                            that.lastList[i].imgId = 0;
+                        }
+                    } else {
+                        that.orient = 'horizontal';
+                        for (var i = 0; i < that.lastList.length; i++) {
+                            if (i == 1 || i == 3) {
+                                that.lastList[i].imgId = 2;
+                            }
+                        }
+                    }
+                    that.timer = false
+                }, 400)
+            }
+        }
     }
 }
 </script>
@@ -208,6 +241,9 @@ export default {
 }
 
 @media screen and (max-width:767px) {
+    .mar-space {
+        margin-top: 60px;
+    }
     .fullscreen {
         background-image: url('/static/img/home/home_mobile.jpg') !important;
     }
