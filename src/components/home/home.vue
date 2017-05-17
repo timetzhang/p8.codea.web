@@ -169,8 +169,6 @@ export default {
                 this.timer = true
                 let that = this
                 setTimeout(function () {
-                    // that.screenWidth = that.$store.state.canvasWidth
-                    console.log(that.screenWidth)
                     if (that.screenWidth < 900){
                         that.orient = 'vertical';
                         for (var i=0;i < that.lastList.length;i++) {
