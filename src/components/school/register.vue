@@ -36,13 +36,36 @@
                     mu-picker(:slots="addressSlots",:visible-item-count="5",@change="addressChange",:values="city")
                     p 您选择的城市是： {{addressProvince}} {{addressCity}}
                     br
-                    mu-text-field(v-model="address",label="地址", :fullWidth='true')
+                    mu-text-field(v-model="add",label="地址", :fullWidth='true')
                     br
                     mu-text-field(v-model="zipcode",label="邮政编码", :fullWidth='true')
         mu-paper.page.title
             mu-content-block(style='padding:10px 40px')
                 p
-                h3 监护人信息
+                h3 知识背景
+                p
+                    br
+                    mu-select-field(v-model="diploma",label="学历", :fullWidth='true')
+                        mu-menu-item(value="小学",title="小学")
+                        mu-menu-item(value="初中",title="初中")
+                        mu-menu-item(value="中专",title="中专")
+                        mu-menu-item(value="高中",title="高中")
+                        mu-menu-item(value="大专",title="大专")
+                        mu-menu-item(value="本科",title="本科")
+                        mu-menu-item(value="硕士",title="硕士")
+                        mu-menu-item(value="博士",title="博士")
+                    br
+                    mu-text-field(v-model="graduate_school",label="学校", :fullWidth='true')
+                    br
+                    mu-text-field(v-model="major",label="主修专业", :fullWidth='true')
+                    br
+                    mu-text-field(v-model="minor",label="辅修专业", :fullWidth='true')
+                    br
+                    mu-text-field(v-model="zipcode",label="兴趣与爱好", :fullWidth='true',multiLine,:rows="3",:rowsMax="6")
+        mu-paper.page.title
+            mu-content-block(style='padding:10px 40px')
+                p
+                h3 监护人信息（未成年人填写）
                 p
                     mu-text-field(v-model="guardian_01_name",label="第一监护人姓名", :fullWidth='true')
                     br
@@ -122,7 +145,7 @@ export default {
             city: ['北京', '北京'],
             addressProvince: '北京',
             addressCity: '北京',
-            address: '',
+            add: '',
             guardian_01_name: '',
             guardian_01_relation: '',
             guardian_01_cellphone: '',
