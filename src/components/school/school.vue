@@ -1,7 +1,5 @@
 <template lang="jade">
     div
-        mu-appbar(:title="title", v-if='isMobile')
-            mu-icon-button(icon="menu",slot="right",@click='toggleMenu')
         mu-row(gutter)
             mu-col(desktop="20", width="100", v-if='showMenu')
                 mu-paper(height="100")
@@ -12,7 +10,7 @@
                         mu-list-item.item(title="愿景", @click="redirect('vision','愿景')")
                         mu-list-item.item(title="目标", @click="redirect('mission','目标')")
                         mu-list-item.item(title="革新", @click="redirect('revolution','革新')")
-                        mu-list-item.item(title="Geek文化", @click="redirect('geek','革新')")
+                        mu-list-item.item(title="Geek文化", @click="redirect('geek','Geek文化')")
                         mu-list-item.item(title="学习环境", @click="redirect('study_space','学习环境')")
                         mu-list-item.item(title="居住环境", @click="redirect('dorm_space','居住环境')")
                         mu-divider
@@ -37,6 +35,8 @@
                         mu-list-item.item(title="入学考试", @click="redirect('entrance','入学考试')")
                         mu-list-item.item(title="联系我们", @click="redirect('contact','联系我们')")
             mu-col(desktop="80", width="100")
+                mu-appbar(:title="title", v-if='isMobile')
+                    mu-icon-button(icon="menu",slot="right",@click='toggleMenu')
                 router-view
 </template>
 

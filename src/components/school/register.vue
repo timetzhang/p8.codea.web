@@ -61,6 +61,14 @@
                     br
                     mu-text-field(v-model="minor",label="辅修专业", :fullWidth='true')
                     br
+                    mu-select-field(v-model="english_level",label="英语水平", :fullWidth='true')
+                        mu-menu-item(value="无",title="无")
+                        mu-menu-item(value="高中",title="高中")
+                        mu-menu-item(value="4级",title="4级")
+                        mu-menu-item(value="6级",title="6级")
+                        mu-menu-item(value="TOEFL/IELTS",title="TOEFL/IELTS")
+                        mu-menu-item(value="专业",title="专业")
+                    br
                     mu-text-field(v-model="zipcode",label="兴趣与爱好", :fullWidth='true',multiLine,:rows="3",:rowsMax="6")
         mu-paper.page.title
             mu-content-block(style='padding:10px 40px')
@@ -79,7 +87,7 @@
                     br
                     mu-text-field(v-model="guardian_01_cellphone",label="第二监护人联系方式", :fullWidth='true')
         div.center.aligned(style='margin-bottom:20px')
-            mu-raised-button(label='提交注册信息',secondary)
+            mu-raised-button(label='提交注册信息',secondary,@click='register()')
 </template>
 
 <script>
@@ -146,12 +154,18 @@ export default {
             addressProvince: '北京',
             addressCity: '北京',
             add: '',
+            diploma: '',
+            graduate_school: '',
+            major: '',
+            minor: '',
+            english_level: '',
             guardian_01_name: '',
             guardian_01_relation: '',
             guardian_01_cellphone: '',
             guardian_02_name: '',
             guardian_02_relation: '',
-            guardian_02_cellphone: ''
+            guardian_02_cellphone: '',
+            note: ''
         }
     },
     mounted: function () {
@@ -172,6 +186,9 @@ export default {
                     break
             }
             this.address = [this.addressProvince, this.addressCity]
+        },
+        register() {
+
         }
     }
 }
