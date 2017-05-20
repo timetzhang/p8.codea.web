@@ -18,11 +18,11 @@
                 p 你将在金字塔里，写出你的第一行代码
                 br
                 p.center.aligned
-                    mu-raised-button(label='Javascript', secondary)
+                    mu-raised-button(label='JS', secondary)
                 p.center.aligned
                     mu-raised-button(label='C', secondary)
                 p.center.aligned
-                    mu-raised-button(label='C#', secondary)
+                    mu-raised-button(label='Python', secondary)
                 br
                 br
                 mu-grid-tile(rows='2')
