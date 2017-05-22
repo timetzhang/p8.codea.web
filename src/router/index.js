@@ -30,6 +30,8 @@ const SDKClassfiy = (resolve) => { require(['@/components/sdk/classfiy.vue'], re
 
 const Tools = (resolve) => { require(['@/components/tools/tools.vue'], resolve) };
 
+const Login = (resolve) => { require(['@/components/login/login.vue'], resolve) };
+
 Vue.use(Router)
 
 export default new Router({
@@ -140,7 +142,11 @@ export default new Router({
     },
     {
         path: '/tools',
-        component: Tools,
+        component: Tools
     },
+    {
+        path: '/login',
+        component: Login
+    }
     ]
 })

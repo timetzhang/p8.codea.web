@@ -102,5 +102,53 @@ export default {
                 });
             }
         );
+    },
+    //获取随机的入学考试题目
+    //obj为this
+    //options为{ count: 题目个数 }
+    getEntranceExam(obj, options) {
+        return new Promise(
+            function (resolve) {
+                var dbUrl = dbBaseUrl + '/getEntranceExam?count=' + options.count;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+    //将用户的入学考试提交至数据库
+    //obj为this
+    //options为{ exam_id: exam_id, user_id: user_id, details: details }
+    newStudentEntranceExam(obj, data) {
+        return new Promise(
+            function (resolve) {
+                var dbUrl = dbBaseUrl + '/newStudentEntranceExam';
+                obj.$http.post(dbUrl, { data: data }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    emulateJSON: true
+                }).then(res => {
+                    resolve(res.data);
+                });
+
+            }
+        );
+    },
+    isStudentEntranceExamDone(obj, options) {
+        return new Promise(
+            function (resolve) {
+                var dbUrl = dbBaseUrl + '/isStudentEntranceExamDone?sid=' + options.sid;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
     }
 }

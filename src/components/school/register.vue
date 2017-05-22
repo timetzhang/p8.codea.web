@@ -69,7 +69,7 @@
                         mu-menu-item(value="TOEFL/IELTS",title="TOEFL/IELTS")
                         mu-menu-item(value="专业",title="专业")
                     br
-                    mu-text-field(v-model="zipcode",label="兴趣与爱好", :fullWidth='true',multiLine,:rows="3",:rowsMax="6")
+                    mu-text-field(v-model="zipcode",label="兴趣与爱好", :fullWidth='true',:multiLine='true',:rows="3",:rowsMax="6")
         mu-paper.page.title
             mu-content-block(style='padding:10px 40px')
                 p
