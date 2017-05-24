@@ -1,93 +1,101 @@
 <template lang="jade">
     div
-        mu-paper.page.title
-            mu-content-block(style='padding:10px 40px')
-                p
-                h3 基本信息
-                p
-                    mu-text-field(label="姓名", :fullWidth='true', v-model='name')
-                    br
-                    mu-select-field(v-model="sex",label="性别",:fullWidth='true')
-                        mu-menu-item(value="男",title="男")
-                        mu-menu-item(value="女",title="女")
-                    br
-                    mu-date-picker(v-model="dob",label="出生年月", :fullWidth='true')
-                    br
-                    mu-text-field(v-model="id_number",label="身份证号码", :fullWidth='true')
-                    br
-        mu-paper.page.title
-            mu-content-block(style='padding:10px 40px')
-                p
-                h3 联系与登录信息
-                p
-                    mu-text-field(v-model="cellphone",label="手机号码", :fullWidth='true')
-                    br
-                    mu-text-field(v-model="email",label="Email", :fullWidth='true')
-                    br
-                    mu-text-field(v-model="password",label="密码", :fullWidth='true', type="password")
-                    br
-                    mu-text-field(v-model="password_confirm",label="重复密码", :fullWidth='true', type="password")
-                    br
-        mu-paper.page.title
-            mu-content-block(style='padding:10px 40px')
-                p
-                h3 地址
-                p
-                    mu-picker(:slots="addressSlots",:visible-item-count="5",@change="addressChange",:values="city")
-                    p 您选择的城市是： {{addressProvince}} {{addressCity}}
-                    br
-                    mu-text-field(v-model="add",label="地址", :fullWidth='true')
-                    br
-                    mu-text-field(v-model="zipcode",label="邮政编码", :fullWidth='true')
-        mu-paper.page.title
-            mu-content-block(style='padding:10px 40px')
-                p
-                h3 知识背景
-                p
-                    br
-                    mu-select-field(v-model="diploma",label="学历", :fullWidth='true')
-                        mu-menu-item(value="小学",title="小学")
-                        mu-menu-item(value="初中",title="初中")
-                        mu-menu-item(value="中专",title="中专")
-                        mu-menu-item(value="高中",title="高中")
-                        mu-menu-item(value="大专",title="大专")
-                        mu-menu-item(value="本科",title="本科")
-                        mu-menu-item(value="硕士",title="硕士")
-                        mu-menu-item(value="博士",title="博士")
-                    br
-                    mu-text-field(v-model="graduate_school",label="学校", :fullWidth='true')
-                    br
-                    mu-text-field(v-model="major",label="主修专业", :fullWidth='true')
-                    br
-                    mu-text-field(v-model="minor",label="辅修专业", :fullWidth='true')
-                    br
-                    mu-select-field(v-model="english_level",label="英语水平", :fullWidth='true')
-                        mu-menu-item(value="无",title="无")
-                        mu-menu-item(value="高中",title="高中")
-                        mu-menu-item(value="4级",title="4级")
-                        mu-menu-item(value="6级",title="6级")
-                        mu-menu-item(value="TOEFL/IELTS",title="TOEFL/IELTS")
-                        mu-menu-item(value="专业",title="专业")
-                    br
-                    mu-text-field(v-model="zipcode",label="兴趣与爱好", :fullWidth='true',:multiLine='true',:rows="3",:rowsMax="6")
-        mu-paper.page.title
-            mu-content-block(style='padding:10px 40px')
-                p
-                h3 监护人信息（未成年人填写）
-                p
-                    mu-text-field(v-model="guardian_01_name",label="第一监护人姓名", :fullWidth='true')
-                    br
-                    mu-text-field(v-model="guardian_01_relation",label="第一监护人关系", :fullWidth='true')
-                    br
-                    mu-text-field(v-model="guardian_01_cellphone",label="第一监护人联系方式", :fullWidth='true')
-                    br
-                    mu-text-field(v-model="guardian_02_name",label="第二监护人姓名", :fullWidth='true')
-                    br
-                    mu-text-field(v-model="guardian_01_relation",label="第二监护人关系", :fullWidth='true')
-                    br
-                    mu-text-field(v-model="guardian_01_cellphone",label="第二监护人联系方式", :fullWidth='true')
-        div.center.aligned(style='margin-bottom:20px')
-            mu-raised-button(label='提交注册信息',secondary,@click='register()')
+        mu-paper(style='padding:20px')
+            mu-stepper(:activeStep="activeStep",orientation="vertical")
+                mu-step
+                    mu-step-label 基本信息
+                    mu-step-content
+                        p 
+                            mu-text-field(label="姓名", :fullWidth='true', v-model='name', :errorText="nameErrorText")
+                            br
+                            mu-select-field(v-model="sex",label="性别",:fullWidth='true')
+                                mu-menu-item(value="男",title="男")
+                                mu-menu-item(value="女",title="女")
+                            br
+                            mu-date-picker(v-model="dob",label="出生年月", :fullWidth='true', :errorText="dobErrorText")
+                            br
+                            mu-text-field(v-model="id_number",label="身份证号码", :fullWidth='true', :errorText="idnumberErrorText")
+                            br
+                        mu-raised-button(label="下一步",@click="validBasic",secondary)
+                mu-step
+                    mu-step-label 联系与登录信息
+                    mu-step-content
+                        p
+                            mu-text-field(v-model="cellphone",label="手机号码", :fullWidth='true', :errorText="cellphoneErrorText")
+                            br
+                            mu-text-field(v-model="email",label="Email", :fullWidth='true', :errorText="emailErrorText")
+                            br
+                            mu-text-field(v-model="password",label="密码", :fullWidth='true', type="password", :errorText="passwordErrorText")
+                            br
+                            mu-text-field(v-model="passwordConfirm",label="重复密码", :fullWidth='true', type="password", :errorText="passwordConfirmErrorText")
+                            br
+                    mu-raised-button(label="下一步",@click="validContact",secondary)
+                    mu-flat-button(label="上一步",@click="handlePrev")
+                mu-step
+                    mu-step-label 地址
+                    mu-step-content
+                        p
+                            mu-picker(:slots="addressSlots",:visible-item-count="5",@change="addressChange",:values="city")
+                            p 您选择的城市是： {{addressProvince}} {{addressCity}}
+                            br
+                            mu-text-field(v-model="add",label="地址", :fullWidth='true', :errorText="addressErrorText")
+                            br
+                            mu-text-field(v-model="zipcode",label="邮政编码", :fullWidth='true')
+                    mu-raised-button(label="下一步",@click="validAddress",secondary)
+                    mu-flat-button(label="上一步",@click="handlePrev")
+                mu-step
+                    mu-step-label 知识背景
+                    mu-step-content
+                        p
+                            mu-select-field(v-model="diploma",label="学历", :fullWidth='true')
+                                mu-menu-item(value="小学",title="小学")
+                                mu-menu-item(value="初中",title="初中")
+                                mu-menu-item(value="中专",title="中专")
+                                mu-menu-item(value="高中",title="高中")
+                                mu-menu-item(value="大专",title="大专")
+                                mu-menu-item(value="本科",title="本科")
+                                mu-menu-item(value="硕士",title="硕士")
+                                mu-menu-item(value="博士",title="博士")
+                            br
+                            mu-text-field(v-model="graduate_school",label="学校", :fullWidth='true')
+                            br
+                            mu-text-field(v-model="major",label="主修专业", :fullWidth='true')
+                            br
+                            mu-text-field(v-model="minor",label="辅修专业", :fullWidth='true')
+                            br
+                            mu-select-field(v-model="english_level",label="英语水平", :fullWidth='true')
+                                mu-menu-item(value="无",title="无")
+                                mu-menu-item(value="高中",title="高中")
+                                mu-menu-item(value="4级",title="4级")
+                                mu-menu-item(value="6级",title="6级")
+                                mu-menu-item(value="TOEFL/IELTS",title="TOEFL/IELTS")
+                                mu-menu-item(value="专业",title="专业")
+                            br
+                            mu-text-field(v-model="hobby",label="兴趣与爱好", :fullWidth='true',:multiLine='true',:rows="3",:rowsMax="6")
+                    mu-raised-button(label="下一步",@click="validDiploma",secondary)
+                    mu-flat-button(label="上一步",@click="handlePrev")
+                mu-step
+                    mu-step-label 监护人信息（未成年人填写）
+                    mu-step-content
+                        p
+                            mu-text-field(v-model="guardian_01_name",label="第一监护人姓名", :fullWidth='true')
+                            br
+                            mu-text-field(v-model="guardian_01_relation",label="第一监护人关系", :fullWidth='true')
+                            br
+                            mu-text-field(v-model="guardian_01_cellphone",label="第一监护人联系方式", :fullWidth='true')
+                            br
+                            mu-text-field(v-model="guardian_02_name",label="第二监护人姓名", :fullWidth='true')
+                            br
+                            mu-text-field(v-model="guardian_02_relation",label="第二监护人关系", :fullWidth='true')
+                            br
+                            mu-text-field(v-model="guardian_02_cellphone",label="第二监护人联系方式", :fullWidth='true')
+                    mu-raised-button(label="完成",@click="register",primary)
+                    mu-flat-button(label="上一步",@click="handlePrev")
+        mu-dialog(:open="submitDialog",title="完成") 提交成功, 是否进入"入学考试"?
+            mu-flat-button(label="好的",slot="actions",primary,@click="goEntrance")
+            mu-flat-button(label="取消",slot="actions",primary,@click="closeSubmitDialog")
+        mu-dialog(:open="noticeDialog",title="提示") {{notice}}
+            mu-flat-button(label="好的",slot="actions",primary,@click="closeNoticeDialog")
 </template>
 
 <script>
@@ -131,14 +139,20 @@ export default {
     name: 'school-contact',
     data() {
         return {
+            activeStep: 0,
+            noticeDialog: false,
+            notice: '您还有未填写的项',
+            valid: false,
+            submitDialog: false,
             name: '',
             sex: '男',
+            head_image: '',
             dob: '',
             id_number: '',
             cellphone: '',
             email: '',
             password: '',
-            password_confirm: '',
+            passwordConfirm: '',
             addressSlots: [
                 {
                     width: '100%',
@@ -154,18 +168,28 @@ export default {
             addressProvince: '北京',
             addressCity: '北京',
             add: '',
+            zipcode: '',
             diploma: '',
             graduate_school: '',
             major: '',
             minor: '',
             english_level: '',
+            hobby: '',
             guardian_01_name: '',
             guardian_01_relation: '',
             guardian_01_cellphone: '',
             guardian_02_name: '',
             guardian_02_relation: '',
             guardian_02_cellphone: '',
-            note: ''
+            //验证信息
+            nameErrorText: '',
+            dobErrorText: '',
+            idnumberErrorText: '',
+            cellphoneErrorText: '',
+            emailErrorText: '',
+            passwordErrorText: '',
+            passwordConfirmErrorText: '',
+            addressErrorText: ''
         }
     },
     mounted: function () {
@@ -173,6 +197,127 @@ export default {
         document.documentElement.scrollTop = 0;
     },
     methods: {
+        validBasic() {
+            if (!this.name) {
+                this.nameErrorText = '这是必填项';
+                this.valid = false;
+            }
+            else {
+                this.nameErrorText = null;
+                this.valid = true;
+            }
+            if (!this.dob) {
+                this.dobErrorText = '这是必填项';
+                this.valid = false;
+            }
+            else {
+                this.dobErrorText = null;
+                this.valid = true;
+            }
+            if (!this.id_number) {
+                this.idnumberErrorText = '这是必填项';
+                this.valid = false;
+            }
+            else {
+                this.idnumberErrorText = null;
+                this.valid = true;
+            }
+            if (this.valid)
+                this.activeStep++
+        },
+        validContact() {
+            if (!this.cellphone) {
+                this.cellphoneErrorText = '这是必填项';
+                this.valid = false;
+            }
+            else {
+                this.cellphoneErrorText = null;
+                this.valid = true;
+            }
+            if (!(/^1[34578]\d{9}$/.test(this.cellphone))) {
+                this.cellphoneErrorText = '请输入正确的手机号码';
+                this.valid = false;
+            }
+            else {
+                this.cellphoneErrorText = null;
+                this.valid = true;
+            }
+
+            if (!this.email) {
+                this.emailErrorText = '这是必填项';
+                this.valid = false;
+            }
+            else {
+                this.idnumberErrorText = null;
+                this.valid = true;
+            }
+            if (!/^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/.test(this.email)) {
+                this.emailErrorText = '请输入正确的Email';
+                this.valid = false;
+            }
+            else {
+                this.emailErrorText = null;
+                this.valid = false;
+            }
+
+            if (!this.password) {
+                this.passwordErrorText = '这是必填项';
+                this.valid = false;
+            }
+            else {
+                this.passwordErrorText = null;
+                this.valid = true;
+            }
+            if (this.password.length < 6) {
+                this.passwordErrorText = '密码至少需要6位';
+                this.valid = false;
+            }
+            else {
+                this.passwordErrorText = null;
+                this.valid = true;
+            }
+
+            if (!this.passwordConfirm) {
+                this.passwordConfirmErrorText = '这是必填项';
+                this.valid = false;
+            }
+            else {
+                this.passwordConfirmErrorText = null;
+                this.valid = true;
+            }
+            if (this.password != this.passwordConfirm) {
+                this.passwordConfirmErrorText = '两次密码输入不同';
+                this.valid = false;
+            }
+            else {
+                this.passwordConfirmErrorText = null;
+                this.valid = true;
+            }
+            if (this.valid)
+                this.activeStep++
+        },
+        validAddress() {
+            if (!this.add) {
+                this.addressErrorText = '这是必填项';
+                this.valid = false;
+            }
+            else {
+                this.addressErrorText = null;
+                this.valid = true;
+            }
+            if (this.valid)
+                this.activeStep++
+        },
+        validDiploma() {
+            if (this.valid)
+                this.activeStep++
+        },
+        handlePrev() {
+            this.activeStep--
+        },
+        reset() {
+            this.activeStep = 0
+        },
         addressChange(value, index) {
             switch (index) {
                 case 0:
@@ -185,10 +330,64 @@ export default {
                     this.addressCity = value
                     break
             }
-            this.address = [this.addressProvince, this.addressCity]
+            this.address = [this.addressProvince, this.addressCity];
         },
         register() {
-
+            if (this.valid) {
+                this.$db.newStudent(this, {
+                    name: this.name,
+                    sex: this.sex,
+                    dob: this.dob,
+                    id_number: this.id_number,
+                    head_image: this.head_image,
+                    cellphone: this.cellphone,
+                    email: this.email,
+                    address: this.add,
+                    city: this.addressCity,
+                    province: this.addressProvince,
+                    country: '中国',
+                    zipcode: this.zipcode,
+                    diploma: this.diploma,
+                    graduate_school: this.graduate_school,
+                    major: this.major,
+                    minor: this.minor,
+                    english_level: this.english_level,
+                    hobby: this.hobby,
+                    guardian_01_name: this.guardian_01_name,
+                    guardian_01_relation: this.guardian_01_relation,
+                    guardian_01_cellphone: this.guardian_01_cellphone,
+                    guardian_02_name: this.guardian_02_name,
+                    guardian_02_relation: this.guardian_02_relation,
+                    guardian_02_cellphone: this.guardian_02_cellphone,
+                    note: ''
+                }).then(res => {
+                    console.log(res)
+                    if (res > 0) {
+                        this.submitDialog = true;
+                        this.$cookie.setCookie('sid', res)
+                    }
+                    else {
+                        this.submitDialog = false;
+                    }
+                });
+            }
+            else {
+                this.noticeDialog = true;
+            }
+        },
+        goEntrance() {
+            this.$router.push('/school/entrance');
+        },
+        closeSubmitDialog() {
+            this.submitDialog = false;
+        },
+        closeNoticeDialog() {
+            this.noticeDialog = false;
+        }
+    },
+    computed: {
+        finished() {
+            return this.activeStep > 2
         }
     }
 }

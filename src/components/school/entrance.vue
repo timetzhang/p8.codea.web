@@ -47,8 +47,7 @@ export default {
     mounted: function () {
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
-        //DEBUG
-        Cookie.setCookie('sid', '1', 365);
+
         //如果已经登录
         if (Cookie.getCookie('sid') > 0) {
             this.$db.isStudentEntranceExamDone(this, { sid: Cookie.getCookie('sid') }).then(res => {
@@ -57,10 +56,9 @@ export default {
                 else
                     this.isDone = true;
             });
-
         }
         else {
-            this.dialog = true;
+            this.registerDialog = true;
         }
     },
     methods: {
