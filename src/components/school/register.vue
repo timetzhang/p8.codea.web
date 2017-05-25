@@ -342,6 +342,7 @@ export default {
                     head_image: this.head_image,
                     cellphone: this.cellphone,
                     email: this.email,
+                    password: this.password,
                     address: this.add,
                     city: this.addressCity,
                     province: this.addressProvince,

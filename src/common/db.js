@@ -184,7 +184,7 @@ export default {
     /**
      * 新学生注册
      * @param {*} obj 为this
-     * @param {*} data { name, sex, dob, id_number, head_image, cellphone, email,address, city, province, country, zipcode, diploma, graduate_school, major, minor, english_level, hobby, guardian_01_name, guardian_01_relation, guardian_01_cellphone, guardian_02_name, guardian_02_relation, guardian_02_cellphone, note}
+     * @param {*} data { name, sex, dob, id_number, head_image, cellphone, email,password,address, city, province, country, zipcode, diploma, graduate_school, major, minor, english_level, hobby, guardian_01_name, guardian_01_relation, guardian_01_cellphone, guardian_02_name, guardian_02_relation, guardian_02_cellphone, note}
      */
     newStudent(obj, data) {
         return new Promise(
@@ -198,7 +198,20 @@ export default {
                 }).then(res => {
                     resolve(res.data);
                 });
+            }
+        );
+    },
 
+    getStudentId(obj, options) {
+        return new Promise(
+            function (resolve) {
+                var dbUrl = dbBaseUrl + '/getStudentId?username=' + options.username + '&password=' + options.password;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
             }
         );
     }

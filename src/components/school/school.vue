@@ -32,6 +32,7 @@
                             i.icon.add.user
                             span &nbsp; 报名 Register
                         mu-list-item.item(title="注册", @click="redirect('register','注册')")
+                        mu-list-item.item(title="登录", to='/login')
                         mu-list-item.item(title="入学考试", @click="redirect('entrance','入学考试')")
                         mu-list-item.item(title="联系我们", @click="redirect('contact','联系我们')")
             mu-col(desktop="80", width="100")
