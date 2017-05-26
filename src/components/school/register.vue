@@ -412,7 +412,7 @@ export default {
             this.submitDialog = false;
         },
         closeNoticeDialog() {
-            this.noticeDialog = false;
+            this.$router.push('/school');
         }
     },
     computed: {

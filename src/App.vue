@@ -12,8 +12,8 @@
                         mu-flat-button.item(label='教程')
                     router-link(to='/sdk')
                         mu-flat-button.item(label='SDK')
-                    router-link(to='/tools')
-                        mu-flat-button.item(label='工具')
+                    router-link(to='/my')
+                        mu-flat-button.item(label='我的')
                 mu-col(desktop='50',style='text-align:right')
                     mu-text-field.search-box(hintText="搜索", hintTextClass='search-hint', inputClass='search-input')
                     mu-icon-button(icon='search', tooltip="搜索", style='color:white')
@@ -23,7 +23,7 @@
                 mu-bottom-nav-item(value="school",title="学校",icon="school",to='/school')
                 mu-bottom-nav-item(value="course",title="教程",icon="book",to='/course')
                 mu-bottom-nav-item(value="sdk",title="SDK",icon="note",to='/sdk')
-                mu-bottom-nav-item(value="tools",title="工具",icon="build",to='/tools')
+                mu-bottom-nav-item(value="my",title="我的",icon="account_circle",to='/my')
         router-view.container.content
         mu-raised-button(@click="returnTop",icon="eject",id="gotoTop",v-show="isHide") 返回顶部
         div.bottom

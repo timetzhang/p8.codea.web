@@ -28,9 +28,18 @@ const SDKList = (resolve) => { require(['@/components/sdk/list.vue'], resolve) }
 const SDKCourse = (resolve) => { require(['@/components/sdk/course.vue'], resolve) };
 const SDKClassfiy = (resolve) => { require(['@/components/sdk/classfiy.vue'], resolve) };
 
-const Tools = (resolve) => { require(['@/components/tools/tools.vue'], resolve) };
-
 const Login = (resolve) => { require(['@/components/login/login.vue'], resolve) };
+
+const My = (resolve) => { require(['@/components/my/my.vue'], resolve) };
+const MyCareer = (resolve) => { require(['@/components/my/career.vue'], resolve) };
+const MyCourse = (resolve) => { require(['@/components/my/course.vue'], resolve) };
+const MyDorm = (resolve) => { require(['@/components/my/dorm.vue'], resolve) };
+const MyLevel = (resolve) => { require(['@/components/my/level.vue'], resolve) };
+const MyProfile = (resolve) => { require(['@/components/my/profile.vue'], resolve) };
+const MyProject = (resolve) => { require(['@/components/my/project.vue'], resolve) };
+const MyTeam = (resolve) => { require(['@/components/my/team.vue'], resolve) };
+const MyFavCourse = (resolve) => { require(['@/components/my/fav_course.vue'], resolve) };
+
 
 Vue.use(Router)
 
@@ -139,10 +148,45 @@ export default new Router({
             path: '/sdk/:id/course',
             component: SDKCourse
         }]
+    }, {
+        path: '/my',
+        redirect: '/my/profile',
     },
     {
-        path: '/tools',
-        component: Tools
+        path: '/my',
+        component: My,
+        children: [{
+            path: '/my/profile',
+            component: MyProfile
+        },
+        {
+            path: '/my/level',
+            component: MyLevel
+        },
+        {
+            path: '/my/dorm',
+            component: MyDorm
+        },
+        {
+            path: '/my/project',
+            component: MyProject
+        },
+        {
+            path: '/my/course',
+            component: MyCourse
+        },
+        {
+            path: '/my/fav_course',
+            component: MyFavCourse
+        },
+        {
+            path: '/my/career',
+            component: MyCareer
+        },
+        {
+            path: '/my/team',
+            component: MyTeam
+        }]
     },
     {
         path: '/login',
