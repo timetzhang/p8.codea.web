@@ -21,13 +21,13 @@
                     mu-step-label 联系与登录信息
                     mu-step-content
                         p
-                            mu-text-field(v-model="cellphone",label="手机号码", :fullWidth='true', :errorText="cellphoneErrorText")
+                            mu-text-field(v-model="cellphone",label="手机号码", :fullWidth='true', :errorText="cellphoneErrorText", @blur='validCellphone')
                             br
-                            mu-text-field(v-model="email",label="Email", :fullWidth='true', :errorText="emailErrorText")
+                            mu-text-field(v-model="email",label="Email", :fullWidth='true', :errorText="emailErrorText", @blur='validEmail')
                             br
-                            mu-text-field(v-model="password",label="密码", :fullWidth='true', type="password", :errorText="passwordErrorText")
+                            mu-text-field(v-model="password",label="密码", :fullWidth='true', type="password", :errorText="passwordErrorText", @blur='validPassword')
                             br
-                            mu-text-field(v-model="passwordConfirm",label="重复密码", :fullWidth='true', type="password", :errorText="passwordConfirmErrorText")
+                            mu-text-field(v-model="passwordConfirm",label="重复密码", :fullWidth='true', type="password", :errorText="passwordConfirmErrorText", @blur='validPassword')
                             br
                     mu-raised-button(label="下一步",@click="validContact",secondary)
                     mu-flat-button(label="上一步",@click="handlePrev")
@@ -197,6 +197,97 @@ export default {
         document.documentElement.scrollTop = 0;
     },
     methods: {
+        //判断cellphone
+        validCellphone() {
+            var _this = this;
+            if (!this.cellphone) {
+                this.cellphoneErrorText = '这是必填项';
+                this.valid = false;
+            }
+            else {
+                this.cellphoneErrorText = null;
+                this.valid = true;
+                //判断cellphone是否符合格式
+                if (/^1[34578]\d{9}$/.test(this.cellphone) == false) {
+                    this.cellphoneErrorText = '请输入正确的手机号码';
+                    this.valid = false;
+                }
+                else {
+                    this.cellphoneErrorText = null;
+                    this.valid = true;
+                    //判断cellphone是否存在
+                    this.$db.isStudentCellphoneExist(this, { cellphone: this.cellphone }).then(res => {
+                        if (res == 1) {
+                            _this.valid = false;
+                            _this.cellphoneErrorText = '此手机号码已经存在';
+                        }
+                    });
+                }
+
+            }
+        },
+        //判断email
+        validEmail() {
+            var _this = this;
+            if (!this.email) {
+                this.emailErrorText = '这是必填项';
+                this.valid = false;
+            }
+            else {
+                this.emailErrorText = null;
+                this.valid = true;
+                if (/^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/.test(this.email) == false) {
+                    this.emailErrorText = '请输入正确的Email';
+                    this.valid = false;
+                }
+                else {
+                    this.emailErrorText = null;
+                    this.valid = true;
+                    //判断cellphone是否存在
+                    this.$db.isStudentEmailExist(this, { email: this.email }).then(res => {
+                        if (res == 1) {
+                            _this.valid = false;
+                            _this.emailErrorText = '此Email已经存在';
+                        }
+                    });
+                }
+            }
+        },
+        validPassword() {
+            if (!this.password) {
+                this.passwordErrorText = '这是必填项';
+                this.valid = false;
+            }
+            else {
+                this.passwordErrorText = null;
+                this.valid = true;
+                if (this.password.length < 6) {
+                    this.passwordErrorText = '密码至少需要6位';
+                    this.valid = false;
+                }
+                else {
+                    this.passwordErrorText = null;
+                    this.valid = true;
+                    if (!this.passwordConfirm) {
+                        this.passwordConfirmErrorText = '这是必填项';
+                        this.valid = false;
+                    }
+                    else {
+                        this.passwordConfirmErrorText = null;
+                        this.valid = true;
+                        if (this.password != this.passwordConfirm) {
+                            this.passwordConfirmErrorText = '两次密码输入不同';
+                            this.valid = false;
+                        }
+                        else {
+                            this.passwordConfirmErrorText = null;
+                            this.valid = true;
+                        }
+                    }
+
+                }
+            }
+        },
         validBasic() {
             if (!this.name) {
                 this.nameErrorText = '这是必填项';
@@ -222,79 +313,18 @@ export default {
                 this.idnumberErrorText = null;
                 this.valid = true;
             }
-            if (this.valid)
-                this.activeStep++
+            if (this.valid) {
+                this.activeStep++;
+            }
         },
         validContact() {
-            if (!this.cellphone) {
-                this.cellphoneErrorText = '这是必填项';
-                this.valid = false;
-            }
-            else {
-                this.cellphoneErrorText = null;
-                this.valid = true;
-            }
-            if (!(/^1[34578]\d{9}$/.test(this.cellphone))) {
-                this.cellphoneErrorText = '请输入正确的手机号码';
-                this.valid = false;
-            }
-            else {
-                this.cellphoneErrorText = null;
-                this.valid = true;
-            }
+            this.validCellphone();
+            this.validEmail();
+            this.validPassword();
 
-            if (!this.email) {
-                this.emailErrorText = '这是必填项';
-                this.valid = false;
+            if (this.valid) {
+                this.activeStep++;
             }
-            else {
-                this.idnumberErrorText = null;
-                this.valid = true;
-            }
-            if (!/^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/.test(this.email)) {
-                this.emailErrorText = '请输入正确的Email';
-                this.valid = false;
-            }
-            else {
-                this.emailErrorText = null;
-                this.valid = false;
-            }
-
-            if (!this.password) {
-                this.passwordErrorText = '这是必填项';
-                this.valid = false;
-            }
-            else {
-                this.passwordErrorText = null;
-                this.valid = true;
-            }
-            if (this.password.length < 6) {
-                this.passwordErrorText = '密码至少需要6位';
-                this.valid = false;
-            }
-            else {
-                this.passwordErrorText = null;
-                this.valid = true;
-            }
-
-            if (!this.passwordConfirm) {
-                this.passwordConfirmErrorText = '这是必填项';
-                this.valid = false;
-            }
-            else {
-                this.passwordConfirmErrorText = null;
-                this.valid = true;
-            }
-            if (this.password != this.passwordConfirm) {
-                this.passwordConfirmErrorText = '两次密码输入不同';
-                this.valid = false;
-            }
-            else {
-                this.passwordConfirmErrorText = null;
-                this.valid = true;
-            }
-            if (this.valid)
-                this.activeStep++
         },
         validAddress() {
             if (!this.add) {
@@ -362,7 +392,6 @@ export default {
                     guardian_02_cellphone: this.guardian_02_cellphone,
                     note: ''
                 }).then(res => {
-                    console.log(res)
                     if (res > 0) {
                         this.submitDialog = true;
                         this.$cookie.setCookie('sid', res)

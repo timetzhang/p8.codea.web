@@ -202,10 +202,52 @@ export default {
         );
     },
 
+    /**
+     * 登录判断
+     * @param {*} obj 为this
+     * @param {*} options { email/cellphone, password}
+     */
     getStudentId(obj, options) {
         return new Promise(
             function (resolve) {
                 var dbUrl = dbBaseUrl + '/getStudentId?username=' + options.username + '&password=' + options.password;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+
+    /**
+     * 判断Email是否存在
+     * @param {*} obj 为this
+     * @param {*} options { email }
+     */
+    isStudentEmailExist(obj, options) {
+        return new Promise(
+            function (resolve) {
+                var dbUrl = dbBaseUrl + '/isStudentEmailExist?email=' + options.email;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+    /**
+     * 判断Cellphone是否存在
+     * @param {*} obj 为this
+     * @param {*} options { cellphone }
+     */
+    isStudentCellphoneExist(obj, options) {
+        return new Promise(
+            function (resolve) {
+                var dbUrl = dbBaseUrl + '/isStudentCellphoneExist?cellphone=' + options.cellphone;
                 obj.$http({
                     url: dbUrl,
                     method: 'GET'
