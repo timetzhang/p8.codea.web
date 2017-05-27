@@ -4,8 +4,12 @@
             mu-content-block.para
                 h3 天空大本营之 Park-a-thon™ 黑客营
                 p 通过在线测试后，你将获得2-4周的 Park-a-thon™ 的参与资格。这将是你开始 P8 CodeA 学院生活的第一个亮点
+                p
                 p.center.aligned
-                    mu-flat-button(label='还没有通过在线测试？点击此处。',to='/school/entrance', style='color:red!important')
+                    mu-flat-button(label='点击此处注册报名',to='/school/register', style='color:red!important')
+                p.center.aligned - OR -
+                p.center.aligned
+                    mu-flat-button(label='已经注册？还没有通过在线测试？点击此处。',to='/school/entrance', style='color:red!important')
                 mu-grid-tile(rows='2')
                     img(src="/static/img/school/parkathon01.jpg")
                     span(slot="title") 啪客松集训营场地

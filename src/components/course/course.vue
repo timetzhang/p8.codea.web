@@ -49,9 +49,9 @@ export default {
             showMenu: true
         }
     },
-    created: function () {
+    mounted: function () {
         this.loadType();
-        this.loadCourse(13);
+        this.loadCourse(this.$route.params.course_id);
     },
     methods: {
         loadType() {
@@ -73,6 +73,7 @@ export default {
         loadCourse(id) {
             var _this = this;
             this.currentMenu = id;
+            this.$router.push('/course/' + id);
             this.$db.getCourse(this, { type_id: id }).then(res => {
                 _this.course = res;
             });

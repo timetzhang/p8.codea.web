@@ -119,6 +119,10 @@ export default new Router({
     },
     {
         path: '/course/',
+        redirect: '/course/13'
+    },
+    {
+        path: '/course/:course_id',
         component: Course
     },
     {

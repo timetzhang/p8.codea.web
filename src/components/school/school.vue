@@ -7,7 +7,7 @@
                         mu-sub-header 
                             i.icon.university
                             span &nbsp; 学校 School
-                        mu-list-item.item(title="愿景与目标", to='/school/vision', @click='redirect("vision", $event)')
+                        mu-list-item.item(title="愿景与目标", to='/school/vision')
                         mu-list-item.item(title="革新", to='/school/revolution')
                         mu-list-item.item(title="Geek文化", to='/school/geek')
                         mu-list-item.item(title="学习环境", to='/school/study_space')
@@ -24,8 +24,8 @@
                         mu-sub-header 
                             i.icon.laptop
                             span &nbsp; 项目 Projects
-                        mu-list-item.item(title="课程项目", to='/school/course')
-                        mu-list-item.item(title="商业项目", to='/school/course')
+                        mu-list-item.item(title="课程项目", to='/school/project_lecture')
+                        mu-list-item.item(title="商业项目", to='/school/project_bus')
                         mu-divider
                         mu-sub-header 
                             i.icon.add.user
@@ -50,12 +50,55 @@ export default {
             isMobile: Browser.mobile,
             showMenu: true,
             title: '愿景与目标',
-            contentWidth: 80,
-            currentPage: this.$route.path.split('/')[2]
+            contentWidth: 80
         }
     },
-    updated: function () {
-        this.title = this.$route.path.split('/')[2]
+    beforeUpdate: function () {
+        //判断 path 的子组件名称
+        switch (this.$route.path.split('/')[2]) {
+            case 'vision':
+                this.title = '愿景与目标';
+                break;
+            case 'revolution':
+                this.title = '革新';
+                break;
+            case 'geek':
+                this.title = 'Geek文化';
+                break;
+            case 'study_space':
+                this.title = '学习环境';
+                break;
+            case 'dorm_space':
+                this.title = '居住环境';
+                break;
+            case 'parkathon':
+                this.title = '集训营';
+                break;
+            case 'course':
+                this.title = '两年课程';
+                break;
+            case 'team':
+                this.title = '项目组';
+                break;
+            case 'career':
+                this.title = '就业';
+                break;
+            case 'project_lecture':
+                this.title = '课程项目';
+                break;
+            case 'project_bus':
+                this.title = '商业项目';
+                break;
+            case 'register':
+                this.title = '注册';
+                break;
+            case 'entrance':
+                this.title = '入学考试';
+                break;
+            case 'contact':
+                this.title = '联系我们';
+                break;
+        }
     },
     mounted: function () {
         //判断是否为Mobile
@@ -67,9 +110,6 @@ export default {
         toggleMenu() {
             this.showMenu = !this.showMenu;
             this.contentWidth = this.contentWidth == 100 ? 80 : 100;
-        },
-        redirect(e) {
-            alert(e);
         }
     }
 }
