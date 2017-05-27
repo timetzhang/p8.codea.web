@@ -55,18 +55,8 @@ hr {
     margin: 0 auto;
 }
 
-@media (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
+@media screen and (max-width:600px) {
     /*iphone 6*/
-    .container {
-        width: 100%;
-    }
-    .padded {
-        padding: 10px;
-    }
-}
-
-@media (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) {
-    /*iphone 6 plus*/
     .container {
         width: 100%;
     }

@@ -22,8 +22,8 @@
                             span &nbsp; 项目 Projects 
                         mu-list-item.item(title="我的项目", @click="redirect('project','我的项目')", :class='title == "我的项目" ? "router-link-active" : ""')
                         mu-list-item.item(title="我的项目组", @click="redirect('team','我的项目组')", :class='title == "我的项目组" ? "router-link-active" : ""')
-            mu-col(desktop="80", width="100")
-                mu-appbar(:title="title", v-if='isMobile')
+            mu-col(:desktop="contentWidth", width="100")
+                mu-appbar(:title="title")
                     mu-icon-button(icon="menu",slot="right",@click='toggleMenu')
                 router-view
 </template>
@@ -37,7 +37,8 @@ export default {
         return {
             isMobile: Browser.mobile,
             showMenu: true,
-            title: '我的资料'
+            title: '我的资料',
+            contentWidth: 80
         }
     },
     mounted: function () {
@@ -49,6 +50,7 @@ export default {
     methods: {
         toggleMenu() {
             this.showMenu = !this.showMenu;
+            this.contentWidth = this.contentWidth == 100 ? 80 : 100;
         },
         redirect(path, title) {
             this.title = title;

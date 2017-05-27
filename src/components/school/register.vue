@@ -66,8 +66,8 @@
                             mu-select-field(v-model="english_level",label="英语水平", :fullWidth='true')
                                 mu-menu-item(value="无",title="无")
                                 mu-menu-item(value="高中",title="高中")
-                                mu-menu-item(value="4级",title="4级")
-                                mu-menu-item(value="6级",title="6级")
+                                mu-menu-item(value="CET-4",title="CET-4")
+                                mu-menu-item(value="CET-6",title="CET-6")
                                 mu-menu-item(value="TOEFL/IELTS",title="TOEFL/IELTS")
                                 mu-menu-item(value="专业",title="专业")
                             br

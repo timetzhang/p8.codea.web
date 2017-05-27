@@ -12,9 +12,7 @@
                             span(slot="title") {{pic.title}}
                             span(slot="subTitle") {{pic.subTitle}}
                             mu-icon-button(icon="star_border",slot="action")
-        p
-        mu-paper
-            mu-content-block.para
+                mu-divider
                 h2 好的程序员标准是什么？
                 p 通常，程序员的学习需要很快地适应快速变化的世界，因为编程语言过三个月就会变，那些学习能力强，适应能力强，团队合作力强的人将会存活。
                 p 而你，将会拥有这些

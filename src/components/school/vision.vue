@@ -5,7 +5,6 @@
                 p “每一个才华横溢的个体都能以他们自己的方式将他们最杰出的作品交到他们培育的用户手中，并将这些用户吸纳进我们的世界里。”
         p
         mu-appbar(title='愿景 Vision')
-        p
         mu-paper
             mu-content-block.para
                 h2 致中国
@@ -15,18 +14,14 @@
                 p 创新能力和企业数字化转型是中国未来经济增长的关键。但严重缺乏有经验有创新能力的技术人员，这种现状会延迟项目的开发，延迟经济的转化。
                 span P8 CodeA 要努力改变这个现状，并帮助中国经济增长。
                 p
-        p
-        mu-paper
-            mu-content-block.para
+                mu-divider
                 h2 致行业
                 h3 Information Technology
                 p 在全球性的企业转型中，企业经常招募不到合适的员工和合作对象，我们也发现教育系统陈旧，教育方法缺失，使企业失去创造和创新。
                 span CodeA，将最新的教育方式向所有人开放，让我们的年轻人得到就业，在大公司或者在年轻的创新型企业，初创公司，找到他们合适的就业岗位。
                 p 同时也为大公司，创新型公司，初创公司等找到合适的人才。
                 p
-        p
-        mu-paper
-            mu-content-block.para
+                mu-divider
                 h2 致年轻人
                 h3 To Young People
                 p 计算机的发展能给年轻的创业者们提供丰富的前景。当然年轻人还需要训练，这些训练能够帮助他们抓住这些机会。
@@ -36,23 +31,20 @@
                 p
         p
         mu-appbar(title='目标 Mission')
-        p
-        mu-paper.center.aligned(style='padding:70px 10px;') 
-            mu-content-block
+        mu-paper.center.aligned
+            mu-content-block(style='padding:60px 0') 
                 i.icon.users.big
-            p 每年持续
-            p 为国家
-            p 为行业提供300位以上的优质程序员
-        p
-        mu-paper.center.aligned(style='padding:100px 10px;') 
-            mu-content-block
+                p 每年持续
+                p 为国家
+                p 为行业提供300位以上的优质程序员
+            mu-divider
+            mu-content-block(style='padding:100px 10px;') 
                 i.icon.tasks.big
-            p 每年至少培训6位全栈工程师
-        p
-        mu-paper.center.aligned(style='padding:100px 10px;') 
-            mu-content-block
+                p 每年至少培训6位全栈工程师
+            mu-divider
+            mu-content-block(style='padding:100px 10px;') 
                 i.icon.diamond.big
-            p 争取每年培训1位首席科学家
+                p 争取每年培训1位首席科学家
 </template>
 
 <script>
