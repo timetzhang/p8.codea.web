@@ -9,6 +9,7 @@
                             span &nbsp; 学生 Student
                         mu-list-item.item(title="我的资料", @click="redirect('profile','我的资料')", :class='title == "我的资料" ? "router-link-active" : ""')
                         mu-list-item.item(title="我的级别", @click="redirect('level','我的级别')", :class='title == "我的级别" ? "router-link-active" : ""')
+                        mu-list-item.item(title="我的教室", @click="redirect('classroom','我的教室')", :class='title == "我的教室" ? "router-link-active" : ""')
                         mu-list-item.item(title="我的居所", @click="redirect('dorm','我的居所')", :class='title == "我的居所" ? "router-link-active" : ""')
                         mu-divider
                         mu-sub-header 

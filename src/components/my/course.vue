@@ -1,14 +1,22 @@
 <template lang="jade">
-    mu-paper
-        div sdf
+    div
+        mu-paper
+            mu-content-block
+                mu-list(style='overflow: hidden;')
+                    mu-list-item(:disableRipple='true',title="C#")
+                        mu-linear-progress(:size="20",color="red", mode="determinate", :value='50', style='margin-top:10px', slot='describe')
+                        p.right.aligned 11%
+                    mu-list-item(:disableRipple='true',title="Java")
+                        mu-linear-progress(:size="20",color="red", mode="determinate", :value='12', style='margin-top:10px')
+                        p.right.aligned 23%
 </template>
 
 <script>
 export default {
-    name: 'school-contact',
+    name: 'my-course',
     data() {
         return {
-
+            logo_img: '/static/img/course/csharp.png'
         }
     },
     mounted: function () {
