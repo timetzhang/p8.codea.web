@@ -26,6 +26,7 @@ const SDK = (resolve) => { require(['@/components/sdk/sdk.vue'], resolve) };
 const SDKList = (resolve) => { require(['@/components/sdk/list.vue'], resolve) };
 const SDKCourse = (resolve) => { require(['@/components/sdk/course.vue'], resolve) };
 const SDKClassfiy = (resolve) => { require(['@/components/sdk/classfiy.vue'], resolve) };
+const SDKEdit = (resolve) => { require(['@/components/sdk/edit.vue'], resolve) }
 
 const Login = (resolve) => { require(['@/components/login/login.vue'], resolve) };
 
@@ -142,8 +143,14 @@ export default new Router({
         {
             path: '/sdk/:id/course',
             component: SDKCourse
-        }]
-    }, {
+        },
+        {
+            path: '/sdk/edit',
+            component: SDKEdit
+        }
+        ]
+    },
+    {
         path: '/my',
         redirect: '/my/profile',
     },
