@@ -21,8 +21,8 @@
                         p.right.aligned 23
                     mu-list-item(:disableRipple='true',title="数据库能力")
                         i.icon.database.big(slot='left', style='margin-top:30px')
-                        mu-linear-progress(:size="10",color="red", mode="determinate", :value='11', style='margin-top:10px')
-                        p.right.aligned 11
+                        mu-linear-progress(:size="10",color="red", mode="determinate", :value='12', style='margin-top:10px')
+                        p.right.aligned 12
                     mu-list-item(:disableRipple='true',title="数据分析能力")
                         i.icon.pie.chart.big(slot='left', style='margin-top:30px')
                         mu-linear-progress(:size="10",color="red", mode="determinate", :value='52', style='margin-top:10px')
