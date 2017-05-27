@@ -7,36 +7,35 @@
                         mu-sub-header 
                             i.icon.university
                             span &nbsp; 学校 School
-                        mu-list-item.item(title="愿景", @click="redirect('vision','愿景')", :class='title == "愿景" ? "router-link-active" : ""')
-                        mu-list-item.item(title="目标", @click="redirect('mission','目标')", :class='title == "目标" ? "router-link-active" : ""')
-                        mu-list-item.item(title="革新", @click="redirect('revolution','革新')", :class='title == "革新" ? "router-link-active" : ""')
-                        mu-list-item.item(title="Geek文化", @click="redirect('geek','Geek文化')", :class='title == "Geek文化" ? "router-link-active" : ""')
-                        mu-list-item.item(title="学习环境", @click="redirect('study_space','学习环境')", :class='title == "学习环境" ? "router-link-active" : ""')
-                        mu-list-item.item(title="居住环境", @click="redirect('dorm_space','居住环境')", :class='title == "居住环境" ? "router-link-active" : ""')
+                        mu-list-item.item(title="愿景与目标", to='/school/vision', @click='redirect("vision", $event)')
+                        mu-list-item.item(title="革新", to='/school/revolution')
+                        mu-list-item.item(title="Geek文化", to='/school/geek')
+                        mu-list-item.item(title="学习环境", to='/school/study_space')
+                        mu-list-item.item(title="居住环境", to='/school/dorm_space')
                         mu-divider
                         mu-sub-header 
                             i.icon.student
                             span &nbsp; 课程 Courses 
-                        mu-list-item.item(title="集训营", @click="redirect('parkathon','集训营')", :class='title == "集训营" ? "router-link-active" : ""')
-                        mu-list-item.item(title="两年课程", @click="redirect('course','两年课程')", :class='title == "两年课程" ? "router-link-active" : ""')
-                        mu-list-item.item(title="项目组", @click="redirect('team','项目组')", :class='title == "项目组" ? "router-link-active" : ""')
-                        mu-list-item.item(title="就业", @click="redirect('career','就业')", :class='title == "就业" ? "router-link-active" : ""')
+                        mu-list-item.item(title="集训营", to='/school/parkathon')
+                        mu-list-item.item(title="两年课程", to='/school/course')
+                        mu-list-item.item(title="项目组", to='/school/team')
+                        mu-list-item.item(title="就业", to='/school/career')
                         mu-divider
                         mu-sub-header 
                             i.icon.laptop
                             span &nbsp; 项目 Projects
-                        mu-list-item.item(title="课程项目", @click="redirect('project_lecture','课程项目')", :class='title == "课程项目" ? "router-link-active" : ""')
-                        mu-list-item.item(title="商业项目", @click="redirect('project_bus','商业项目')", :class='title == "商业项目" ? "router-link-active" : ""')
+                        mu-list-item.item(title="课程项目", to='/school/course')
+                        mu-list-item.item(title="商业项目", to='/school/course')
                         mu-divider
                         mu-sub-header 
                             i.icon.add.user
                             span &nbsp; 报名 Register
-                        mu-list-item.item(title="注册", @click="redirect('register','注册')", :class='title == "注册" ? "router-link-active" : ""')
+                        mu-list-item.item(title="注册", to='/school/register')
                         mu-list-item.item(title="登录", to='/login')
-                        mu-list-item.item(title="入学考试", @click="redirect('entrance','入学考试')", :class='title == "入学考试" ? "router-link-active" : ""')
-                        mu-list-item.item(title="联系我们", @click="redirect('contact','联系我们')", :class='title == "联系我们" ? "router-link-active" : ""')
-            mu-col(desktop="80", width="100")
-                mu-appbar(:title="title", v-if='isMobile')
+                        mu-list-item.item(title="入学考试", to='/school/entrance')
+                        mu-list-item.item(title="联系我们", to='/school/contact')
+            mu-col(:desktop="contentWidth", width="100")
+                mu-appbar(:title="title")
                     mu-icon-button(icon="menu",slot="right",@click='toggleMenu')
                 router-view
 </template>
@@ -50,8 +49,13 @@ export default {
         return {
             isMobile: Browser.mobile,
             showMenu: true,
-            title: '愿景'
+            title: '愿景与目标',
+            contentWidth: 80,
+            currentPage: this.$route.path.split('/')[2]
         }
+    },
+    updated: function () {
+        this.title = this.$route.path.split('/')[2]
     },
     mounted: function () {
         //判断是否为Mobile
@@ -62,13 +66,10 @@ export default {
     methods: {
         toggleMenu() {
             this.showMenu = !this.showMenu;
+            this.contentWidth = this.contentWidth == 100 ? 80 : 100;
         },
-        redirect(path, title) {
-            this.title = title;
-            this.$router.push('/school/' + path);
-            if (this.isMobile) {
-                this.showMenu = false;
-            }
+        redirect(e) {
+            alert(e);
         }
     }
 }

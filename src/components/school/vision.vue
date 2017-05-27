@@ -4,6 +4,8 @@
             mu-content-block.para(style='padding: 60px')
                 p “每一个才华横溢的个体都能以他们自己的方式将他们最杰出的作品交到他们培育的用户手中，并将这些用户吸纳进我们的世界里。”
         p
+        mu-appbar(title='愿景 Vision')
+        p
         mu-paper
             mu-content-block.para
                 h2 致中国
@@ -28,11 +30,29 @@
                 h2 致年轻人
                 h3 To Young People
                 p 计算机的发展能给年轻的创业者们提供丰富的前景。当然年轻人还需要训练，这些训练能够帮助他们抓住这些机会。
-                span 根据我们的经验，兴趣和热情是保证工作质量最重要的因素。p
+                span 根据我们的经验，兴趣和热情是保证工作质量最重要的因素。
                 p 相反，在传统的系统，我们的年轻人接受的训练违背这些原则，仅仅传授知识是不够的，而且往往是已经过时的知识。
                 span 在P8，在CodeA，你将充满兴趣和热情的接受挑战
                 p
-
+        p
+        mu-appbar(title='目标 Mission')
+        p
+        mu-paper.center.aligned(style='padding:70px 10px;') 
+            mu-content-block
+                i.icon.users.big
+            p 每年持续
+            p 为国家
+            p 为行业提供300位以上的优质程序员
+        p
+        mu-paper.center.aligned(style='padding:100px 10px;') 
+            mu-content-block
+                i.icon.tasks.big
+            p 每年至少培训6位全栈工程师
+        p
+        mu-paper.center.aligned(style='padding:100px 10px;') 
+            mu-content-block
+                i.icon.diamond.big
+            p 争取每年培训1位首席科学家
 </template>
 
 <script>

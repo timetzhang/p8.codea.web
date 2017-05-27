@@ -4,7 +4,6 @@ const Home = (resolve) => { require(['@/components/home/home.vue'], resolve) };
 
 const School = (resolve) => { require(['@/components/school/school.vue'], resolve) };
 const SchoolVision = (resolve) => { require(['@/components/school/vision.vue'], resolve) };
-const SchoolMission = (resolve) => { require(['@/components/school/mission.vue'], resolve) };
 const SchoolRevolution = (resolve) => { require(['@/components/school/revolution.vue'], resolve) };
 const SchoolGeek = (resolve) => { require(['@/components/school/geek.vue'], resolve) };
 const SchoolStudySpace = (resolve) => { require(['@/components/school/study_space.vue'], resolve) };
@@ -62,10 +61,6 @@ export default new Router({
         {
             path: '/school/vision',
             component: SchoolVision
-        },
-        {
-            path: '/school/mission',
-            component: SchoolMission
         },
         {
             path: '/school/revolution',

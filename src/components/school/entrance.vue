@@ -95,7 +95,7 @@ export default {
             }
         },
         closeRegisterDialog() {
-            this.registerDialog = false;
+            this.$router.go(-1)
         },
         closeSubmitDialog() {
             this.submitDialog = false;
