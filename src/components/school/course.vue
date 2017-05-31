@@ -8,6 +8,7 @@
                 p 这些技能也很重要：个人的适应性，学习能力，应对和解决新挑战的能力。
                 div.center.aligned
                     mu-raised-button(label='查看课程', to='/course', secondary, icon='school', style='color:white!important')
+                p
                 mu-divider
                 h3 以2年为基准
                 p 每个学生按照自己的节奏进行学习，没有固定的时间限制，我们也不会对学生进行排名。
