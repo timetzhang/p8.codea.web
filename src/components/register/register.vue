@@ -1,5 +1,6 @@
 <template lang="jade">
     div
+        mu-appbar(title='注册 Register')
         mu-paper(style='padding:20px')
             mu-stepper(:activeStep="activeStep",orientation="vertical")
                 mu-step

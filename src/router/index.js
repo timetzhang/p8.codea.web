@@ -15,7 +15,6 @@ const SchoolCareer = (resolve) => { require(['@/components/school/career.vue'], 
 const SchoolProjectLecture = (resolve) => { require(['@/components/school/project_lecture.vue'], resolve) };
 const SchoolProjectBus = (resolve) => { require(['@/components/school/project_bus.vue'], resolve) };
 const SchoolEntrance = (resolve) => { require(['@/components/school/entrance.vue'], resolve) };
-const SchoolRegister = (resolve) => { require(['@/components/school/register.vue'], resolve) };
 const SchoolContact = (resolve) => { require(['@/components/school/contact.vue'], resolve) };
 
 const Course = (resolve) => { require(['@/components/course/course.vue'], resolve) };
@@ -29,6 +28,7 @@ const SDKClassfiy = (resolve) => { require(['@/components/sdk/classfiy.vue'], re
 const SDKEdit = (resolve) => { require(['@/components/sdk/edit.vue'], resolve) }
 
 const Login = (resolve) => { require(['@/components/login/login.vue'], resolve) };
+const Register = (resolve) => { require(['@/components/register/register.vue'], resolve) };
 
 const My = (resolve) => { require(['@/components/my/my.vue'], resolve) };
 const MyCareer = (resolve) => { require(['@/components/my/career.vue'], resolve) };
@@ -107,10 +107,6 @@ export default new Router({
         {
             path: '/school/entrance',
             component: SchoolEntrance
-        },
-        {
-            path: '/school/register',
-            component: SchoolRegister
         },
         {
             path: '/school/contact',
@@ -202,6 +198,10 @@ export default new Router({
     {
         path: '/login',
         component: Login
+    },
+    {
+        path: '/register',
+        component: Register
     }
     ]
 })

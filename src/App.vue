@@ -4,8 +4,7 @@
             mu-row.container(v-if='isMobile == false')
                 mu-col(desktop='50')
                     router-link(to='/home')
-                        mu-flat-button.item(style='vertical-align:-19px')
-                            img(src="/static/img/logo.png")
+                        mu-flat-button.item(label='首页')
                     router-link(to='/school')
                         mu-flat-button.item(label='学校')
                     router-link(to='/course')
@@ -15,8 +14,10 @@
                     router-link(to='/my')
                         mu-flat-button.item(label='我的')
                 mu-col(desktop='50',style='text-align:right')
-                    mu-text-field.search-box(hintText="搜索", hintTextClass='search-hint', inputClass='search-input')
-                    mu-icon-button(icon='search', tooltip="搜索", style='color:white')
+                    router-link(to='/login')
+                        mu-flat-button.item(label='登录')
+                    router-link(to='/register')
+                        mu-flat-button.item(label='注册')
         mu-paper.mobile-menu(v-if='isMobile')
             mu-bottom-nav(:value="bottomNav",@change="handleMobileMenuChange",shift)
                 mu-bottom-nav-item(value="home",title="主页",icon="home",to='/home')
@@ -106,10 +107,10 @@ export default {
     line-height: 54px;
     height: 54px;
     color: white;
+    background-color: #424242;
 }
 
 .search-box {
-    vertical-align: 13px;
     font-size: 10px;
 }
 

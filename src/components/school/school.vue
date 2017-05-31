@@ -30,7 +30,7 @@
                         mu-sub-header 
                             i.icon.add.user
                             span &nbsp; 报名 Register
-                        mu-list-item.item(title="注册", to='/school/register')
+                        mu-list-item.item(title="注册", to='/register')
                         mu-list-item.item(title="登录", to='/login')
                         mu-list-item.item(title="入学考试", to='/school/entrance')
                         mu-list-item.item(title="联系我们", to='/school/contact')
@@ -88,9 +88,6 @@ export default {
                 break;
             case 'project_bus':
                 this.title = '商业项目';
-                break;
-            case 'register':
-                this.title = '注册';
                 break;
             case 'entrance':
                 this.title = '入学考试';
