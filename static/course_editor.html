@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>P8 Code Academy</title>
+    <link type="image/x-icon" href="favicon.ico" rel="shortcut icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link href="https://cdn.bootcss.com/wangeditor/2.1.20/css/wangEditor.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/wangeditor/2.1.20/js/lib/jquery-1.10.2.min.js"></script>
+    <script src="https://cdn.bootcss.com/wangeditor/2.1.20/js/wangEditor.min.js"></script>
+</head>
+
+<body>
+    <div style="width:90%; margin: auto">
+        <input id="lecture_id" type="text"><input type="button" value="确认" onclick="load()">
+        <br>
+        <input id="name" type="text" style="width:100%">
+        <!--用当前元素来控制高度-->
+        <div id="editor" style="height:400px;min-height:600px;">
+            <p>请输入内容...</p>
+        </div>
+        <input type="button" value="提交" onclick="submit()">
+    </div>
+
+    <script type="text/javascript">
+        var editor = new wangEditor('editor');
+        // 上传图片
+        editor.config.uploadImgUrl = 'http://codeadb.joinp8.com/fileUpload';
+        editor.config.uploadHeaders = {
+            'Accept' : 'text/x-json',
+            'Content-Type':'multipart/form-data'
+        };
+        editor.config.uploadImgFns.onload = function (resultText, xhr) {
+            var originalName = editor.uploadImgOriginalName || '';  
+
+            // 如果 resultText 是图片的url地址，可以这样插入图片：
+            editor.command(null, 'insertHtml', '<img src="' + resultText + '" alt="' + originalName + '" style="max-width:100%;"/>');
+        };
+
+        // timeout事件
+        editor.config.uploadImgFns.ontimeout = function (xhr) {
+            alert('上传超时');
+        };
+
+        // error事件
+        editor.config.uploadImgFns.onerror = function (xhr) {
+            alert('上传错误');
+        };
+
+        editor.create();
+
+        function load(){
+            $.ajax({
+                type: "get",
+                url: "http://codeadb.joinp8.com/getCourseLecture?lecture_id=" + $('#lecture_id').val(),
+                dataType: "json",
+                success: function(data){
+                    var html = data[0].details; 
+                    $('#name').val(data[0].name);
+                    $('#editor').html(html);
+                }
+            });
+        }
+
+        function submit(){
+            $.ajax({
+                type: "POST",
+                url: "http://codeadb.joinp8.com/setCourseLecture",
+                data: {id: $('#lecture_id').val(),name: $('#name').val(), details: $('#editor').html()},
+                dataType: "json",
+                success: function(data){
+                    console.log(data);
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
+

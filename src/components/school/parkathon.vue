@@ -54,7 +54,7 @@
                 p 你必须完全献身于 P8 CodeA，你需要准备一个完整的时间段参与到集训的课程中，如果有缺席的课程，需要用课外的时间赶上。
                 p 每年会有四次 Park-a-thon™ 的申请机会，如果你选择的时间人数已经饱和，你将会被放到下次课程的候选名单内，当一个位置被空出来，你才能进入该月的 Park-a-thon。
                 p.center.aligned
-                    mu-flat-button(label='点击此处注册报名',to='/school/register', style='color:red!important')
+                    mu-flat-button(label='点击此处注册报名',to='/register', style='color:red!important')
                 mu-divider
                 h3 住宿
                 p 为了更好的参与 Park-a-thon™ 黑客营，更大程度得与和你同期学习的学员建立友好的关系，在位于学院附近的K7社区，我们也提供可供1-2人共住的青年居住空间，配套齐全的生活用品（床垫、被单、衣柜……），节省你往来交通的时间。

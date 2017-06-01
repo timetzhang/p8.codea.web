@@ -29,7 +29,7 @@
                                 img(:src='item.logo_url')
                             mu-card-text.card-text {{item.brief}}
                             mu-card-actions
-                                mu-raised-button(label='开始课程', :fullWidth='true', :href='"/#/course/"+item.id+ "/lecture/"+item.first_lecture')
+                                mu-raised-button(label='开始课程', :fullWidth='true', :to='"/course/"+item.id+ "/lecture/"+item.first_lecture')
 </template>
 
 <script>
