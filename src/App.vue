@@ -18,8 +18,8 @@
                         mu-flat-button.item(label='登录')
                     router-link(to='/register')
                         mu-flat-button.item(label='注册')
-        mu-paper.mobile-menu(v-if='isMobile')
-            mu-bottom-nav(:value="bottomNav",@change="handleMobileMenuChange",shift)
+        div.mobile-menu(v-if='isMobile')
+            mu-bottom-nav(:value="bottomNav",@change="handleMobileMenuChange")
                 mu-bottom-nav-item(value="home",title="主页",icon="home",to='/home')
                 mu-bottom-nav-item(value="school",title="学校",icon="school",to='/school')
                 mu-bottom-nav-item(value="course",title="教程",icon="book",to='/course')
@@ -95,13 +95,18 @@ export default {
 }
 
 .mobile-menu {
-    background-color: #222;
+    background-color: #424242;
     position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
     z-index: 100;
 }
+
+.mobile-menu .mu-bottom-item-active {
+    background-color: #ddd;
+}
+
 
 .desktop-menu .item {
     line-height: 54px;
