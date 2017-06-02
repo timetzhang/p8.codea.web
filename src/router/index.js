@@ -44,7 +44,6 @@ const MyFavCourse = (resolve) => { require(['@/components/my/fav_course.vue'], r
 Vue.use(Router)
 
 export default new Router({
-    mode: 'history',
     routes: [{
         path: '/',
         redirect: '/home'
