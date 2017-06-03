@@ -61,7 +61,7 @@ export default {
     methods: {
         handleScroll() {
             this.scrolled = document.body.scrollTop;
-            if (this.scrolled > 350) {
+            if (this.scrolled > 10) {
                 this.isHide = true
             } else {
                 this.isHide = false
