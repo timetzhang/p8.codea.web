@@ -24,8 +24,7 @@
                         mu-sub-header 
                             i.icon.laptop
                             span &nbsp; 项目 Projects
-                        mu-list-item.item(title="课程项目", @click='redirect($event, "project_lecture")', :class='currentPage == "project_lecture" ? "router-link-active" : ""')
-                        mu-list-item.item(title="商业项目", @click='redirect($event, "project_bus")', :class='currentPage == "project_bus" ? "router-link-active" : ""')
+                        mu-list-item.item(title="项目", @click='redirect($event, "project")', :class='currentPage == "project" ? "router-link-active" : ""')
                         mu-divider
                         mu-sub-header 
                             i.icon.add.user

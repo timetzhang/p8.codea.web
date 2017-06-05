@@ -12,8 +12,7 @@ const SchoolParkathon = (resolve) => { require(['@/components/school/parkathon.v
 const SchoolCourse = (resolve) => { require(['@/components/school/course.vue'], resolve) };
 const SchoolTeam = (resolve) => { require(['@/components/school/team.vue'], resolve) };
 const SchoolCareer = (resolve) => { require(['@/components/school/career.vue'], resolve) };
-const SchoolProjectLecture = (resolve) => { require(['@/components/school/project_lecture.vue'], resolve) };
-const SchoolProjectBus = (resolve) => { require(['@/components/school/project_bus.vue'], resolve) };
+const SchoolProject = (resolve) => { require(['@/components/school/project.vue'], resolve) };
 const SchoolEntrance = (resolve) => { require(['@/components/school/entrance.vue'], resolve) };
 const SchoolContact = (resolve) => { require(['@/components/school/contact.vue'], resolve) };
 
@@ -96,12 +95,8 @@ export default new Router({
             component: SchoolCareer
         },
         {
-            path: '/school/project_lecture',
-            component: SchoolProjectLecture
-        },
-        {
-            path: '/school/project_bus',
-            component: SchoolProjectBus
+            path: '/school/project',
+            component: SchoolProject
         },
         {
             path: '/school/entrance',
