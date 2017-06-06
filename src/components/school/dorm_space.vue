@@ -2,10 +2,6 @@
     div.padded
         mu-paper
             mu-content-block
-                .center.aligned
-                    h2 居住空间
-                    h3 Open Space
-                    mu-icon(value="bubble_chart", :size='64')
                 p 我们提供能够很好互动的空间，来吸引更多的像你这样的年轻人，和我们在这里一起交流，交换想法，碰撞火花。
                 p 空间准则：不用提高声音，就可以同时和7位同学进行交流
                 mu-row(gutter)

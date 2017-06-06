@@ -2,8 +2,7 @@
     div.padded
         mu-paper
             mu-content-block.para
-                h2 Geek文化
-                p 你所处的P8就是一个Geek文化的中心，你在这会成为一个程序员，同时也会是个艺术家，或许是个音乐家，画家，建筑师。
+                p 你所处的P8社区就是一个Geek文化的中心，你在这会成为一个程序员，同时也会是个艺术家，或许是个音乐家，画家，建筑师。
                 p 这些，只会让你成为一个更加优秀的程序员，学习更多的知识，是为了更好的体验世界的精彩。
                 mu-row(gutter)
                     mu-col(width='100', desktop='50',v-for='pic in pics', :key='pic.filename', style='margin-bottom:10px')
