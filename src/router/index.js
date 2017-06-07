@@ -113,11 +113,11 @@ export default new Router({
         redirect: '/course/13'
     },
     {
-        path: '/course/:course_id',
+        path: '/course/type=:course_type',
         component: Course
     },
     {
-        path: '/course/:course_id/lecture/:lecture_id',
+        path: '/course/id=:course_id',
         component: CourseDetails
     },
     {

@@ -13,18 +13,22 @@
 
 <body>
     <div style="width:90%; margin: auto">
-        <input id="lecture_id" type="text"><input type="button" value="确认" onclick="load()">
+        <input id="course_id" type="text"><input type="button" value="确认" onclick="load()">
         <br>
         <input id="name" type="text" style="width:100%">
+        <div id="intro" style="height:100px;min-height:100px;">
+            <p>请输入内容...</p>
+        </div>
         <!--用当前元素来控制高度-->
-        <div id="editor" style="height:400px;min-height:600px;">
+        <div id="details" style="height:400px;min-height:600px;">
             <p>请输入内容...</p>
         </div>
         <input type="button" value="提交" onclick="submit()">
     </div>
 
     <script type="text/javascript">
-        var editor = new wangEditor('editor');
+        var introEditor = new wangEditor('intro');
+        var editor = new wangEditor('details');
         // 上传图片
         editor.config.uploadImgUrl = 'http://codeadb.joinp8.com/fileUpload';
         editor.config.uploadHeaders = {
@@ -47,18 +51,18 @@
         editor.config.uploadImgFns.onerror = function (xhr) {
             alert('上传错误');
         };
-
+        introEditor.create();
         editor.create();
 
         function load(){
             $.ajax({
                 type: "get",
-                url: "http://codeadb.joinp8.com/getCourseLecture?lecture_id=" + $('#lecture_id').val(),
+                url: "http://codeadb.joinp8.com/getCourseDetails?course_id=" + $('#course_id').val(),
                 dataType: "json",
                 success: function(data){
-                    var html = data[0].details; 
                     $('#name').val(data[0].name);
-                    $('#editor').html(html);
+                    $('#intro').html(data[0].intro);
+                    $('#details').html(data[0].details);
                 }
             });
         }
@@ -66,8 +70,8 @@
         function submit(){
             $.ajax({
                 type: "POST",
-                url: "http://codeadb.joinp8.com/setCourseLecture",
-                data: {id: $('#lecture_id').val(),name: $('#name').val(), details: $('#editor').html()},
+                url: "http://codeadb.joinp8.com/setCourseDetails",
+                data: {id: $('#course_id').val(),name: $('#name').val(), intro: $('#intro').html(), details: $('#details').html()},
                 dataType: "json",
                 success: function(data){
                     alert("提交成功");

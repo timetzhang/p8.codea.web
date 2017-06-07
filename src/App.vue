@@ -7,7 +7,7 @@
                         mu-flat-button.item(label='首页')
                     router-link(to='/school')
                         mu-flat-button.item(label='学校')
-                    router-link(to='/course')
+                    router-link(to='/course/type=13')
                         mu-flat-button.item(label='教程')
                     router-link(to='/sdk')
                         mu-flat-button.item(label='SDK')
@@ -22,7 +22,7 @@
             mu-bottom-nav(:value="bottomNav",@change="handleMobileMenuChange")
                 mu-bottom-nav-item(value="home",title="主页",icon="home",to='/home')
                 mu-bottom-nav-item(value="school",title="学校",icon="school",to='/school')
-                mu-bottom-nav-item(value="course",title="教程",icon="book",to='/course')
+                mu-bottom-nav-item(value="course",title="教程",icon="book",to='/course/type=13')
                 mu-bottom-nav-item(value="sdk",title="SDK",icon="note",to='/sdk')
                 mu-bottom-nav-item(value="my",title="我的",icon="account_circle",to='/my')
         router-view.container.content

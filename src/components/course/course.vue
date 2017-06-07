@@ -29,7 +29,7 @@
                                 img(:src='item.logo_url')
                             mu-card-text.card-text {{item.brief}}
                             mu-card-actions
-                                mu-raised-button(label='开始课程', :fullWidth='true', :to='"/course/"+item.id+ "/lecture/"+item.first_lecture')
+                                mu-raised-button(label='开始课程', :fullWidth='true', :to='"/course/id="+item.id')
 </template>
 
 <script>
@@ -51,7 +51,7 @@ export default {
     },
     mounted: function () {
         this.loadType();
-        this.loadCourse(this.$route.params.course_id);
+        this.loadCourse(this.$route.params.course_type);
     },
     methods: {
         loadType() {
@@ -73,7 +73,7 @@ export default {
         loadCourse(id) {
             var _this = this;
             this.currentMenu = id;
-            this.$router.push('/course/' + id);
+            this.$router.push('/course/type=' + id);
             this.$db.getCourse(this, { type_id: id }).then(res => {
                 _this.course = res;
             });

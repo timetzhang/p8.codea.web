@@ -65,6 +65,25 @@ export default {
         );
     },
     /**
+     * 获取课程详情
+     * @param {*} obj 为this
+     * @param {*} options { course_id: 课程ID }
+     */
+    getCourseDetails(obj, options) {
+        return new Promise(
+            function (resolve) {
+                var dbUrl = dbBaseUrl + '/getCourseDetails?course_id=' + options.course_id;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+
+    /**
      * 获取课程内容名字列表
      * @param {*} obj 为this
      * @param {*} options { course_id: 课程ID }
