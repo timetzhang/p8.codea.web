@@ -3,11 +3,10 @@
         mu-paper(style="padding:10px")
             mu-content-block.para
                 mu-row(gutter)
-                    mu-col.center.aligned(desktop="30",table="50",width="100")
-                        mu-paper.sdkimg(:z-Depth="5")
-                            img(:src="logo_url")
-                    mu-col(desktop="70",table="50",width="100",style="padding:10px;")
-                        h2(style="margin-top:0;") {{name}}
+                    mu-col(desktop="35",table="50",width="100")
+                        img(:src="logo_url", style='border:1px solid #eee')
+                    mu-col(desktop="65",table="50",width="100")
+                        h2(style="margin-top:10px;") {{name}}
                         p(v-html="intro")
             mu-divider
             mu-content-block.para(v-html='details')
