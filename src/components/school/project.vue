@@ -214,7 +214,7 @@
                     p  Xamarin
             mu-paper
             mu-content-block.para
-                h2 APP项目
+                h3 APP项目
                 p 主要涉及程序语言(Objective-c、Swift、Java、Nodejs)
                 h4 iOS APP
                 p UI设计师、iOS工程师、后端工程师

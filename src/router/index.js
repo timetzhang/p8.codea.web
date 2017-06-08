@@ -82,7 +82,7 @@ export default new Router({
         ]
     },
     {
-        path: '/course/',
+        path: '/course',
         redirect: '/course/type=13'
     },
     {

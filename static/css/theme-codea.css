@@ -1,6 +1,11 @@
 .mu-appbar {
   background-color: #474a4f;
   color: #ffffff;
+  padding-left:15px;
+}
+.mu-appbar-title{
+  font-size:14px;
+  font-weight: bold;
 }
 .mu-avatar {
   color: #ffffff;
@@ -553,4 +558,7 @@ a {
 }
 .mu-tooltip-ripple.when-shown {
   background-color: #616161;
+}
+.mu-item-title{
+  font-size:14px;
 }
