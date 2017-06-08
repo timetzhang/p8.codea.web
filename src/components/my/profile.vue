@@ -7,88 +7,99 @@
                 mu-list(style='overflow: hidden;')
                     mu-sub-header 基本信息
                     mu-list-item(:disableRipple='true',title="姓名")
-                        span(slot='describe') {{name}}
+                        span(slot='describe') {{data.name}}
                     mu-list-item(:disableRipple='true',title="性别")
-                        span(slot='describe') {{sex}}
+                        span(slot='describe') {{data.sex}}
                     mu-list-item(:disableRipple='true',title="出生年月")
-                        span(slot='describe') {{dob}}
+                        span(slot='describe') {{ data.dob }}
                     mu-list-item(:disableRipple='true',title="身份证号码")
-                        span(slot='describe') {{id_number}}
+                        span(slot='describe') {{data.id_number}}
                     P
                     mu-sub-header 联系信息
                     mu-list-item(:disableRipple='true',title="手机号码")
-                        span(slot='describe') {{cellphone}}
+                        span(slot='describe') {{data.cellphone}}
                     mu-list-item(:disableRipple='true',title="Email")
-                        span(slot='describe') {{email}}
+                        span(slot='describe') {{data.email}}
                     mu-list-item(:disableRipple='true',title="地址")
-                        span(slot='describe') {{province}}{{city}}{{address}}
+                        span(slot='describe') {{data.province}}{{data.city}}{{data.address}}
                     mu-list-item(:disableRipple='true',title="邮政编码")
-                        span(slot='describe') {{zipcode}}
+                        span(slot='describe') {{data.zipcode}}
                     p
                     mu-sub-header 学历背景
                     mu-list-item(:disableRipple='true',title="学历")
-                        span(slot='describe') {{diploma}}
+                        span(slot='describe') {{data.diploma}}
                     mu-list-item(:disableRipple='true',title="毕业学校")
-                        span(slot='describe') {{graduate_school}}
+                        span(slot='describe') {{data.graduate_school}}
                     mu-list-item(:disableRipple='true',title="主修专业")
-                        span(slot='describe') {{major}}
+                        span(slot='describe') {{data.major}}
                     mu-list-item(:disableRipple='true',title="辅修专业")
-                        span(slot='describe') {{minor}}
+                        span(slot='describe') {{data.minor}}
                     mu-list-item(:disableRipple='true',title="英语水平")
-                        span(slot='describe') {{english_level}}
+                        span(slot='describe') {{data.english_level}}
                     mu-list-item(:disableRipple='true',title="兴趣爱好")
-                        span(slot='describe') {{hobby}}
+                        span(slot='describe') {{data.hobby}}
                     p
                     mu-sub-header 监护人信息
                     mu-list-item(:disableRipple='true',title="第一监护人姓名")
-                        span(slot='describe') {{guardian_01_name}}
+                        span(slot='describe') {{data.guardian_01_name}}
                     mu-list-item(:disableRipple='true',title="第一监护人关系")
-                        span(slot='describe') {{guardian_01_relation}}
+                        span(slot='describe') {{data.guardian_01_relation}}
                     mu-list-item(:disableRipple='true',title="第一监护人联系方式")
-                        span(slot='describe') {{guardian_01_cellphone}}
+                        span(slot='describe') {{data.guardian_01_cellphone}}
                     mu-list-item(:disableRipple='true',title="第二监护人姓名")
-                        span(slot='describe') {{guardian_02_name}}
+                        span(slot='describe') {{data.guardian_02_name}}
                     mu-list-item(:disableRipple='true',title="第二监护人关系")
-                        span(slot='describe') {{guardian_02_relation}}
+                        span(slot='describe') {{data.guardian_02_relation}}
                     mu-list-item(:disableRipple='true',title="第二监护人联系方式")
-                        span(slot='describe') {{guardian_02_cellphone}}
+                        span(slot='describe') {{data.guardian_02_cellphone}}
 </template>
 
 <script>
+import DateTime from '@/common/datetime'
+
 export default {
     name: 'my-profile',
     data() {
         return {
-            name: '张卓',
-            sex: '男',
-            dob: '1985-10-1',
-            id_number: '43010231023123121',
-            cellphone: '13901231231',
-            email: 'asd@qq.com',
-            province: '湖南',
-            city: '长沙',
-            address: '远大3路1号P8',
-            zipcode: '410000',
-            diploma: '本科',
-            graduate_school: '湖南大学',
-            major: '计算机',
-            minor: '无',
-            english_level: 'CET-6',
-            hobby: '钢琴',
-            guardian_01_name: '',
-            guardian_01_relation: '',
-            guardian_01_cellphone: '',
-            guardian_02_name: '',
-            guardian_02_relation: '',
-            guardian_02_cellphone: ''
+            data: {
+                name: '',
+                sex: '',
+                dob: '',
+                id_number: '',
+                cellphone: '',
+                email: '',
+                province: '',
+                city: '',
+                address: '',
+                zipcode: '',
+                diploma: '',
+                graduate_school: '',
+                major: '',
+                minor: '',
+                english_level: '',
+                hobby: '',
+                guardian_01_name: '',
+                guardian_01_relation: '',
+                guardian_01_cellphone: '',
+                guardian_02_name: '',
+                guardian_02_relation: '',
+                guardian_02_cellphone: ''
+            }
         }
     },
     mounted: function () {
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
+        this.loadProfile();
     },
     methods: {
-
+        loadProfile() {
+            var _this = this;
+            this.$db.getStudentDetails(this, { sid: this.$cookie.getCookie('sid') }).then(res => {
+                _this.data = res[0];
+                _this.data.dob = DateTime.dateFormat(_this.data.dob);
+            });
+        }
     }
 }
 </script>

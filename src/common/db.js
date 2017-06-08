@@ -240,6 +240,26 @@ export default {
         );
     },
 
+
+    /**
+     * 获取用户详情
+     * @param {*} obj 为this
+     * @param {*} options { uid: user id}
+     */
+    getStudentDetails(obj, options) {
+        return new Promise(
+            function (resolve) {
+                var dbUrl = dbBaseUrl + '/getStudentDetails?sid=' + options.sid;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+
     /**
      * 判断Email是否存在
      * @param {*} obj 为this

@@ -8,7 +8,6 @@ a,
 a:link,
 a:active,
 a:visited {
-    color: #222 !important;
     text-decoration: none;
 }
 

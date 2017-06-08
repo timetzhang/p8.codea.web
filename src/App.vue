@@ -115,20 +115,6 @@ export default {
     background-color: #424242;
 }
 
-.search-box {
-    font-size: 10px;
-}
-
-.search-hint {
-    font-size: 12px;
-    color: #888 !important;
-}
-
-.search-input {
-    font-size: 12px !important;
-    color: white !important;
-}
-
 .content {
     padding: 70px 0 10px 0 !important;
 }
@@ -155,9 +141,9 @@ export default {
 }
 
 .router-link-active .mu-flat-button-wrapper {
-    background-color: #d00000;
+    background-color: #0288d1;
     color: white;
-    border-bottom: 2px solid #d00000;
+    border-bottom: 2px solid #0288d1;
 }
 
 .router-link-active {

@@ -7,7 +7,7 @@
                 p 在 P8 CodeA 学习到的编程内容是面向企业的，遵循项目逻辑顺序的，我们通过基于C语言及JS语言。
                 p 这些技能也很重要：个人的适应性，学习能力，应对和解决新挑战的能力。
                 div.center.aligned
-                    mu-raised-button(label='查看课程', to='/course', secondary, icon='school', style='color:white!important')
+                    mu-raised-button(label='查看课程', to='/course', secondary, icon='school')
                 p
                 mu-divider
                 h3 以2年为基准
