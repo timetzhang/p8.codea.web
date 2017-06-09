@@ -95,10 +95,6 @@ export default new Router({
         {
             path: '/sdk/id=:id',
             component: (resolve) => { require(['@/components/sdk/details.vue'], resolve) }
-        },
-        {
-            path: '/sdk/edit',
-            component: (resolve) => { require(['@/components/sdk/edit.vue'], resolve) }
         }
         ]
     },
