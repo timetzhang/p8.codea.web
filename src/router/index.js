@@ -126,10 +126,6 @@ export default new Router({
             component: (resolve) => { require(['@/components/my/fav_course.vue'], resolve) }
         },
         {
-            path: '/my/career',
-            component: (resolve) => { require(['@/components/my/career.vue'], resolve) }
-        },
-        {
             path: '/my/team',
             component: (resolve) => { require(['@/components/my/team.vue'], resolve) }
         }]
