@@ -86,15 +86,15 @@ export default new Router({
         component: (resolve) => { require(['@/components/sdk/sdk.vue'], resolve) },
         children: [{
             path: '/sdk',
-            component: (resolve) => { require(['@/components/sdk/classfiy.vue'], resolve) }
+            component: (resolve) => { require(['@/components/sdk/type.vue'], resolve) }
         },
         {
-            path: '/sdk/list',
+            path: '/sdk/type_id=:type_id',
             component: (resolve) => { require(['@/components/sdk/list.vue'], resolve) }
         },
         {
-            path: '/sdk/:id/course',
-            component: (resolve) => { require(['@/components/sdk/course.vue'], resolve) }
+            path: '/sdk/id=:id',
+            component: (resolve) => { require(['@/components/sdk/details.vue'], resolve) }
         },
         {
             path: '/sdk/edit',

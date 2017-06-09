@@ -61,30 +61,7 @@ export default {
     name: 'my-profile',
     data() {
         return {
-            data: {
-                name: '',
-                sex: '',
-                dob: '',
-                id_number: '',
-                cellphone: '',
-                email: '',
-                province: '',
-                city: '',
-                address: '',
-                zipcode: '',
-                diploma: '',
-                graduate_school: '',
-                major: '',
-                minor: '',
-                english_level: '',
-                hobby: '',
-                guardian_01_name: '',
-                guardian_01_relation: '',
-                guardian_01_cellphone: '',
-                guardian_02_name: '',
-                guardian_02_relation: '',
-                guardian_02_cellphone: ''
-            }
+            data: {}
         }
     },
     mounted: function () {

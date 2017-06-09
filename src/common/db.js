@@ -295,5 +295,62 @@ export default {
                 });
             }
         );
-    }
+    },
+
+    /******************* SDK ********************/
+
+    /**
+     * 获取SDK Typies
+     * @param {*} obj 为this
+     * @param {*} options { subject_id: subject id}
+     */
+    getSDKType(obj, options) {
+        return new Promise(
+            function (resolve) {
+                var dbUrl = dbBaseUrl + '/getSDKType?subject_id=' + options.subject_id;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+    /**
+     * 获取SDK List
+     * @param {*} obj 为this
+     * @param {*} options { subject_id: subject id}
+     */
+    getSDK(obj, options) {
+        return new Promise(
+            function (resolve) {
+                var dbUrl = dbBaseUrl + '/getSDK?type_id=' + options.type_id;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+    /**
+     * 获取SDK Details
+     * @param {*} obj 为this
+     * @param {*} options { type_id: type id}
+     */
+    getSDKDetails(obj, options) {
+        return new Promise(
+            function (resolve) {
+                var dbUrl = dbBaseUrl + '/getSDKDetails?id=' + options.id;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
 }
