@@ -1,18 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-const My = (resolve) => { require(['@/components/my/my.vue'], resolve) };
-const MyCareer = (resolve) => { require(['@/components/my/career.vue'], resolve) };
-const MyCourse = (resolve) => { require(['@/components/my/course.vue'], resolve) };
-const MyDorm = (resolve) => { require(['@/components/my/dorm.vue'], resolve) };
-const MyClassroom = (resolve) => { require(['@/components/my/classroom.vue'], resolve) };
-const MyLevel = (resolve) => { require(['@/components/my/level.vue'], resolve) };
-const MyProfile = (resolve) => { require(['@/components/my/profile.vue'], resolve) };
-const MyProject = (resolve) => { require(['@/components/my/project.vue'], resolve) };
-const MyTeam = (resolve) => { require(['@/components/my/team.vue'], resolve) };
-const MyFavCourse = (resolve) => { require(['@/components/my/fav_course.vue'], resolve) };
-
-
 Vue.use(Router)
 
 export default new Router({
@@ -128,14 +116,6 @@ export default new Router({
         {
             path: '/my/level',
             component: (resolve) => { require(['@/components/my/level.vue'], resolve) }
-        },
-        {
-            path: '/my/dorm',
-            component: (resolve) => { require(['@/components/my/dorm.vue'], resolve) }
-        },
-        {
-            path: '/my/classroom',
-            component: (resolve) => { require(['@/components/my/classroom.vue'], resolve) }
         },
         {
             path: '/my/project',

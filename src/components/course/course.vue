@@ -7,6 +7,11 @@
                 mu-paper(height="100")
                     mu-list
                         mu-sub-header 
+                            i.icon.bomb
+                            span &nbsp; 创意课程
+                        mu-list-item(v-for='item in menuCrea',:key='item.id',:title='item.name', @click='loadCourse(item.id)', :class='currentMenu == item.id ? "router-link-active" : ""')
+                        mu-divider
+                        mu-sub-header 
                             i.icon.browser
                             span &nbsp; 软件开发
                         mu-list-item(v-for='item in menuSoft',:key='item.id',:title='item.name', @click='loadCourse(item.id)', :class='currentMenu == item.id ? "router-link-active" : ""')
@@ -39,7 +44,7 @@ export default {
     name: 'course',
     data() {
         return {
-            subject: [],
+            menuCrea: [],
             menuSoft: [],
             menuHard: [],
             menuArt: [],
@@ -56,9 +61,8 @@ export default {
     methods: {
         loadType() {
             var _this = this;
-            //获取Subject
-            this.$db.getCourseSubject(this).then(res => {
-                _this.subject = res;
+            _this.$db.getCourseType(_this, { subject_id: 4 }).then(res => {
+                _this.menuCrea = res;
             });
             _this.$db.getCourseType(_this, { subject_id: 1 }).then(res => {
                 _this.menuSoft = res;
