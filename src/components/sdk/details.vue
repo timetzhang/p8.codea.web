@@ -1,14 +1,15 @@
 <template lang="jade">
-    div
-        mu-row
-            mu-col.center.aligned(desktop="25",table="50",width="100")
-                mu-paper.sdkimg(:z-Depth="5")
-                    img(:src="item.logo_url")
-            mu-col(desktop="75",table="50",width="100",style="padding-left:10px;")
-                h2(style="margin-top:0;") {{item.name}}
-                p {{item.brief}}
-            div
-                mu-chip(v-for='tag in tags', :key='tag') {{tag}}
+    div.padded
+        mu-paper(style="padding:10px")
+            mu-content-block.para
+                mu-row(gutter)
+                    mu-col(desktop="35",table="50",width="100")
+                        img(:src="item.logo_url", style='border:1px solid #eee')
+                    mu-col(desktop="65",table="50",width="100")
+                        h2(style="margin-top:10px;") {{item.name}}
+                        p(v-html="item.brief")
+                    mu-col(desktop="100")
+                        mu-chip(v-for='tag in tags', :key='tag') {{tag}}
         br
         mu-divider
         h2 官方入口
@@ -16,10 +17,6 @@
         p
         mu-divider
         p(v-html='item.details')
-
-
-
-
 </template>
 
 <script>
