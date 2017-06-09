@@ -141,9 +141,9 @@ export default {
 }
 
 .router-link-active .mu-flat-button-wrapper {
-    background-color: #0288d1;
+    background-color: #0039ff;
     color: white;
-    border-bottom: 2px solid #0288d1;
+    border-bottom: 2px solid #0039ff;
 }
 
 .router-link-active {
