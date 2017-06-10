@@ -45,6 +45,9 @@ export default {
         if (this.isMobile) {
             this.showMenu = false;
         }
+        if (!this.$cookie.getCookie('sid')) {
+            this.$router.push('/login');
+        }
     },
     methods: {
         toggleMenu() {
