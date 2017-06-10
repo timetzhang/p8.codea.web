@@ -55,7 +55,7 @@ export default {
                     if (res.length > 0) {
                         this.$cookie.setCookie('sid', res[0].id);
                         this.$cookie.setCookie('name', res[0].name);
-                        this.$router.go(-1);
+                        window.location.href = '/';
                     }
                     else {
                         this.passwordErrorText = '密码或用户名错误';

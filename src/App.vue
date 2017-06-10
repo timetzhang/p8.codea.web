@@ -13,11 +13,14 @@
                         mu-flat-button.item(label='SDK')
                     router-link(to='/my')
                         mu-flat-button.item(label='我的')
-                mu-col(desktop='50',style='text-align:right')
+                mu-col(desktop='50',style='text-align:right',v-if='sid <= 0')
                     router-link(to='/login')
                         mu-flat-button.item(label='登录')
                     router-link(to='/register')
                         mu-flat-button.item(label='注册')
+                mu-col(desktop='50',style='text-align:right',v-if='sid > 0')
+                    router-link(to='/logoff')
+                        mu-flat-button.item(label='退出登录')
         div.mobile-menu(v-if='isMobile')
             mu-bottom-nav(:value="bottomNav",@change="handleMobileMenuChange")
                 mu-bottom-nav-item(value="home",title="主页",icon="home",to='/home')
@@ -49,7 +52,8 @@ export default {
             isHide: false,
             scrolled: 0,
             isMobile: Browser.mobile,
-            bottomNav: this.$route.path.split('/')[1]
+            bottomNav: this.$route.path.split('/')[1],
+            sid: this.$cookie.getCookie('sid')
         };
     },
     mounted: function () {

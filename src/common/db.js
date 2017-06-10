@@ -240,7 +240,6 @@ export default {
         );
     },
 
-
     /**
      * 获取用户详情
      * @param {*} obj 为this
@@ -297,6 +296,125 @@ export default {
         );
     },
 
+    /**
+     * 新课程收藏
+     * @param {*} obj 为this
+     * @param {*} data { student_id, course_id}
+     */
+    newStudentFavCourse(obj, data) {
+        return new Promise(
+            function (resolve) {
+                var dbUrl = dbBaseUrl + '/newStudentFavCourse';
+                obj.$http.post(dbUrl, { data: data }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    emulateJSON: true
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+    /**
+     * 判断学生是否已经收藏了课程
+     * @param {*} obj 为this
+     * @param {*} options { student_id, course_id }
+     */
+    isStudentFavCourse(obj, options) {
+        return new Promise(
+            function (resolve) {
+                var dbUrl = dbBaseUrl + '/isStudentFavCourse?student_id=' + options.student_id + '&course_id=' + options.course_id;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+
+    /**
+     * 删除课程收藏·
+     * @param {*} obj 为this
+     * @param {*} data { student_id, course_id}
+     */
+    delStudentFavCourse(obj, data) {
+        return new Promise(
+            function (resolve) {
+                var dbUrl = dbBaseUrl + '/delStudentFavCourse';
+                obj.$http.post(dbUrl, { data: data }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    emulateJSON: true
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+
+    /**
+    * 新课程收藏
+    * @param {*} obj 为this
+    * @param {*} data { student_id, sdk_id}
+    */
+    newStudentFavSDK(obj, data) {
+        return new Promise(
+            function (resolve) {
+                var dbUrl = dbBaseUrl + '/newStudentFavSDK';
+                obj.$http.post(dbUrl, { data: data }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    emulateJSON: true
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+    /**
+     * 判断学生是否已经收藏了课程
+     * @param {*} obj 为this
+     * @param {*} options { student_id, course_id }
+     */
+    isStudentFavSDK(obj, options) {
+        return new Promise(
+            function (resolve) {
+                var dbUrl = dbBaseUrl + '/isStudentFavSDK?student_id=' + options.student_id + '&sdk_id=' + options.sdk_id;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+
+    /**
+     * 删除课程收藏·
+     * @param {*} obj 为this
+     * @param {*} data { student_id, course_id}
+     */
+    delStudentFavSDK(obj, data) {
+        return new Promise(
+            function (resolve) {
+                var dbUrl = dbBaseUrl + '/delStudentFavSDK';
+                obj.$http.post(dbUrl, { data: data }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    emulateJSON: true
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
     /******************* SDK ********************/
 
     /**
