@@ -74,7 +74,7 @@ export default {
             var _this = this;
             this.$db.getStudentDetails(this, { sid: this.$cookie.getCookie('sid') }).then(res => {
                 _this.data = res[0];
-                _this.data.dob = DateTime.dateFormat(_this.data.dob);
+                _this.data.dob = DateTime.dateFormat(_this.data.dob).substring(0, 10);
             });
         }
     }
