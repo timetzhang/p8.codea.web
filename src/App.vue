@@ -57,7 +57,7 @@ export default {
         };
     },
     mounted: function () {
-        window.addEventListener('scroll', this.handleScroll)
+        window.addEventListener('scroll', this.handleScroll);
     },
     beforeUpdate: function () {
         this.bottomNav = this.$route.path.split('/')[1];
@@ -66,17 +66,17 @@ export default {
         handleScroll() {
             this.scrolled = document.body.scrollTop;
             if (this.scrolled > 10) {
-                this.isHide = true
+                this.isHide = true;
             } else {
-                this.isHide = false
+                this.isHide = false;
             }
         },
         returnTop() {
             document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0
+            document.documentElement.scrollTop = 0;
         },
         handleMobileMenuChange(val) {
-            this.bottomNav = val
+            this.bottomNav = val;
         }
     }
 }
