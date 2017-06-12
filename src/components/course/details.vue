@@ -3,7 +3,7 @@
         mu-paper(style="padding:10px")
             mu-content-block.para
                 mu-row(gutter)
-                    mu-col(desktop="35",table="50",width="100")
+                    mu-col.center.aligned(desktop="35",table="50",width="100")
                         img(:src="item.logo_url", style='border:1px solid #eee')
                     mu-col(desktop="65",table="50",width="100")
                         h2(style="margin-top:10px;") {{item.name}}
@@ -17,6 +17,7 @@
 <script>
 import DateTime from '@/common/datetime.js'
 import Browser from '@/common/browser'
+import 'highlightjs/styles/androidstudio.css'
 
 export default {
     name: 'course',
@@ -85,5 +86,11 @@ export default {
 
 .details-btns {
     padding: 10px 0;
+}
+
+blockquote {
+    background: #eee;
+    padding: 15px;
+    border-left: 5px solid #444;
 }
 </style>
