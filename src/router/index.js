@@ -82,6 +82,10 @@ export default new Router({
         component: (resolve) => { require(['@/components/course/details.vue'], resolve) }
     },
     {
+        path: '/team',
+        component: (resolve) => { require(['@/components/team/team.vue'], resolve) }
+    },
+    {
         path: '/sdk',
         component: (resolve) => { require(['@/components/sdk/sdk.vue'], resolve) },
         children: [{

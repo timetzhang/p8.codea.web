@@ -296,6 +296,8 @@ export default {
         );
     },
 
+    /******************* STUDENT FAV COURSE ********************/
+
     /**
      * 新课程收藏
      * @param {*} obj 为this
@@ -415,6 +417,26 @@ export default {
             }
         );
     },
+
+    /******************* STUDENT TEAM ********************/
+    /**
+     * 获取项目组List
+     * @param {*} obj 为this
+     */
+    getStudentTeam(obj) {
+        return new Promise(
+            function (resolve) {
+                var dbUrl = dbBaseUrl + '/getStudentTeam';
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+
     /******************* SDK ********************/
 
     /**

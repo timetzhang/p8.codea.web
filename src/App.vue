@@ -9,8 +9,8 @@
                         mu-flat-button.item(label='学校')
                     router-link(to='/course')
                         mu-flat-button.item(label='教程')
-                    router-link(to='/sdk')
-                        mu-flat-button.item(label='SDK')
+                    router-link(to='/team')
+                        mu-flat-button.item(label='项目组')
                     router-link(to='/my')
                         mu-flat-button.item(label='我的')
                 mu-col(desktop='50',style='text-align:right',v-if='sid <= 0')
@@ -26,7 +26,7 @@
                 mu-bottom-nav-item(value="home",title="主页",icon="home",to='/home')
                 mu-bottom-nav-item(value="school",title="学校",icon="school",to='/school')
                 mu-bottom-nav-item(value="course",title="教程",icon="book",to='/course')
-                mu-bottom-nav-item(value="sdk",title="SDK",icon="note",to='/sdk')
+                mu-bottom-nav-item(value="team",title="组目组",icon="note",to='/team')
                 mu-bottom-nav-item(value="my",title="我的",icon="account_circle",to='/my')
         router-view.container.content
         mu-raised-button(@click="returnTop",icon="eject",id="gotoTop",v-show="isHide") 返回顶部
@@ -145,9 +145,9 @@ export default {
 }
 
 .router-link-active .mu-flat-button-wrapper {
-    background-color: #0039ff;
+    background-color: #457cce;
     color: white;
-    border-bottom: 2px solid #0039ff;
+    border-bottom: 2px solid #457cce;
 }
 
 .router-link-active {
