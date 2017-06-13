@@ -8,10 +8,7 @@ div
                 mu-avatar(:src="team.logo_url",slot="leftAvatar")
                 span(slot="describe")
                     span {{team.intro}}
-                mu-icon-menu(slot="right" icon="more_vert" tooltip="操作")
-                    mu-menu-item(title="回复")
-                    mu-menu-item(title="标记")
-                    mu-menu-item(title="删除")
+                mu-icon-menu(slot="right" icon="more_vert" tooltip="进入")
             mu-divider(inset)
 </template>
 
