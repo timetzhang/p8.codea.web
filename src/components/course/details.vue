@@ -93,4 +93,44 @@ blockquote {
     padding: 15px;
     border-left: 5px solid #444;
 }
+
+.list {
+    width: 100%;
+}
+
+.list .item {
+    padding: 10px;
+    border: 1px solid #eee;
+    border-collapse: collapse;
+    margin-left: -5px;
+}
+
+.list .item.col-25 {
+    display: inline-block;
+    width: 25%;
+}
+
+.list .item.col-50 {
+    display: inline-block;
+    width: 50%;
+}
+
+.list .item.col-33 {
+    display: inline-block;
+    width: 33.333%;
+}
+
+.list .item:hover {
+    background-color: #eee;
+    cursor: pointer;
+}
+
+.list .item .title {
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.list .item .desc {
+    font-size: 12px;
+}
 </style>

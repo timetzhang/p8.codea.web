@@ -25,10 +25,7 @@
                             i.icon.file.image.outline
                             span &nbsp; 艺术
                         mu-list-item(v-for='item in menuArt',:key='item.id',:title='item.name', @click='loadCourse(item.id)', :class='currentMenu == item.id ? "router-link-active" : ""')
-                        mu-sub-header 
-                            i.icon.file.image.outline
-                            span &nbsp; 工具
-                        mu-list-item(v-for='item in menuTools',:key='item.id',:title='item.name', @click='loadCourse(item.id)', :class='currentMenu == item.id ? "router-link-active" : ""')
+
             mu-col(desktop="80", width="100")
                 mu-row(gutter,:class="isMobile? 'padded':''")
                     mu-col(desktop='33', tablet='50', width='50', v-for="item in course", key='item.id')
@@ -79,9 +76,6 @@ export default {
             _this.$db.getCourseType(_this, { subject_id: 4 }).then(res => {
                 _this.menuCrea = res;
             });
-            _this.$db.getCourseType(_this, { subject_id: 5 }).then(res => {
-                _this.menuTools = res;
-            });
         },
         loadCourse(id) {
             var _this = this;
@@ -92,7 +86,7 @@ export default {
             });
             if (this.isMobile) {
                 this.showMenu = false;
-            }
+            };
             this.goTop();
         },
         goTop() {
