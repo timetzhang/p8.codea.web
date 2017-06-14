@@ -48,6 +48,7 @@ export default {
         if (!this.$cookie.getCookie('sid')) {
             this.$router.push('/login');
         }
+        document.title = '我的 - CodeA - Sky College';
     },
     methods: {
         toggleMenu() {

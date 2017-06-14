@@ -22,6 +22,7 @@ export default {
     },
     mounted: function () {
         this.loadTeam();
+        document.title = '项目组 - CodeA - Sky College';
     },
     methods: {
         loadTeam() {

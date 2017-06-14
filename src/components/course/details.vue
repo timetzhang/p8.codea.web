@@ -40,6 +40,7 @@ export default {
             var _this = this;
             this.$db.getCourseDetails(this, { course_id: this.course_id }).then(res => {
                 _this.item = res[0];
+                document.title = _this.item.name + ' - CodeA - Sky College';
             });
         },
         favCourse() {

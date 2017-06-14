@@ -59,6 +59,7 @@ export default {
     mounted: function () {
         this.loadType();
         this.loadCourse(this.$route.params.course_type);
+        document.title = '教程 - CodeA - Sky College';
     },
     methods: {
         loadType() {

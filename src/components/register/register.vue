@@ -194,8 +194,7 @@ export default {
         }
     },
     mounted: function () {
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
+        document.title = '注册 - CodeA - Sky College';
     },
     methods: {
         //判断cellphone

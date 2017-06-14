@@ -58,6 +58,7 @@ export default {
         if (this.isMobile) {
             this.showMenu = false;
         }
+        document.title = this.title + ' - CodeA - Sky College';
     },
     methods: {
         toggleMenu() {
@@ -66,6 +67,7 @@ export default {
         },
         redirect(e, path) {
             this.title = e.srcElement.innerText;
+            document.title = this.title + ' - CodeA - Sky College';
             this.currentPage = path;
             this.$router.push('/school/' + path);
             if (this.isMobile) {

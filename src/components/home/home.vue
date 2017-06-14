@@ -74,34 +74,34 @@ export default {
             ],
             program: [
                 {
-                    colorId : 'graybg',
-                    img : '/static/img/home/game.png',
-                    title : '游戏项目'
+                    colorId: 'graybg',
+                    img: '/static/img/home/game.png',
+                    title: '游戏项目'
                 },
                 {
-                    colorId : 'whitebg',
-                    img : '/static/img/home/data.png',
-                    title : '数据库项目'
+                    colorId: 'whitebg',
+                    img: '/static/img/home/data.png',
+                    title: '数据库项目'
                 },
                 {
-                    colorId : 'whitebg',
-                    img : '/static/img/home/text.png',
-                    title : '文本操作项目'
+                    colorId: 'whitebg',
+                    img: '/static/img/home/text.png',
+                    title: '文本操作项目'
                 },
                 {
-                    colorId : 'graybg',
-                    img : '/static/img/home/file.png',
-                    title : '文件处理项目'
+                    colorId: 'graybg',
+                    img: '/static/img/home/file.png',
+                    title: '文件处理项目'
                 },
                 {
-                    colorId : 'graybg',
-                    img : '/static/img/home/web.png',
-                    title : 'Web项目'
+                    colorId: 'graybg',
+                    img: '/static/img/home/web.png',
+                    title: 'Web项目'
                 },
                 {
-                    colorId : 'whitebg',
-                    img : '/static/img/home/media.png',
-                    title : '图像与多媒体项目'
+                    colorId: 'whitebg',
+                    img: '/static/img/home/media.png',
+                    title: '图像与多媒体项目'
                 }
             ],
             lastList: [
@@ -151,13 +151,14 @@ export default {
         }
     },
     mounted: function () {
-        const that = this
+        var _this = this
         window.onresize = () => {
             return (() => {
                 window.screenWidth = document.body.clientWidth
-                that.screenWidth = window.screenWidth
+                _this.screenWidth = window.screenWidth
             })()
         }
+        document.title = '首页 - CodeA - Sky College';
     },
     methods: {
 
@@ -169,7 +170,7 @@ export default {
                 this.timer = true
                 let that = this
                 setTimeout(function () {
-                    if (that.screenWidth < 900){
+                    if (that.screenWidth < 900) {
                         that.orient = 'vertical';
                         for (var i = 0; i < that.lastList.length; i++) {
                             that.lastList[i].imgId = 0;
