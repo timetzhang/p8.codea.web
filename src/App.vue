@@ -26,7 +26,7 @@
                 mu-bottom-nav-item(value="home",title="主页",icon="home",to='/home')
                 mu-bottom-nav-item(value="school",title="学校",icon="school",to='/school')
                 mu-bottom-nav-item(value="course",title="教程",icon="book",to='/course')
-                mu-bottom-nav-item(value="team",title="组目组",icon="note",to='/team')
+                mu-bottom-nav-item(value="team",title="项目组",icon="note",to='/team')
                 mu-bottom-nav-item(value="my",title="我的",icon="account_circle",to='/my')
         router-view.container.content
         mu-raised-button(@click="returnTop",icon="eject",id="gotoTop",v-show="isHide") 返回顶部
