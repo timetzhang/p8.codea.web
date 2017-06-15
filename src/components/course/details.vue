@@ -121,6 +121,23 @@ blockquote {
     width: 33.333%;
 }
 
+@media screen and (max-width:600px) {
+    .list .item.col-25 {
+        display: block;
+        width: 100%;
+    }
+
+    .list .item.col-50 {
+        display: block;
+        width: 100%;
+    }
+
+    .list .item.col-33 {
+        display: block;
+        width: 100%;
+    }
+}
+
 .list .item:hover {
     background-color: #eee;
     cursor: pointer;

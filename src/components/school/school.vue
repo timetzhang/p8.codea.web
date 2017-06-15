@@ -7,32 +7,46 @@
                         mu-sub-header 
                             i.icon.university
                             span &nbsp; 学校 School
-                        mu-list-item.item(title="愿景与目标", @click='redirect($event, "vision")', :class='currentPage == "vision" ? "router-link-active" : ""')
-                        mu-list-item.item(title="革新", @click='redirect($event, "revolution")', :class='currentPage == "revolution" ? "router-link-active" : ""')
-                        mu-list-item.item(title="Geek文化", @click='redirect($event, "geek")', :class='currentPage == "geek" ? "router-link-active" : ""')
-                        mu-list-item.item(title="学习环境", @click='redirect($event, "study_space")', :class='currentPage == "study_space" ? "router-link-active" : ""')
-                        mu-list-item.item(title="居住环境", @click='redirect($event, "dorm_space")', :class='currentPage == "dorm_space" ? "router-link-active" : ""')
+                        a(href='/school/vision')
+                            mu-list-item.item(title="愿景与目标", :class='currentPage == "vision" ? "router-link-active" : ""')
+                        a(href='/school/revolution')
+                            mu-list-item.item(title="革新", :class='currentPage == "revolution" ? "router-link-active" : ""')
+                        a(href='/school/geek')
+                            mu-list-item.item(title="Geek文化", :class='currentPage == "geek" ? "router-link-active" : ""')
+                        a(href='/school/study_space')
+                            mu-list-item.item(title="学习环境", :class='currentPage == "study_space" ? "router-link-active" : ""')
+                        a(href='/school/dorm_space')
+                            mu-list-item.item(title="居住环境", :class='currentPage == "dorm_space" ? "router-link-active" : ""')
                         mu-divider
                         mu-sub-header 
                             i.icon.student
                             span &nbsp; 课程 Courses 
-                        mu-list-item.item(title="集训营", @click='redirect($event, "parkathon")', :class='currentPage == "parkathon" ? "router-link-active" : ""')
-                        mu-list-item.item(title="两年课程", @click='redirect($event, "course")', :class='currentPage == "course" ? "router-link-active" : ""')
-                        mu-list-item.item(title="项目组", @click='redirect($event, "team")', :class='currentPage == "team" ? "router-link-active" : ""')
-                        mu-list-item.item(title="就业", @click='redirect($event, "career")', :class='currentPage == "career" ? "router-link-active" : ""')
+                        a(href='/school/parkathon')
+                            mu-list-item.item(title="集训营", :class='currentPage == "parkathon" ? "router-link-active" : ""')
+                        a(href='/school/course')
+                            mu-list-item.item(title="两年课程", :class='currentPage == "course" ? "router-link-active" : ""')
+                        a(href='/school/team')
+                            mu-list-item.item(title="项目组", :class='currentPage == "team" ? "router-link-active" : ""')
+                        a(href='/school/career')
+                            mu-list-item.item(title="就业", :class='currentPage == "career" ? "router-link-active" : ""')
                         mu-divider
                         mu-sub-header 
                             i.icon.laptop
                             span &nbsp; 项目 Projects
-                        mu-list-item.item(title="项目", @click='redirect($event, "project")', :class='currentPage == "project" ? "router-link-active" : ""')
+                        a(href='/school/project')
+                            mu-list-item.item(title="项目", :class='currentPage == "project" ? "router-link-active" : ""')
                         mu-divider
                         mu-sub-header 
                             i.icon.add.user
                             span &nbsp; 报名 Register
-                        mu-list-item.item(title="注册", to='/register')
-                        mu-list-item.item(title="登录", to='/login')
-                        mu-list-item.item(title="入学考试", @click='redirect($event, "entrance")', :class='currentPage == "entrance" ? "router-link-active" : ""')
-                        mu-list-item.item(title="联系我们", @click='redirect($event, "contact")', :class='currentPage == "contact" ? "router-link-active" : ""')
+                        a(href='/register')
+                            mu-list-item.item(title="注册")
+                        a(href='/login')
+                            mu-list-item.item(title="登录")
+                        a(href='/school/entrance')
+                            mu-list-item.item(title="入学考试", :class='currentPage == "entrance" ? "router-link-active" : ""')
+                        a(href='/school/contact')
+                            mu-list-item.item(title="联系我们", :class='currentPage == "contact" ? "router-link-active" : ""')
             mu-col(:desktop="contentWidth", width="100")
                 mu-appbar(:title="title")
                     mu-icon-button(icon="menu",slot="right",@click='toggleMenu')
@@ -48,8 +62,7 @@ export default {
         return {
             isMobile: Browser.mobile,
             showMenu: true,
-            title: '愿景与目标',
-            currentPage: 'vision',
+            currentPage: window.location.pathname.split('/')[2],
             contentWidth: 80
         }
     },
@@ -58,21 +71,12 @@ export default {
         if (this.isMobile) {
             this.showMenu = false;
         }
-        document.title = this.title + ' - CodeA - Sky College';
+        document.title = '学校 - CodeA - Sky College';
     },
     methods: {
         toggleMenu() {
             this.showMenu = !this.showMenu;
             this.contentWidth = this.contentWidth == 100 ? 80 : 100;
-        },
-        redirect(e, path) {
-            this.title = e.srcElement.innerText;
-            document.title = this.title + ' - CodeA - Sky College';
-            this.currentPage = path;
-            this.$router.push('/school/' + path);
-            if (this.isMobile) {
-                this.showMenu = false;
-            }
         }
     }
 }

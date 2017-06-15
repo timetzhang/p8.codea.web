@@ -3,31 +3,36 @@
         div.desktop-menu
             mu-row.container(v-if='isMobile == false')
                 mu-col(desktop='50')
-                    router-link(to='/home')
-                        mu-flat-button.item(label='首页')
-                    router-link(to='/school')
-                        mu-flat-button.item(label='学校')
-                    router-link(to='/course')
-                        mu-flat-button.item(label='教程')
-                    router-link(to='/team')
-                        mu-flat-button.item(label='项目组')
-                    router-link(to='/my')
-                        mu-flat-button.item(label='我的')
+                    a(href='/home')
+                        mu-flat-button.item(label='首页',:class='curMenu == "home" ? "router-link-active" : ""')
+                    a(href='/school')
+                        mu-flat-button.item(label='学校',:class='curMenu == "school" ? "router-link-active" : ""')
+                    a(href='/course')
+                        mu-flat-button.item(label='教程',:class='curMenu == "course" ? "router-link-active" : ""')
+                    a(href='/team')
+                        mu-flat-button.item(label='项目组',:class='curMenu == "team" ? "router-link-active" : ""')
+                    a(href='/my')
+                        mu-flat-button.item(label='我的',:class='curMenu == "my" ? "router-link-active" : ""')
                 mu-col(desktop='50',style='text-align:right',v-if='sid <= 0')
-                    router-link(to='/login')
-                        mu-flat-button.item(label='登录')
-                    router-link(to='/register')
-                        mu-flat-button.item(label='注册')
+                    a(href='/login')
+                        mu-flat-button.item(label='登录',:class='curMenu == "login" ? "router-link-active" : ""')
+                    a(href='/register')
+                        mu-flat-button.item(label='注册',:class='curMenu == "register" ? "router-link-active" : ""')
                 mu-col(desktop='50',style='text-align:right',v-if='sid > 0')
-                    router-link(to='/logoff')
+                    a(href='/logoff')
                         mu-flat-button.item(label='退出登录')
         div.mobile-menu(v-if='isMobile')
             mu-bottom-nav(:value="bottomNav",@change="handleMobileMenuChange")
-                mu-bottom-nav-item(value="home",title="主页",icon="home",to='/home')
-                mu-bottom-nav-item(value="school",title="学校",icon="school",to='/school')
-                mu-bottom-nav-item(value="course",title="教程",icon="book",to='/course')
-                mu-bottom-nav-item(value="team",title="项目组",icon="note",to='/team')
-                mu-bottom-nav-item(value="my",title="我的",icon="account_circle",to='/my')
+                a(href='/home')
+                    mu-bottom-nav-item(value="home",title="主页",icon="home",:class='curMenu == "home" ? "router-link-active" : ""')
+                a(href='/school')
+                    mu-bottom-nav-item(value="school",title="学校",icon="school",:class='curMenu == "school" ? "router-link-active" : ""')
+                a(href='/course')
+                    mu-bottom-nav-item(value="course",title="教程",icon="book",:class='curMenu == "course" ? "router-link-active" : ""')
+                a(href='/team')
+                    mu-bottom-nav-item(value="team",title="项目组",icon="note",:class='curMenu == "team" ? "router-link-active" : ""')
+                a(href='/my')
+                    mu-bottom-nav-item(value="my",title="我的",icon="account_circle",:class='curMenu == "my" ? "router-link-active" : ""')
         router-view.container.content
         mu-raised-button(@click="returnTop",icon="eject",id="gotoTop",v-show="isHide") 返回顶部
         div.bottom
@@ -48,7 +53,7 @@ import Browser from '@/common/browser'
 export default {
     data() {
         return {
-            curMenu: this.$route.path.split('/')[1],
+            curMenu: window.location.pathname.split('/')[1],
             isHide: false,
             scrolled: 0,
             isMobile: Browser.mobile,
@@ -58,6 +63,7 @@ export default {
     },
     mounted: function () {
         window.addEventListener('scroll', this.handleScroll);
+        console.log(window.location.pathname.split('/')[1]);
     },
     beforeUpdate: function () {
         this.bottomNav = this.$route.path.split('/')[1];
@@ -67,7 +73,8 @@ export default {
             this.scrolled = document.body.scrollTop;
             if (this.scrolled > 10) {
                 this.isHide = true;
-            } else {
+            }
+            else {
                 this.isHide = false;
             }
         },

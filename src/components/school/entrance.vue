@@ -104,7 +104,7 @@ export default {
             this.noticeDialog = false;
         },
         goRegister() {
-            this.$router.push('/school/register');
+            this.$router.push('/register');
         },
         goLogin() {
             this.$router.push('/login');

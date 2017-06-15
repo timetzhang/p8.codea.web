@@ -7,20 +7,26 @@
                         mu-sub-header 
                             i.icon.user
                             span &nbsp; 学生 Student
-                        mu-list-item.item(title="我的资料", @click="redirect($event,'profile')", :class='currentPage == "profile" ? "router-link-active" : ""')
-                        mu-list-item.item(title="我的级别", @click="redirect($event,'level')", :class='currentPage == "level" ? "router-link-active" : ""')
+                        a(href='/my/profile')
+                            mu-list-item.item(title="我的资料", :class='currentPage == "profile" ? "router-link-active" : ""')
+                        a(href='/my/level')
+                            mu-list-item.item(title="我的级别", :class='currentPage == "level" ? "router-link-active" : ""')
                         mu-divider
                         mu-sub-header 
                             i.icon.student
                             span &nbsp; 课程 Courses 
-                        mu-list-item.item(title="我的课程", @click="redirect($event,'course')", :class='currentPage == "course" ? "router-link-active" : ""')
-                        mu-list-item.item(title="收藏的课程", @click="redirect($event,'fav_course')", :class='currentPage == "fav_course" ? "router-link-active" : ""')
+                        a(href='/my/course')
+                            mu-list-item.item(title="我的课程", :class='currentPage == "course" ? "router-link-active" : ""')
+                        a(href='/my/fav_course')
+                            mu-list-item.item(title="收藏的课程", :class='currentPage == "fav_course" ? "router-link-active" : ""')
                         mu-divider
                         mu-sub-header 
                             i.icon.student
                             span &nbsp; 项目 Projects 
-                        mu-list-item.item(title="我的项目", @click="redirect($event,'project')", :class='currentPage == "project" ? "router-link-active" : ""')
-                        mu-list-item.item(title="我的项目组", @click="redirect($event,'team')", :class='currentPage == "team" ? "router-link-active" : ""')
+                        a(href='/my/project')
+                            mu-list-item.item(title="我的项目", :class='currentPage == "project" ? "router-link-active" : ""')
+                        a(href='/my/team')
+                            mu-list-item.item(title="我的项目组", :class='currentPage == "team" ? "router-link-active" : ""')
             mu-col(:desktop="contentWidth", width="100")
                 mu-appbar(:title="title")
                     mu-icon-button(icon="menu",slot="right",@click='toggleMenu')
@@ -36,7 +42,7 @@ export default {
         return {
             isMobile: Browser.mobile,
             showMenu: true,
-            currentPage: 'profile',
+            currentPage: window.location.pathname.split('/')[2],
             contentWidth: 80
         }
     },

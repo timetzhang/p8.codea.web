@@ -9,22 +9,26 @@
                         mu-sub-header 
                             i.icon.bomb
                             span &nbsp; 创意课程
-                        mu-list-item(v-for='item in menuCrea',:key='item.id',:title='item.name', @click='loadCourse(item.id)', :class='currentMenu == item.id ? "router-link-active" : ""')
+                        a(:href='"/course/type="+item.id',v-for='item in menuCrea',:key='item.id')
+                            mu-list-item(:title='item.name', :class='currentMenu == item.id ? "router-link-active" : ""')
                         mu-divider
                         mu-sub-header 
                             i.icon.browser
                             span &nbsp; 软件开发
-                        mu-list-item(v-for='item in menuSoft',:key='item.id',:title='item.name', @click='loadCourse(item.id)', :class='currentMenu == item.id ? "router-link-active" : ""')
+                        a(:href='"/course/type="+item.id',v-for='item in menuSoft',:key='item.id')
+                            mu-list-item(:title='item.name', :class='currentMenu == item.id ? "router-link-active" : ""')
                         mu-divider
                         mu-sub-header 
                             i.icon.disk.outline
                             span &nbsp; 硬件开发
-                        mu-list-item(v-for='item in menuHard',:key='item.id',:title='item.name', @click='loadCourse(item.id)', :class='currentMenu == item.id ? "router-link-active" : ""')
+                        a(:href='"/course/type="+item.id',v-for='item in menuHard',:key='item.id')
+                            mu-list-item(:title='item.name', :class='currentMenu == item.id ? "router-link-active" : ""')
                         mu-divider
                         mu-sub-header 
                             i.icon.file.image.outline
                             span &nbsp; 艺术
-                        mu-list-item(v-for='item in menuArt',:key='item.id',:title='item.name', @click='loadCourse(item.id)', :class='currentMenu == item.id ? "router-link-active" : ""')
+                        a(:href='"/course/type="+item.id',v-for='item in menuArt',:key='item.id')
+                            mu-list-item(:title='item.name', :class='currentMenu == item.id ? "router-link-active" : ""')
 
             mu-col(desktop="80", width="100")
                 mu-row(gutter,:class="isMobile? 'padded':''")
@@ -35,7 +39,8 @@
                                 img(:src='item.logo_url')
                             mu-card-text.card-text {{item.brief}}
                             mu-card-actions
-                                mu-raised-button(label='开始课程', :fullWidth='true', :to='"/course/id="+item.id')
+                                a(:href='"/course/id="+item.id')
+                                    mu-raised-button(label='开始课程', :fullWidth='true')
 </template>
 
 <script>
@@ -81,7 +86,6 @@ export default {
         loadCourse(id) {
             var _this = this;
             this.currentMenu = id;
-            this.$router.push('/course/type=' + id);
             this.$db.getCourse(this, { type_id: id }).then(res => {
                 _this.course = res;
             });
