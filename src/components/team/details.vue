@@ -54,7 +54,24 @@ div.padded
             mu-row(gutter)
                 mu-col(desktop="100")
                     h2 项目组文档资料
-
+                    mu-table(:showCheckbox="showCheckbox")
+                        mu-thead
+                            mu-tr
+                                mu-th 文件名
+                                mu-th 上传时间
+                                mu-th 发布人
+                                mu-th 操作
+                        mu-tbody
+                            mu-tr(v-for="item in teamDocument",:key="item.id")
+                                mu-td {{item.documentName}}
+                                mu-td {{item.time}}
+                                mu-td {{item.name}}
+                                mu-td
+                                    mu-raised-button(label="下载")
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    mu-raised-button(label="删除" @click="deleteDocument(item.id)")
+                mu-col.center.aligned(desktop="100" style="margin:20px;")
+                    mu-raised-button(label="上传新文件")
 </template>
 
 <script>
@@ -80,20 +97,24 @@ export default {
             showAddMember:false,
             member: [
                 {
+                    id:0,
                     headimg: "/static/img/team/404.png",
-                    name: "东哥"
+                    name: "东wer哥"
                 },
                 {
+                    id:1,
                     headimg: "/static/img/team/404.png",
-                    name: "东哥"
+                    name: "东werw哥"
                 },
                 {
+                    id:2,
                     headimg: "/static/img/team/404.png",
-                    name: "东哥"
+                    name: "东dgf哥"
                 },
                 {
+                    id:3,
                     headimg: "/static/img/team/404.png",
-                    name: "东哥"
+                    name: "东ret哥"
                 }
             ],
             comment: [
@@ -113,6 +134,26 @@ export default {
                     headimg: "/static/img/team/404.png",
                     time: "2017-6-7"
                 }
+            ],
+            teamDocument: [
+                {
+                    id:0,
+                    documentName: "团队介绍整体资料",
+                    time: "2017-6-8",
+                    name: "TT"
+                },
+                {
+                    id:1,
+                    documentName: "团队介绍整11体资料",
+                    time: "2017-6-8",
+                    name: "TT"
+                },
+                {
+                    id:2,
+                    documentName: "团队介绍1111整体资料",
+                    time: "2017-6-8",
+                    name: "TT"
+                }
             ]
         }
     },
@@ -125,7 +166,7 @@ export default {
             this.showAdd = !this.showAdd;
         },
         deleteMember(id) {
-            this.member.splice(id,1);
+            
         },
         addMb() {//点击添加新成员按钮
             this.showAddMember = !this.showAddMember;
@@ -156,6 +197,9 @@ export default {
             this.showBrief = !this.showBrief;
             this.showEdit = !this.showEdit;
             this.editState = "修改项目简介";
+        },
+        deleteDocument(id) {
+           
         }
     }
 }
