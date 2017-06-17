@@ -91,6 +91,14 @@ export default new Router({
             component: (resolve) => { require(['@/components/team/details.vue'], resolve) },
         },
         {
+            path: '/doc',
+            component: (resolve) => { require(['@/components/doc/doc.vue'], resolve) },
+        },
+        {
+            path: '/doc/id=:id',
+            component: (resolve) => { require(['@/components/doc/details.vue'], resolve) },
+        },
+        {
             path: '/sdk',
             component: (resolve) => { require(['@/components/sdk/sdk.vue'], resolve) },
             children: [{

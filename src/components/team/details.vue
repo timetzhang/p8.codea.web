@@ -10,7 +10,9 @@ div.padded
                         span(style="font-size:12px;font-weight: normal;float:right") （浏览量：{{pageView}}）
                     span 成立时间：2017年6月1日
                     p codea项目组，codea天空编程学院项目
-                    
+                    div
+                        mu-raised-button(icon="star" label="收藏" style="float:right;margin-left:10px;margin-bottom:20px;")
+                        mu-raised-button(icon="favorite" style="float:right")
             mu-divider
             mu-row(gutter)
                 h2(style="display:inline-block;") 项目成员
@@ -37,8 +39,11 @@ div.padded
                 mu-col(desktop="100")
                     h3 他们对此感兴趣
                     mu-avatar(src="/static/img/team/404.png")
-                mu-col(desktop="100")
+                mu-col(desktop="100" style="margin-bottom:20px;")
                     h4 评论(133条)
+                    mu-col.center.aligned(desktop="100")
+                        mu-text-field(hintText="不允许超过140个字符",:maxLength="140",fullWidth)
+                        mu-raised-button(label="评论")
                     mu-paper
                         mu-list
                             mu-list-item(v-for="item in comment",:key="item.id",:title="item.name+'  '+item.time")
@@ -63,7 +68,8 @@ div.padded
                                 mu-th 操作
                         mu-tbody
                             mu-tr(v-for="item in teamDocument",:key="item.id")
-                                mu-td {{item.documentName}}
+                                mu-td
+                                    a(:href="'/doc/id='+item.id") {{item.documentName}}
                                 mu-td {{item.time}}
                                 mu-td {{item.name}}
                                 mu-td
@@ -166,7 +172,7 @@ export default {
             this.showAdd = !this.showAdd;
         },
         deleteMember(id) {
-            
+
         },
         addMb() {//点击添加新成员按钮
             this.showAddMember = !this.showAddMember;
@@ -200,6 +206,9 @@ export default {
         },
         deleteDocument(id) {
            
+        },
+        previewDocument() {
+            this.dialog = true;
         }
     }
 }
