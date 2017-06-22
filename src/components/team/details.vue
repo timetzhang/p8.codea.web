@@ -11,57 +11,44 @@ div.padded
                     span 成立时间：{{team.time}}
                     p {{team.intro}}
                     div.right.aligned
-                        mu-raised-button(icon="star",label="关注")
+                        mu-raised-button(icon="star",:label="isFollowed ? '已关注' : '关注'",:secondary='isFollowed', @click='follow')
                     br
-            mu-divider
-
-            mu-row(gutter)
-                h2(style="display:inline-block;") 项目成员
-                    mu-flat-button(style="display:inline-block" label="管理成员" @click="manageMember")
-                mu-col(desktop="100")
-                    mu-chip(v-for="item in member",:key="item.id",@click="showMemberDetails(item.student_id)",@delete="deleteMember(item.id)",:showDelete="isMemberManage")
-                        mu-avatar(:size="32",:src="item.head_image")
-                        {{item.name}}
-                mu-col(desktop="100")
-                    mu-text-field(label="用户名",v-if="isMemberManage",@input="searchStudent")
-                    mu-raised-button(label="添加新成员",v-if="isMemberManage",@click="addMember", secondary, style='margin-left:10px;')
-                    mu-raised-button(label="取消",color="white",v-if="isMemberManage",@click="cancelMemberManage", secondary, style='margin-left:10px;')
 
             mu-divider
 
-            mu-row.center.aligned(gutter)
-                h2 项目详情
-                mu-col(desktop="100")
-                    div#brief(v-html="editContent" v-if="showBrief")
-                    vue-editor(v-model="editContent" v-if="showEdit")
-                    mu-raised-button(icon="edit",style="margin:20px;",:label="editState",@click="editBrief")
-                    br
-                    mu-raised-button(label="取消" style="margin-bottom:20px;"  backgroundColor="#f44336" color="white" v-if="showEdit" @click="cancelEdit")
-                mu-divider
-            mu-row(gutter)
-                mu-col(desktop="100")
-                    h3 他们对此感兴趣
-                    mu-avatar(src="/static/img/team/404.png")
-                mu-col(desktop="100" style="margin-bottom:20px;")
-                    h4 评论(133条)
-                    mu-col.center.aligned(desktop="100")
-                        mu-text-field(hintText="不允许超过140个字符",:maxLength="140",:fullWidth="true")
-                        mu-raised-button(label="评论")
-                    mu-paper
-                        mu-list
-                            mu-list-item(v-for="item in comment",:key="item.id",:title="item.name+'  '+item.time")
-                                mu-avatar(slot="left",:src="item.headimg")
-                                i.icon.star(slot="right")
-                                span(slot="describe")
-                                    span {{item.detail}}
-                                mu-list-item(v-for="list in reply",:key="list.id",:title="list.name+'  '+list.time")
-                                    mu-avatar(slot="left",:src="list.headimg")
-                                    span(slot="describe")
-                                        span {{list.detail}}
+            h2(style="display:inline-block;") 项目成员
+                mu-flat-button(style="display:inline-block",label="管理成员",@click="toggleManageMemberDisplay",v-if='isTeamLeader')
+            div(style="margin-bottom: 10px")
+                mu-chip(v-for="item in member",:key="item.id",@delete="deleteMember(item.id)",:showDelete="isMemberManageDisplay")
+                    mu-avatar(:size="32",:src="item.head_image")
+                    {{item.name}}
+            div(v-if="isMemberManageDisplay")
+                mu-text-field(label="用户名",v-model="newMemberName")
+                mu-raised-button(label="添加新成员",@click="addMember", secondary, style='margin-left:10px;')
+                mu-raised-button(label="取消",@click="cancelMemberManage", primary, style='margin-left:10px;')
+
             mu-divider
+
+            h2 项目详情
+            div(v-html="team.details" v-if="!isEditDisplay")
+            div.center.aligned
+                mu-raised-button(icon="edit",style="margin:20px;",label="修改项目简介",v-if="isTeamLeader && !isEditDisplay",@click="detailsEdit")
+                vue-editor(v-model="team.details" v-if="isEditDisplay")
+                mu-raised-button(label="提 交",style="margin:10px 0",v-if="isEditDisplay",@click="submitEdit")
+                span &nbsp;
+                mu-raised-button(label="取 消",style="margin:10px 0",v-if="isEditDisplay",@click="cancelEdit")
+            
+            mu-divider
+
             mu-row(gutter)
+            mu-tabs(:value="activeTab",@change="handleTabChange")
+                mu-tab(value="tab1",title="项目文档资料")
+                mu-tab(value="tab2",title="评论")
+                mu-tab(value="tab3",title="关注")
+            div(v-if="activeTab==='tab1'")
+                mu-row(gutter)
                 mu-col(desktop="100")
-                    h2 项目组文档资料
+                    h4 项目组文档资料
                     mu-table(:showCheckbox="showCheckbox")
                         mu-thead
                             mu-tr
@@ -81,11 +68,41 @@ div.padded
                                     mu-raised-button(label="删除" @click="deleteDocument(item.id)")
                 mu-col.center.aligned(desktop="100" style="margin:20px;")
                     mu-raised-button(label="上传新文件")
+            div(v-if="activeTab==='tab2'")
+                mu-row
+                    mu-col(desktop="100" style="margin-bottom:20px;")
+                        h4 评论(133条)
+                        mu-col.center.aligned(desktop="100")
+                            mu-text-field(hintText="不允许超过140个字符",:maxLength="140",fullWidth)
+                            mu-raised-button(label="评论")
+                        mu-paper
+                            mu-list
+                                mu-list-item(v-for="item in comment",:key="item.id",:title="item.name+'  '+item.time")
+                                    mu-avatar(slot="left",:src="item.headimg")
+                                    i.icon.star(slot="right")
+                                    span(slot="describe")
+                                        span {{item.detail}}
+                                    mu-list-item(v-for="list in reply",:key="list.id",:title="list.name+'  '+list.time")
+                                        mu-avatar(slot="left",:src="list.headimg")
+                                        span(slot="describe")
+                                            span {{list.detail}}
+            div(v-if="activeTab==='tab3'")
+                mu-row(gutter)
+                    mu-col(desktop="100")
+                        h4 他们对此感兴趣
+                        mu-avatar(src="/static/img/team/404.png")
+                
+    mu-dialog(:open="isDialogDeleteFollowDisplay",title="Dialog",@close="closeDeleteFollowConfirmDialog") 是否取消关注
+        mu-flat-button(slot="actions",@click="closeDeleteFollowConfirmDialog",primary,label="取消")
+        mu-flat-button(slot="actions",secondary,@click="deleteFollow",label="确定")
 </template>
 
 <script>
 import { VueEditor } from 'vue2-editor'
 import DateTime from '@/common/datetime'
+import TeamDB from '@/db/student.team'
+import TeamFollowDB from '@/db/student.team.follow'
+import TeamMemberDB from '@/db/student.team.member'
 
 export default {
     name: 'details',
@@ -94,13 +111,17 @@ export default {
     },
     data() {
         return {
-            team:[],
-            isMemberManage: false,
-            showBrief:true,
-            showEdit:false,
-            editState:"修改项目简介",
-            editContent: '<h2>项目名称</h2><p>项目简介、包括图文</p>',
-            details: [],
+            team:[],                             //team details
+            isTeamLeader: false,                 //is student a team leader flag
+
+            isFollowed: false,                   //has student followed the team flag
+            isDialogDeleteFollowDisplay: false,  //delete follow confirm dialog display flag
+
+            isMemberManageDisplay: false,        //member manage div display flag
+            newMemberName:'',                    //member name which to add.
+
+            isEditDisplay:false,                 //team details editor display flag
+
             pageView: 330,
             showCheckbox:false,
             showDelete:false,
@@ -146,63 +167,115 @@ export default {
                     time: "2017-6-8",
                     name: "TT"
                 }
-            ]
+            ],
+            activeTab:'tab1',
         }
     },
     mounted: function () {
         this.loadTeam();
+        if(this.$cookie.getCookie('sid')){
+           this.checkFollow();
+           this.checkTeamLeader();
+        }
     },
     methods: {
+        //Load team's details.
         loadTeam(){
             var _this = this;
             //Load team details
-            this.$db.getStudentTeamDetails(this, {id: this.$route.params.id}).then(res=>{
-                console.log(res[0])
+            TeamDB.getStudentTeamDetails(this, {id: this.$route.params.id}).then(res=>{
                 _this.team = res[0];
                 _this.team.time = DateTime.dateFormat(_this.team.time);
             });
             //Load team members
-            this.$db.getStudentTeamMember(this, {team_id: this.$route.params.id}).then(res=>{
+            TeamMemberDB.getStudentTeamMember(this, {team_id: this.$route.params.id}).then(res=>{
                 _this.member = res;
             });
         },
-        manageMember() {
-            this.isMemberManage = !this.isMemberManage;
-        },
-        searchStudent(e){
-            console.log(e);
-        },
-        showMemberDetails(){
 
+        //check: has student followed the team.
+        checkFollow(){
+            var _this = this;
+            TeamFollowDB.isStudentTeamFollowed(this, {student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id}).then(res=>{
+                _this.isFollowed = res == 1? true : false;
+            });
         },
-        deleteMember(id) {
 
-        },
-        addMember() {//点击添加新成员按钮
+        //follow the team
+        follow(){
+            var _this = this;
+            if(this.isFollowed){
+                //delete student follow
+                this.isDialogDeleteFollowDisplay = true; //open delete confirm dialog   
+            }
+            else{
+                //new student follow
+                TeamFollowDB.newStudentTeamFollow(this, {student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id}).then(res=>{
+                    if(res.insertId > 0){
+                        _this.isFollowed = true;
+                    }             
+                }); 
+            }
             
         },
-        cancelMemberManage() {//取消添加成员
-            this.isMemberManage = false;
+
+        //delete follow
+        deleteFollow(){
+            var _this = this;
+            TeamFollowDB.delStudentTeamFollow(this, {student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id}).then(res=>{
+                if(res.affectedRows > 0){
+                    _this.isFollowed = false;
+                }             
+            });
+            //close confirmation dialog.
+            this.closeDeleteFollowConfirmDialog();
         },
-        editBrief() {
-            this.showBrief = !this.showBrief;
-            this.showEdit = !this.showEdit;
-            if (this.showEdit){
-                this.editState = "完成";
-            }else{
-                this.editState = "修改项目简介";
-            }
+
+        closeDeleteFollowConfirmDialog(){
+            this.isDialogDeleteFollowDisplay = false;
+        },
+
+        //determine: is the student a team leader.
+        checkTeamLeader(){
+            var _this = this;
+            TeamDB.isStudentTeamLeader(this, {student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id}).then(res=>{
+                _this.isTeamLeader = res[0].is_team_leader == 1 ? true : false;
+            });
+        },
+
+        //to show manage member div.
+        toggleManageMemberDisplay() {
+            this.isMemberManageDisplay = !this.isMemberManageDisplay;
+        },
+
+        cancelMemberManage() { //取消添加成员
+            this.isMemberManageDisplay = false;
+        },
+
+        /* Details */
+        detailsEdit(){
+            this.isEditDisplay = true;
+        },
+        submitEdit() {
+            TeamDB.setStudentTeamDetails(this, {details: this.team.details, team_id: this.$route.params.id}).then(res=>{
+                if(res.affectedRows > 0){
+                    this.isEditDisplay = false;
+                }
+            });
         },
         cancelEdit() {
-            this.showBrief = !this.showBrief;
-            this.showEdit = !this.showEdit;
-            this.editState = "修改项目简介";
+            this.isEditDisplay = false;
         },
+
+        /* Document */
         deleteDocument(id) {
            
         },
         previewDocument() {
             this.dialog = true;
+        },
+        handleTabChange(val) {
+            this.activeTab = val;
         }
     }
 }
@@ -214,5 +287,9 @@ export default {
 }
 .mu-td {
     word-wrap: break-word !important;
+}
+.mu-tab-active {
+    background-color: #457cce;
+    color:white;
 }
 </style>

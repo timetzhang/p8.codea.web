@@ -9,14 +9,20 @@
                         h2(style="margin-top:10px;") {{item.name}}
                         p(v-html="item.intro")
                         p.right.aligned
-                            mu-raised-button(label='收藏',icon='favorite', :secondary='faved', @click='favCourse')
+                            mu-raised-button(label='收藏',icon='favorite', :secondary='isFav', @click='favCourse')
             mu-divider
             mu-content-block.para(v-html='item.details')
+        mu-dialog(:open="isDialogDeleteFavDisplay",title="请确认",@close="closeDeleteFavConfirmDialog") 是否取消收藏
+            mu-flat-button(slot="actions",@click="closeDeleteFavConfirmDialog",primary,label="取消")
+            mu-flat-button(slot="actions",secondary,@click="deleteFav",label="确定")
 </template>
 
 <script>
 import DateTime from '@/common/datetime.js'
 import Browser from '@/common/browser'
+import CourseDB from '@/db/course'
+import StudentFavCourseDB from '@/db/student.fav.course'
+
 import 'highlightjs/styles/androidstudio.css'
 
 export default {
@@ -24,12 +30,13 @@ export default {
     data() {
         return {
             item: {},
-            faved: false,
-            course_id: this.$route.params.course_id,
+            isFav: false,
+            courseId: this.$route.params.course_id,
             isMobile: Browser.mobile,
+            isDialogDeleteFavDisplay: false
         }
     },
-    mounted: function () {
+    beforeMount: function () {
         this.loadCourseDetails();
         if (this.$cookie.getCookie('sid')) {
             this.isStudentFavCourse();
@@ -38,7 +45,7 @@ export default {
     methods: {
         loadCourseDetails() {
             var _this = this;
-            this.$db.getCourseDetails(this, { course_id: this.course_id }).then(res => {
+            CourseDB.getCourseDetails(this, { course_id: this.courseId }).then(res => {
                 _this.item = res[0];
                 document.title = _this.item.name + ' - CodeA - Sky College';
             });
@@ -46,17 +53,13 @@ export default {
         favCourse() {
             if (this.$cookie.getCookie('sid')) {
                 var _this = this;
-                if (this.faved) { //如果已经收藏了课程，删除收藏的课程
-                    this.$db.delStudentFavCourse(this, { student_id: this.$cookie.getCookie('sid'), course_id: this.course_id }).then(res => {
-                        if (res.affectedRows > 0) {
-                            _this.faved = false;
-                        };
-                    });
+                if (this.isFav) { //如果已经收藏了课程，删除收藏的课程
+                    this.isDialogDeleteFavDisplay = true;
                 }
                 else { //如果没有收藏，加入收藏
-                    this.$db.newStudentFavCourse(this, { student_id: this.$cookie.getCookie('sid'), course_id: this.course_id }).then(res => {
+                    StudentFavCourseDB.newStudentFavCourse(this, { student_id: this.$cookie.getCookie('sid'), course_id: this.courseId }).then(res => {
                         if (res.affectedRows > 0) {
-                            _this.faved = true;
+                            _this.isFav = true;
                         };
                     });
                 }
@@ -68,11 +71,23 @@ export default {
         },
         isStudentFavCourse() {
             var _this = this;
-            this.$db.isStudentFavCourse(this, { student_id: this.$cookie.getCookie('sid'), course_id: this.course_id }).then(res => {
+            StudentFavCourseDB.isStudentFavCourse(this, { student_id: this.$cookie.getCookie('sid'), course_id: this.courseId }).then(res => {
                 if (res == '1')
-                    _this.faved = true;
+                    _this.isFav = true;
                 else
-                    _this.faved = false;
+                    _this.isFav = false;
+            });
+        },
+        closeDeleteFavConfirmDialog(){
+            this.isDialogDeleteFavDisplay = false;
+        },
+        deleteFav(){
+            var _this = this;
+            StudentFavCourseDB.delStudentFavCourse(this, { student_id: this.$cookie.getCookie('sid'), course_id: this.courseId }).then(res => {     
+                if (res.affectedRows > 0) {
+                    _this.isFav = false;
+                    _this.closeDeleteFavConfirmDialog();
+                };
             });
         }
     }

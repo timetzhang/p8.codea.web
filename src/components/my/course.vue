@@ -13,7 +13,7 @@ export default {
     name: 'my-course',
     data() {
         return {
-            logo_img: '/static/img/course/csharp.png'
+            logo_img: ''
         }
     },
     mounted: function () {

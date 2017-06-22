@@ -13,6 +13,7 @@ div
 </template>
 
 <script>
+import StudentTeamDB from '@/db/student.team'
 export default {
     name: 'team',
     data() {
@@ -27,9 +28,8 @@ export default {
     methods: {
         loadTeam() {
             var _this = this;
-            this.$db.getStudentTeam(this).then(res => {
+            StudentTeamDB.getStudentTeam(this).then(res => {
                 _this.teams = res;
-                console.log(res);
             });
         }
     }

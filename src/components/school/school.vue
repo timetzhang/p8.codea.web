@@ -24,7 +24,7 @@
                         a(href='/school/parkathon')
                             mu-list-item.item(title="集训营", :class='currentPage == "parkathon" ? "router-link-active" : ""')
                         a(href='/school/course')
-                            mu-list-item.item(title="两年课程", :class='currentPage == "course" ? "router-link-active" : ""')
+                            mu-list-item.item(title="1+1年课程", :class='currentPage == "course" ? "router-link-active" : ""')
                         a(href='/school/team')
                             mu-list-item.item(title="项目组", :class='currentPage == "team" ? "router-link-active" : ""')
                         a(href='/school/career')
@@ -49,6 +49,7 @@
                             mu-list-item.item(title="联系我们", :class='currentPage == "contact" ? "router-link-active" : ""')
             mu-col(:desktop="contentWidth", width="100")
                 mu-appbar(:title="title")
+                    mu-icon-button(icon="keyboard_arrow_left",slot="left",@click='goBack')
                     mu-icon-button(icon="menu",slot="right",@click='toggleMenu')
                 router-view
 </template>
@@ -62,8 +63,9 @@ export default {
         return {
             isMobile: Browser.mobile,
             showMenu: true,
-            currentPage: window.location.pathname.split('/')[2],
-            contentWidth: 80
+            currentPage: window.location.pathname.split('/')[2].toLowerCase(),
+            contentWidth: 80,
+            title:'as'
         }
     },
     mounted: function () {
@@ -71,12 +73,57 @@ export default {
         if (this.isMobile) {
             this.showMenu = false;
         }
-        document.title = '学校 - CodeA - Sky College';
+
+        switch(this.currentPage.toLowerCase()){
+            case "vision":
+                this.title="愿景与目标";
+                break;
+            case "revolution":
+                this.title="革新";
+                break;
+            case "geek":
+                this.title="Geek文化";
+                break;
+            case "study_space":
+                this.title="学习空间";
+                break;
+            case "dorm_space":
+                this.title="居住空间";
+                break;
+
+            case "parkathon":
+                this.title="集训营";
+                break;
+            case "course":
+                this.title="1+1年课程";
+                break;
+            case "team":
+                this.title="项目组";
+                break;
+            case "career":
+                this.title="就业";
+                break;
+
+            case "project":
+                this.title="项目";
+                break;
+            case "entrance":
+                this.title="入学考试";
+                break;
+            case "contact":
+                this.title="联系我们";
+                break;
+        }
+        
+        document.title = this.title + ' - 学校 - CodeA - Sky College';
     },
     methods: {
         toggleMenu() {
             this.showMenu = !this.showMenu;
             this.contentWidth = this.contentWidth == 100 ? 80 : 100;
+        },
+        goBack(){
+            this.$router.go(-1);
         }
     }
 }

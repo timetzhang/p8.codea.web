@@ -100,6 +100,8 @@
 </template>
 
 <script>
+import StudentDB from '@/db/student'
+
 const address = {
     '北京': ['北京'],
     '广东': ['广州', '深圳', '珠海', '汕头', '韶关', '佛山', '江门', '湛江', '茂名', '肇庆', '惠州', '梅州', '汕尾', '河源', '阳江', '清远', '东莞', '中山', '潮州', '揭阳', '云浮'],
@@ -364,7 +366,7 @@ export default {
         },
         register() {
             if (this.valid) {
-                this.$db.newStudent(this, {
+                StudentDB.newStudent(this, {
                     name: this.name,
                     sex: this.sex,
                     dob: this.dob,
