@@ -439,13 +439,31 @@ export default {
     },
 
     /**
-     * 获取项目组List
+     * 获取项目组DETAILS
      * @param {*} obj 为this
      */
     getStudentTeamDetails(obj, options) {
         return new Promise(
             function(resolve) {
                 var dbUrl = dbBaseUrl + '/getStudentTeamDetails?id=' + options.id;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+
+    /**
+     * 获取项目组Members
+     * @param {*} obj 为this
+     */
+    getStudentTeamMember(obj, options) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = dbBaseUrl + '/getStudentTeamMember?team_id=' + options.team_id;
                 obj.$http({
                     url: dbUrl,
                     method: 'GET'

@@ -3,29 +3,32 @@ div.padded
     mu-paper(style="padding:10px")
         mu-content-block.para
             mu-row(gutter)
-                mu-col.center.aligned(desktop="35",table="50",width="100")
-                    img(:src="team.logo_url", style='border:1px solid #eee',width="50%")
-                mu-col(desktop="65",table="50",width="100")
+                mu-col(desktop="15",table="50",width="100")
+                    img(:src="team.logo_url", style='border:1px solid #eee',width="100%")
+                mu-col(desktop="85",table="50",width="100")
                     h2(style="margin-top:10px;") {{team.name}}
-                        span(style="font-size:12px;font-weight: normal;float:right") （浏览量：{{team.click_count}}）
+                        span(style="font-size:12px;font-weight: normal;float:right") (浏览量：{{team.click_count}})
                     span 成立时间：{{team.time}}
-                    p {{team.brief}}
-                    div
-                        mu-raised-button(icon="star" label="收藏" style="float:right;margin-left:10px;margin-bottom:20px;")
-                        mu-raised-button(icon="favorite" style="float:right")
+                    p {{team.intro}}
+                    div.right.aligned
+                        mu-raised-button(icon="star",label="关注")
+                    br
             mu-divider
+
             mu-row(gutter)
                 h2(style="display:inline-block;") 项目成员
                     mu-flat-button(style="display:inline-block" label="管理成员" @click="manageMember")
                 mu-col(desktop="100")
-                    mu-chip(v-for="item in member",:key="item.id",@delete="deleteMember(item.id)",:showDelete="showDelete")
-                        mu-avatar(:size="32",:src="item.headimg")
+                    mu-chip(v-for="item in member",:key="item.id",@click="showMemberDetails(item.student_id)",@delete="deleteMember(item.id)",:showDelete="isMemberManage")
+                        mu-avatar(:size="32",:src="item.head_image")
                         {{item.name}}
                 mu-col(desktop="100")
-                    mu-text-field(label="用户名" v-if="showAddMember")
-                    mu-flat-button(:icon="addIcon",style="margin:10px",:label="addMember",v-if="showAdd",@click="addMb")
-                    mu-flat-button(label="取消" backgroundColor="#f44336" color="white" v-if="showAddMember" @click="cancel")
+                    mu-text-field(label="用户名",v-if="isMemberManage",@input="searchStudent")
+                    mu-raised-button(label="添加新成员",v-if="isMemberManage",@click="addMember", secondary, style='margin-left:10px;')
+                    mu-raised-button(label="取消",color="white",v-if="isMemberManage",@click="cancelMemberManage", secondary, style='margin-left:10px;')
+
             mu-divider
+
             mu-row.center.aligned(gutter)
                 h2 项目详情
                 mu-col(desktop="100")
@@ -42,7 +45,7 @@ div.padded
                 mu-col(desktop="100" style="margin-bottom:20px;")
                     h4 评论(133条)
                     mu-col.center.aligned(desktop="100")
-                        mu-text-field(hintText="不允许超过140个字符",:maxLength="140",fullWidth)
+                        mu-text-field(hintText="不允许超过140个字符",:maxLength="140",:fullWidth="true")
                         mu-raised-button(label="评论")
                     mu-paper
                         mu-list
@@ -92,6 +95,7 @@ export default {
     data() {
         return {
             team:[],
+            isMemberManage: false,
             showBrief:true,
             showEdit:false,
             editState:"修改项目简介",
@@ -104,28 +108,7 @@ export default {
             addIcon:"add",
             addMember:"添加新成员",
             showAddMember:false,
-            member: [
-                {
-                    id:0,
-                    headimg: "/static/img/team/404.png",
-                    name: "东wer哥"
-                },
-                {
-                    id:1,
-                    headimg: "/static/img/team/404.png",
-                    name: "东werw哥"
-                },
-                {
-                    id:2,
-                    headimg: "/static/img/team/404.png",
-                    name: "东dgf哥"
-                },
-                {
-                    id:3,
-                    headimg: "/static/img/team/404.png",
-                    name: "东ret哥"
-                }
-            ],
+            member: [],
             comment: [
                 {
                     detail:"感觉还真不错",
@@ -172,33 +155,34 @@ export default {
     methods: {
         loadTeam(){
             var _this = this;
+            //Load team details
             this.$db.getStudentTeamDetails(this, {id: this.$route.params.id}).then(res=>{
+                console.log(res[0])
                 _this.team = res[0];
                 _this.team.time = DateTime.dateFormat(_this.team.time);
             });
+            //Load team members
+            this.$db.getStudentTeamMember(this, {team_id: this.$route.params.id}).then(res=>{
+                _this.member = res;
+            });
         },
         manageMember() {
-            this.showDelete = !this.showDelete;
-            this.showAdd = !this.showAdd;
+            this.isMemberManage = !this.isMemberManage;
+        },
+        searchStudent(e){
+            console.log(e);
+        },
+        showMemberDetails(){
+
         },
         deleteMember(id) {
 
         },
-        addMb() {//点击添加新成员按钮
-            this.showAddMember = !this.showAddMember;
-            if(this.showAddMember){
-                this.addIcon = "";
-                this.addMember = "完成";
-            }else{
-                //往此添加新成员
-                this.addIcon = "add";
-                this.addMember = "添加新成员";
-            }
+        addMember() {//点击添加新成员按钮
+            
         },
-        cancel() {//取消添加成员
-            this.showAddMember = !this.showAddMember;
-            this.addIcon = "add";
-            this.addMember = "添加新成员";
+        cancelMemberManage() {//取消添加成员
+            this.isMemberManage = false;
         },
         editBrief() {
             this.showBrief = !this.showBrief;
