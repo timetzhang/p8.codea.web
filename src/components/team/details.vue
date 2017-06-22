@@ -35,30 +35,14 @@ div.padded
                     br
                     mu-raised-button(label="取消" style="margin-bottom:20px;"  backgroundColor="#f44336" color="white" v-if="showEdit" @click="cancelEdit")
                 mu-divider
-            mu-row(gutter)
+            mu-tabs(:value="activeTab",@change="handleTabChange")
+                mu-tab(value="tab1",title="项目文档资料")
+                mu-tab(value="tab2",title="评论")
+                mu-tab(value="tab3",title="关注")
+            div(v-if="activeTab==='tab1'")
+                mu-row(gutter)
                 mu-col(desktop="100")
-                    h3 他们对此感兴趣
-                    mu-avatar(src="/static/img/team/404.png")
-                mu-col(desktop="100" style="margin-bottom:20px;")
-                    h4 评论(133条)
-                    mu-col.center.aligned(desktop="100")
-                        mu-text-field(hintText="不允许超过140个字符",:maxLength="140",fullWidth)
-                        mu-raised-button(label="评论")
-                    mu-paper
-                        mu-list
-                            mu-list-item(v-for="item in comment",:key="item.id",:title="item.name+'  '+item.time")
-                                mu-avatar(slot="left",:src="item.headimg")
-                                i.icon.star(slot="right")
-                                span(slot="describe")
-                                    span {{item.detail}}
-                                mu-list-item(v-for="list in reply",:key="list.id",:title="list.name+'  '+list.time")
-                                    mu-avatar(slot="left",:src="list.headimg")
-                                    span(slot="describe")
-                                        span {{list.detail}}
-            mu-divider
-            mu-row(gutter)
-                mu-col(desktop="100")
-                    h2 项目组文档资料
+                    h4 项目组文档资料
                     mu-table(:showCheckbox="showCheckbox")
                         mu-thead
                             mu-tr
@@ -78,6 +62,31 @@ div.padded
                                     mu-raised-button(label="删除" @click="deleteDocument(item.id)")
                 mu-col.center.aligned(desktop="100" style="margin:20px;")
                     mu-raised-button(label="上传新文件")
+            div(v-if="activeTab==='tab2'")
+                mu-row
+                    mu-col(desktop="100" style="margin-bottom:20px;")
+                        h4 评论(133条)
+                        mu-col.center.aligned(desktop="100")
+                            mu-text-field(hintText="不允许超过140个字符",:maxLength="140",fullWidth)
+                            mu-raised-button(label="评论")
+                        mu-paper
+                            mu-list
+                                mu-list-item(v-for="item in comment",:key="item.id",:title="item.name+'  '+item.time")
+                                    mu-avatar(slot="left",:src="item.headimg")
+                                    i.icon.star(slot="right")
+                                    span(slot="describe")
+                                        span {{item.detail}}
+                                    mu-list-item(v-for="list in reply",:key="list.id",:title="list.name+'  '+list.time")
+                                        mu-avatar(slot="left",:src="list.headimg")
+                                        span(slot="describe")
+                                            span {{list.detail}}
+            div(v-if="activeTab==='tab3'")
+                mu-row(gutter)
+                    mu-col(desktop="100")
+                        h4 他们对此感兴趣
+                        mu-avatar(src="/static/img/team/404.png")
+                
+            
 </template>
 
 <script>
@@ -163,7 +172,8 @@ export default {
                     time: "2017-6-8",
                     name: "TT"
                 }
-            ]
+            ],
+            activeTab:'tab1',
         }
     },
     mounted: function () {
@@ -219,6 +229,9 @@ export default {
         },
         previewDocument() {
             this.dialog = true;
+        },
+        handleTabChange(val) {
+            this.activeTab = val;
         }
     }
 }
@@ -230,5 +243,9 @@ export default {
 }
 .mu-td {
     word-wrap: break-word !important;
+}
+.mu-tab-active {
+    background-color: #457cce;
+    color:white;
 }
 </style>
