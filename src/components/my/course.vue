@@ -5,10 +5,7 @@
                 mu-list(style='overflow: hidden;')
                     mu-list-item(:disableRipple='true',title="C#")
                         mu-linear-progress(:size="20",color="lightBlue700", mode="determinate", :value='50', style='margin-top:10px', slot='describe')
-                        p.right.aligned 11%
-                    mu-list-item(:disableRipple='true',title="Java")
-                        mu-linear-progress(:size="20",color="lightBlue700", mode="determinate", :value='12', style='margin-top:10px')
-                        p.right.aligned 23%
+                        p.right.aligned {{mark}}
 </template>
 
 <script>

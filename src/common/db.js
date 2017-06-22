@@ -17,7 +17,7 @@ export default {
      */
     getCourseSubject(obj) {
         return new Promise(
-            function (resolve) {
+            function(resolve) {
                 var dbUrl = dbBaseUrl + '/getCourseSubject';
                 obj.$http({
                     url: dbUrl,
@@ -35,7 +35,7 @@ export default {
      */
     getCourseType(obj, options) {
         return new Promise(
-            function (resolve) {
+            function(resolve) {
                 var dbUrl = dbBaseUrl + '/getCourseType?subject_id=' + options.subject_id;
                 obj.$http({
                     url: dbUrl,
@@ -53,7 +53,7 @@ export default {
      */
     getCourse(obj, options) {
         return new Promise(
-            function (resolve) {
+            function(resolve) {
                 var dbUrl = dbBaseUrl + '/getCourse?type_id=' + options.type_id;
                 obj.$http({
                     url: dbUrl,
@@ -71,7 +71,7 @@ export default {
      */
     getCourseDetails(obj, options) {
         return new Promise(
-            function (resolve) {
+            function(resolve) {
                 var dbUrl = dbBaseUrl + '/getCourseDetails?course_id=' + options.course_id;
                 obj.$http({
                     url: dbUrl,
@@ -90,7 +90,7 @@ export default {
      */
     getCourseLectureList(obj, options) {
         return new Promise(
-            function (resolve) {
+            function(resolve) {
                 var dbUrl = dbBaseUrl + '/getCourseLectureList?course_id=' + options.course_id;
                 obj.$http({
                     url: dbUrl,
@@ -108,7 +108,7 @@ export default {
      */
     getCourseLecture(obj, options) {
         return new Promise(
-            function (resolve) {
+            function(resolve) {
                 var dbUrl = dbBaseUrl + '/getCourseLecture?lecture_id=' + options.lecture_id;
                 obj.$http({
                     url: dbUrl,
@@ -126,7 +126,7 @@ export default {
      */
     getCourseChapter(obj, options) {
         return new Promise(
-            function (resolve) {
+            function(resolve) {
                 var dbUrl = dbBaseUrl + '/getCourseChapter?course_id=' + options.course_id;
                 obj.$http({
                     url: dbUrl,
@@ -147,7 +147,7 @@ export default {
      */
     getEntranceExam(obj, options) {
         return new Promise(
-            function (resolve) {
+            function(resolve) {
                 var dbUrl = dbBaseUrl + '/getEntranceExam?count=' + options.count;
                 obj.$http({
                     url: dbUrl,
@@ -165,7 +165,7 @@ export default {
      */
     newStudentEntranceExam(obj, data) {
         return new Promise(
-            function (resolve) {
+            function(resolve) {
                 var dbUrl = dbBaseUrl + '/newStudentEntranceExam';
                 obj.$http.post(dbUrl, { data: data }, {
                     headers: {
@@ -186,7 +186,7 @@ export default {
      */
     isStudentEntranceExamDone(obj, options) {
         return new Promise(
-            function (resolve) {
+            function(resolve) {
                 var dbUrl = dbBaseUrl + '/isStudentEntranceExamDone?sid=' + options.sid;
                 obj.$http({
                     url: dbUrl,
@@ -207,7 +207,7 @@ export default {
      */
     newStudent(obj, data) {
         return new Promise(
-            function (resolve) {
+            function(resolve) {
                 var dbUrl = dbBaseUrl + '/newStudent';
                 obj.$http.post(dbUrl, { data: data }, {
                     headers: {
@@ -228,7 +228,7 @@ export default {
      */
     getStudentId(obj, options) {
         return new Promise(
-            function (resolve) {
+            function(resolve) {
                 var dbUrl = dbBaseUrl + '/getStudentId?username=' + options.username + '&password=' + options.password;
                 obj.$http({
                     url: dbUrl,
@@ -247,7 +247,7 @@ export default {
      */
     getStudentDetails(obj, options) {
         return new Promise(
-            function (resolve) {
+            function(resolve) {
                 var dbUrl = dbBaseUrl + '/getStudentDetails?sid=' + options.sid;
                 obj.$http({
                     url: dbUrl,
@@ -266,7 +266,7 @@ export default {
      */
     isStudentEmailExist(obj, options) {
         return new Promise(
-            function (resolve) {
+            function(resolve) {
                 var dbUrl = dbBaseUrl + '/isStudentEmailExist?email=' + options.email;
                 obj.$http({
                     url: dbUrl,
@@ -284,7 +284,7 @@ export default {
      */
     isStudentCellphoneExist(obj, options) {
         return new Promise(
-            function (resolve) {
+            function(resolve) {
                 var dbUrl = dbBaseUrl + '/isStudentCellphoneExist?cellphone=' + options.cellphone;
                 obj.$http({
                     url: dbUrl,
@@ -305,7 +305,7 @@ export default {
      */
     newStudentFavCourse(obj, data) {
         return new Promise(
-            function (resolve) {
+            function(resolve) {
                 var dbUrl = dbBaseUrl + '/newStudentFavCourse';
                 obj.$http.post(dbUrl, { data: data }, {
                     headers: {
@@ -325,7 +325,7 @@ export default {
      */
     isStudentFavCourse(obj, options) {
         return new Promise(
-            function (resolve) {
+            function(resolve) {
                 var dbUrl = dbBaseUrl + '/isStudentFavCourse?student_id=' + options.student_id + '&course_id=' + options.course_id;
                 obj.$http({
                     url: dbUrl,
@@ -344,7 +344,7 @@ export default {
      */
     delStudentFavCourse(obj, data) {
         return new Promise(
-            function (resolve) {
+            function(resolve) {
                 var dbUrl = dbBaseUrl + '/delStudentFavCourse';
                 obj.$http.post(dbUrl, { data: data }, {
                     headers: {
@@ -359,13 +359,13 @@ export default {
     },
 
     /**
-    * 新课程收藏
-    * @param {*} obj 为this
-    * @param {*} data { student_id, sdk_id}
-    */
+     * 新课程收藏
+     * @param {*} obj 为this
+     * @param {*} data { student_id, sdk_id}
+     */
     newStudentFavSDK(obj, data) {
         return new Promise(
-            function (resolve) {
+            function(resolve) {
                 var dbUrl = dbBaseUrl + '/newStudentFavSDK';
                 obj.$http.post(dbUrl, { data: data }, {
                     headers: {
@@ -385,7 +385,7 @@ export default {
      */
     isStudentFavSDK(obj, options) {
         return new Promise(
-            function (resolve) {
+            function(resolve) {
                 var dbUrl = dbBaseUrl + '/isStudentFavSDK?student_id=' + options.student_id + '&sdk_id=' + options.sdk_id;
                 obj.$http({
                     url: dbUrl,
@@ -404,7 +404,7 @@ export default {
      */
     delStudentFavSDK(obj, data) {
         return new Promise(
-            function (resolve) {
+            function(resolve) {
                 var dbUrl = dbBaseUrl + '/delStudentFavSDK';
                 obj.$http.post(dbUrl, { data: data }, {
                     headers: {
@@ -419,14 +419,33 @@ export default {
     },
 
     /******************* STUDENT TEAM ********************/
+
     /**
      * 获取项目组List
      * @param {*} obj 为this
      */
     getStudentTeam(obj) {
         return new Promise(
-            function (resolve) {
+            function(resolve) {
                 var dbUrl = dbBaseUrl + '/getStudentTeam';
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+
+    /**
+     * 获取项目组List
+     * @param {*} obj 为this
+     */
+    getStudentTeamDetails(obj, options) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = dbBaseUrl + '/getStudentTeamDetails?id=' + options.id;
                 obj.$http({
                     url: dbUrl,
                     method: 'GET'
@@ -446,7 +465,7 @@ export default {
      */
     getSDKType(obj, options) {
         return new Promise(
-            function (resolve) {
+            function(resolve) {
                 var dbUrl = dbBaseUrl + '/getSDKType?subject_id=' + options.subject_id;
                 obj.$http({
                     url: dbUrl,
@@ -464,7 +483,7 @@ export default {
      */
     getSDK(obj, options) {
         return new Promise(
-            function (resolve) {
+            function(resolve) {
                 var dbUrl = dbBaseUrl + '/getSDK?type_id=' + options.type_id;
                 obj.$http({
                     url: dbUrl,
@@ -482,7 +501,7 @@ export default {
      */
     getSDKDetails(obj, options) {
         return new Promise(
-            function (resolve) {
+            function(resolve) {
                 var dbUrl = dbBaseUrl + '/getSDKDetails?id=' + options.id;
                 obj.$http({
                     url: dbUrl,

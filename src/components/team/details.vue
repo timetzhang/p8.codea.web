@@ -4,12 +4,12 @@ div.padded
         mu-content-block.para
             mu-row(gutter)
                 mu-col.center.aligned(desktop="35",table="50",width="100")
-                    img(src="/static/img/team/404.png", style='border:1px solid #eee',width="50%")
+                    img(:src="team.logo_url", style='border:1px solid #eee',width="50%")
                 mu-col(desktop="65",table="50",width="100")
-                    h2(style="margin-top:10px;") 404
-                        span(style="font-size:12px;font-weight: normal;float:right") （浏览量：{{pageView}}）
-                    span 成立时间：2017年6月1日
-                    p codea项目组，codea天空编程学院项目
+                    h2(style="margin-top:10px;") {{team.name}}
+                        span(style="font-size:12px;font-weight: normal;float:right") （浏览量：{{team.click_count}}）
+                    span 成立时间：{{team.time}}
+                    p {{team.brief}}
                     div
                         mu-raised-button(icon="star" label="收藏" style="float:right;margin-left:10px;margin-bottom:20px;")
                         mu-raised-button(icon="favorite" style="float:right")
@@ -82,6 +82,8 @@ div.padded
 
 <script>
 import { VueEditor } from 'vue2-editor'
+import DateTime from '@/common/datetime'
+
 export default {
     name: 'details',
     components: {
@@ -89,6 +91,7 @@ export default {
     },
     data() {
         return {
+            team:[],
             showBrief:true,
             showEdit:false,
             editState:"修改项目简介",
@@ -164,9 +167,16 @@ export default {
         }
     },
     mounted: function () {
-        
+        this.loadTeam();
     },
     methods: {
+        loadTeam(){
+            var _this = this;
+            this.$db.getStudentTeamDetails(this, {id: this.$route.params.id}).then(res=>{
+                _this.team = res[0];
+                _this.team.time = DateTime.dateFormat(_this.team.time);
+            });
+        },
         manageMember() {
             this.showDelete = !this.showDelete;
             this.showAdd = !this.showAdd;
