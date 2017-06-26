@@ -68,7 +68,7 @@ export default {
                             this.cellPhoneAndEmailErrorText = '请输入正确的手机号码';
                         }else{
                             //判断cellphone是否存在
-                            this.$db.isStudentCellphoneExist(this, { cellPhoneAndEmail: this.cellPhoneAndEmail }).then(res => {
+                            StudentDB.isStudentCellphoneExist(this, { cellPhoneAndEmail: this.cellPhoneAndEmail }).then(res => {
                                 if (res != 1) {
                                     _this.cellPhoneAndEmailErrorText = '此用户不存在';
                                 }else{

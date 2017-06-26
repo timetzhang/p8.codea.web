@@ -9,7 +9,7 @@
                     mu-text-field(label="密码",:labelFloat='true',type='password',:fullWidth='true',v-model='password',:errorText = 'passwordErrorText')
                     br
                     div.right.aligned
-                        a(href='/password') 忘记密码？
+                        a(href='/login/forget_password') 忘记密码？
                     div.center.aligned
                         br
                         mu-raised-button(label='登 录',secondary,@click='login')
