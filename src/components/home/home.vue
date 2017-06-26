@@ -41,6 +41,7 @@
 <script>
 
 import Browser from '@/common/browser'
+import Config from '@/common/config'
 
 export default {
     name: 'home',
@@ -158,7 +159,7 @@ export default {
                 _this.screenWidth = window.screenWidth
             })()
         }
-        document.title = '首页 - CodeA - Sky College';
+        document.title = '首页 - ' + Config.title;
     },
     methods: {
 

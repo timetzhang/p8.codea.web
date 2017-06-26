@@ -14,6 +14,8 @@ div
 
 <script>
 import StudentTeamDB from '@/db/student.team'
+import Config from '@/common/config'
+
 export default {
     name: 'team',
     data() {
@@ -23,7 +25,7 @@ export default {
     },
     mounted: function () {
         this.loadTeam();
-        document.title = '项目组 - CodeA - Sky College';
+        document.title = '项目组 - ' + Config.title;
     },
     methods: {
         loadTeam() {

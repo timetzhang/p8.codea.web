@@ -35,6 +35,7 @@
 
 <script>
 import Browser from '@/common/browser'
+import Config from '@/common/config'
 
 export default {
     name: 'school',
@@ -54,7 +55,7 @@ export default {
         if (!this.$cookie.getCookie('sid')) {
             this.$router.push('/login');
         }
-        document.title = '我的 - CodeA - Sky College';
+        document.title = '我的 - ' + Config.title;
     },
     methods: {
         toggleMenu() {

@@ -11,6 +11,8 @@ div.padded
 
 <script>
 import { VueEditor } from 'vue2-editor'
+import Config from '@/common/config'
+
 export default {
     name: 'doc',
     components: {

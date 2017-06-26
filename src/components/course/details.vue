@@ -22,7 +22,7 @@ import DateTime from '@/common/datetime.js'
 import Browser from '@/common/browser'
 import CourseDB from '@/db/course'
 import StudentFavCourseDB from '@/db/student.fav.course'
-
+import Config from '@/common/config'
 import 'highlightjs/styles/androidstudio.css'
 
 export default {
@@ -47,7 +47,7 @@ export default {
             var _this = this;
             CourseDB.getCourseDetails(this, { course_id: this.courseId }).then(res => {
                 _this.item = res[0];
-                document.title = _this.item.name + ' - CodeA - Sky College';
+                document.title = _this.item.name + Config.title;
             });
         },
         favCourse() {

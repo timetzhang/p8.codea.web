@@ -101,6 +101,7 @@
 
 <script>
 import StudentDB from '@/db/student'
+import Config from '@/common/config'
 
 const address = {
     '北京': ['北京'],
@@ -196,7 +197,7 @@ export default {
         }
     },
     mounted: function () {
-        document.title = '注册 - CodeA - Sky College';
+        document.title = '注册 - ' + Config.title;
     },
     methods: {
         //判断cellphone
@@ -218,7 +219,7 @@ export default {
                     this.cellphoneErrorText = null;
                     this.valid = true;
                     //判断cellphone是否存在
-                    this.$db.isStudentCellphoneExist(this, { cellphone: this.cellphone }).then(res => {
+                    StudentDB.isStudentCellphoneExist(this, { cellphone: this.cellphone }).then(res => {
                         if (res == 1) {
                             _this.valid = false;
                             _this.cellphoneErrorText = '此手机号码已经存在';
@@ -246,7 +247,7 @@ export default {
                     this.emailErrorText = null;
                     this.valid = true;
                     //判断cellphone是否存在
-                    this.$db.isStudentEmailExist(this, { email: this.email }).then(res => {
+                    StudentDB.isStudentEmailExist(this, { email: this.email }).then(res => {
                         if (res == 1) {
                             _this.valid = false;
                             _this.emailErrorText = '此Email已经存在';

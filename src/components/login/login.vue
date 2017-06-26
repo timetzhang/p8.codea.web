@@ -15,6 +15,8 @@
 
 <script>
 import StudentDB from '@/db/student'
+import Config from '@/common/config'
+
 export default {
     name: 'school-contact',
     data() {
@@ -27,7 +29,7 @@ export default {
         }
     },
     mounted: function () {
-        document.title = '登录 - CodeA - Sky College';
+        document.title = '登录 - ' + Config.title;
     },
     methods: {
         goBack() {

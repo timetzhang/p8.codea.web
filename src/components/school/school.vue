@@ -56,6 +56,7 @@
 
 <script>
 import Browser from '@/common/browser'
+import Config from '@/common/config'
 
 export default {
     name: 'school',
@@ -115,7 +116,7 @@ export default {
                 break;
         }
         
-        document.title = this.title + ' - 学校 - CodeA - Sky College';
+        document.title = this.title + ' - 学校 - ' + Config.title;
     },
     methods: {
         toggleMenu() {
