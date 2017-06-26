@@ -96,7 +96,7 @@ div.padded
         mu-flat-button(slot="actions",@click="closeDeleteFollowConfirmDialog",primary,label="取消")
         mu-flat-button(slot="actions",secondary,@click="deleteFollow",label="确定")
 </template>
-
+<script src="https://cdn.bootcss.com/quill/1.2.6/quill.snow.css"></script>
 <script>
 import { VueEditor } from 'vue2-editor'
 import DateTime from '@/common/datetime'

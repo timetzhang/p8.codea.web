@@ -8,7 +8,10 @@
                     mu-text-field(label="手机号码或Email",:labelFloat='true',:fullWidth='true',v-model='username',:errorText = 'usernameErrorText')
                     mu-text-field(label="密码",:labelFloat='true',type='password',:fullWidth='true',v-model='password',:errorText = 'passwordErrorText')
                     br
+                    div.right.aligned
+                        a(href='/password') 忘记密码？
                     div.center.aligned
+                        br
                         mu-raised-button(label='登 录',secondary,@click='login')
                     p
 </template>
