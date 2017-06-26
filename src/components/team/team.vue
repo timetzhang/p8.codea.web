@@ -13,7 +13,6 @@ div
 </template>
 
 <script>
-import StudentTeamDB from '@/db/student.team'
 import Config from '@/common/config'
 
 export default {
@@ -30,7 +29,7 @@ export default {
     methods: {
         getTeam() {
             var _this = this;
-            StudentTeamDB.getStudentTeam(this,{pagenum: 0, pagesize:10}).then(res => {
+            this.$db.getStudentTeam(this,{pagenum: 0, pagesize:10}).then(res => {
                 _this.teams = res;
             });
         }

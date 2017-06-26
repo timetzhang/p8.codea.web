@@ -20,8 +20,6 @@
 <script>
 import DateTime from '@/common/datetime.js'
 import Browser from '@/common/browser'
-import CourseDB from '@/db/course'
-import StudentFavCourseDB from '@/db/student.fav.course'
 import Config from '@/common/config'
 import 'highlightjs/styles/androidstudio.css'
 
@@ -45,7 +43,7 @@ export default {
     methods: {
         loadCourseDetails() {
             var _this = this;
-            CourseDB.getCourseDetails(this, { course_id: this.courseId }).then(res => {
+            this.$db.getCourseDetails(this, { course_id: this.courseId }).then(res => {
                 _this.item = res[0];
                 document.title = _this.item.name + Config.title;
             });
@@ -57,7 +55,7 @@ export default {
                     this.isDialogDeleteFavDisplay = true;
                 }
                 else { //如果没有收藏，加入收藏
-                    StudentFavCourseDB.newStudentFavCourse(this, { student_id: this.$cookie.getCookie('sid'), course_id: this.courseId }).then(res => {
+                    this.$db.newStudentFavCourse(this, { student_id: this.$cookie.getCookie('sid'), course_id: this.courseId }).then(res => {
                         if (res.affectedRows > 0) {
                             _this.isFav = true;
                         };
@@ -71,7 +69,7 @@ export default {
         },
         isStudentFavCourse() {
             var _this = this;
-            StudentFavCourseDB.isStudentFavCourse(this, { student_id: this.$cookie.getCookie('sid'), course_id: this.courseId }).then(res => {
+            this.$db.isStudentFavCourse(this, { student_id: this.$cookie.getCookie('sid'), course_id: this.courseId }).then(res => {
                 if (res == '1')
                     _this.isFav = true;
                 else
@@ -83,7 +81,7 @@ export default {
         },
         deleteFav(){
             var _this = this;
-            StudentFavCourseDB.delStudentFavCourse(this, { student_id: this.$cookie.getCookie('sid'), course_id: this.courseId }).then(res => {     
+            this.$db.delStudentFavCourse(this, { student_id: this.$cookie.getCookie('sid'), course_id: this.courseId }).then(res => {     
                 if (res.affectedRows > 0) {
                     _this.isFav = false;
                     _this.closeDeleteFavConfirmDialog();

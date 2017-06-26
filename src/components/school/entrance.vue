@@ -27,7 +27,6 @@
 
 <script>
 import Cookie from '@/common/cookie.js'
-import EntranceDB from '@/db/entrance'
 
 export default {
     name: 'school-contact',
@@ -51,7 +50,7 @@ export default {
 
         //如果已经登录
         if (Cookie.getCookie('sid') > 0) {
-            EntranceDB.isStudentEntranceExamDone(this, { sid: Cookie.getCookie('sid') }).then(res => {
+            this.$db.isStudentEntranceExamDone(this, { sid: Cookie.getCookie('sid') }).then(res => {
                 if (res == 0)
                     this.generateExam();
                 else
@@ -67,7 +66,7 @@ export default {
             //获取Entrance Exam
             //来源 @/common/db.js
             var _this = this;
-            EntranceDB.getEntranceExam(this, { count: 5 }).then(res => {
+            this.$db.getEntranceExam(this, { count: 5 }).then(res => {
                 _this.items = res;
             });
         },
@@ -87,7 +86,7 @@ export default {
             //注册data的各字段
             //来源 @/common/db.js
             if (valid) {
-                EntranceDB.newStudentEntranceExam(this, this.data).then(res => {
+                this.$db.newStudentEntranceExam(this, this.data).then(res => {
                     if (res.affectedRows > 0) {
                         this.isSubmit = true;
                         this.submitDialog = true;

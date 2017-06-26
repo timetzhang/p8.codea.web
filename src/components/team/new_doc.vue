@@ -6,7 +6,6 @@ div
 <script>
 
 import { VueEditor } from 'vue2-editor'
-import StudentTeamDB from '@/db/student.team'
 import Config from '@/common/config'
 
 export default {
@@ -26,7 +25,7 @@ export default {
     methods: {
         loadTeam() {
             var _this = this;
-            StudentTeamDB.getStudentTeam(this).then(res => {
+            this.$db.getStudentTeam(this).then(res => {
                 _this.teams = res;
             });
         }

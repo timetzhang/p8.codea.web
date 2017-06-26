@@ -56,7 +56,6 @@
 
 <script>
 import DateTime from '@/common/datetime'
-import StudentDB from '@/db/student'
 
 export default {
     name: 'my-profile',
@@ -73,7 +72,7 @@ export default {
     methods: {
         loadProfile() {
             var _this = this;
-            StudentDB.getStudentDetails(this, { sid: this.$cookie.getCookie('sid') }).then(res => {
+            this.$db.getStudentDetails(this, { sid: this.$cookie.getCookie('sid') }).then(res => {
                 _this.data = res[0];
                 _this.data.dob = DateTime.dateFormat(_this.data.dob).substring(0, 10);
             });

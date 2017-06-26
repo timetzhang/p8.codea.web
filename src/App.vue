@@ -20,7 +20,7 @@
                         mu-flat-button.item(label='登录',:class='curMenu == "login" ? "router-link-active" : ""')
                     a(href='/register')
                         mu-flat-button.item(label='注册',:class='curMenu == "register" ? "router-link-active" : ""')
-                mu-col(desktop='50',style='text-align:right',v-if='sid > 0')
+                mu-col(desktop='30',style='text-align:right',v-if='sid > 0')
                     a(href='/logoff')
                         mu-flat-button.item(label='退出登录')
         div.mobile-menu(v-if='isMobile')

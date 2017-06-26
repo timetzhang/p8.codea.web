@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import StudentDB from '@/db/student'
 import Config from '@/common/config'
 
 export default {
@@ -57,7 +56,7 @@ export default {
                 valid = true;
             }
             if (valid) {
-                StudentDB.getStudentId(this, { username: this.username, password: this.password }).then(res => {
+                this.$db.getStudentId(this, { username: this.username, password: this.password }).then(res => {
                     if (res.length > 0) {
                         this.$cookie.setCookie('sid', res[0].id);
                         this.$cookie.setCookie('name', res[0].name);

@@ -12,7 +12,6 @@ div.padded
 
 <script>
 import Config from '@/common/config'
-import DocumentDB from '@/db/document'
 import DateTime from '@/common/datetime'
 
 export default {
@@ -28,7 +27,7 @@ export default {
     methods: {
         loadDocument(){
             var _this = this;
-            DocumentDB.getDocumentDetails(this,{id: this.$route.params.id}).then(res=>{
+            this.$db.getDocumentDetails(this,{id: this.$route.params.id}).then(res=>{
                 _this.document = res[0];
                 _this.document.time = DateTime.dateFormat(_this.document.time);
             });

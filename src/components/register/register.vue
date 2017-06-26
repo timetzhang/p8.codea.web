@@ -100,7 +100,6 @@
 </template>
 
 <script>
-import StudentDB from '@/db/student'
 import Config from '@/common/config'
 
 const address = {
@@ -219,7 +218,7 @@ export default {
                     this.cellphoneErrorText = null;
                     this.valid = true;
                     //判断cellphone是否存在
-                    StudentDB.isStudentCellphoneExist(this, { cellphone: this.cellphone }).then(res => {
+                    this.$db.isStudentCellphoneExist(this, { cellphone: this.cellphone }).then(res => {
                         if (res == 1) {
                             _this.valid = false;
                             _this.cellphoneErrorText = '此手机号码已经存在';
@@ -247,7 +246,7 @@ export default {
                     this.emailErrorText = null;
                     this.valid = true;
                     //判断cellphone是否存在
-                    StudentDB.isStudentEmailExist(this, { email: this.email }).then(res => {
+                    this.$db.isStudentEmailExist(this, { email: this.email }).then(res => {
                         if (res == 1) {
                             _this.valid = false;
                             _this.emailErrorText = '此Email已经存在';
@@ -367,7 +366,7 @@ export default {
         },
         register() {
             if (this.valid) {
-                StudentDB.newStudent(this, {
+                this.$db.newStudent(this, {
                     name: this.name,
                     sex: this.sex,
                     dob: this.dob,

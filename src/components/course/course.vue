@@ -45,8 +45,8 @@
 
 <script>
 import Browser from '@/common/browser'
-import CourseDB from '@/db/course'
 import Config from '@/common/config'
+
 
 export default {
     name: 'course',
@@ -72,23 +72,23 @@ export default {
         loadType() {
             var _this = this;
 
-            CourseDB.getCourseType(_this, { subject_id: 1 }).then(res => {
+            this.$db.getCourseType(_this, { subject_id: 1 }).then(res => {
                 _this.menuSoft = res;
             });
-            CourseDB.getCourseType(_this, { subject_id: 2 }).then(res => {
+            this.$db.getCourseType(_this, { subject_id: 2 }).then(res => {
                 _this.menuHard = res;
             });
-            CourseDB.getCourseType(_this, { subject_id: 3 }).then(res => {
+            this.$db.getCourseType(_this, { subject_id: 3 }).then(res => {
                 _this.menuArt = res;
             });
-            CourseDB.getCourseType(_this, { subject_id: 4 }).then(res => {
+            this.$db.getCourseType(_this, { subject_id: 4 }).then(res => {
                 _this.menuCrea = res;
             });
         },
         loadCourse(id) {
             var _this = this;
             this.currentMenu = id;
-            CourseDB.getCourse(this, { type_id: id }).then(res => {
+            this.$db.getCourse(this, { type_id: id }).then(res => {
                 _this.course = res;
             });
             if (this.isMobile) {

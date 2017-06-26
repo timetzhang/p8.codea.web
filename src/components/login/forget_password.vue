@@ -34,7 +34,6 @@
 </template>
 
 <script>
-import StudentDB from '@/db/student';
 export default {
     name: 'password',
     data() {
@@ -63,12 +62,14 @@ export default {
                 case 0:
                     if (!this.cellPhoneAndEmail) {
                         this.cellPhoneAndEmailErrorText = '这是必填项';
-                    }else {
+                    }
+                    else {
                         if (/^1[34578]\d{9}$/.test(this.cellPhoneAndEmail) == false) {
                             this.cellPhoneAndEmailErrorText = '请输入正确的手机号码';
-                        }else{
+                        }
+                        else{
                             //判断cellphone是否存在
-                            StudentDB.isStudentCellphoneExist(this, { cellPhoneAndEmail: this.cellPhoneAndEmail }).then(res => {
+                            this.$db.isStudentCellphoneExist(this, { cellPhoneAndEmail: this.cellPhoneAndEmail }).then(res => {
                                 if (res != 1) {
                                     _this.cellPhoneAndEmailErrorText = '此用户不存在';
                                 }else{

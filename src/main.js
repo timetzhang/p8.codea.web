@@ -11,6 +11,8 @@ Vue.config.productionTip = false
 
 import Cookie from './common/cookie'
 Vue.prototype.$cookie = Cookie;
+import Db from './common/db'
+Vue.prototype.$db = Db;
 
 /* eslint-disable no-new */
 new Vue({

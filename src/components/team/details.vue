@@ -21,7 +21,7 @@ div.padded
             div(style="margin-bottom: 10px")
                 mu-chip(v-for="member in members",:key="member.id",@delete="showDeleteMemberConfirmDialog(member.id, member.name)",:showDelete="isMemberManageDisplay")
                     mu-avatar(:size="32",:src="member.head_image")
-                    {{member.name}}
+                    span {{member.name}}
             div(v-if="isMemberManageDisplay")
                 mu-text-field(label="手机号码或Email",v-model="newMemberUsername")
                 mu-raised-button(label="添加新成员",@click="showAddMemberConfirmDialog", secondary, style='margin-left:10px;')
@@ -97,16 +97,9 @@ div.padded
     mu-dialog(:open="isNoticeDialogDisplay",title="提示",@close="closeNoticeDialog") {{notice}}
         mu-flat-button(slot="actions",secondary,@click="closeNoticeDialog",label="确定")
 </template>
-<script src="https://cdn.bootcss.com/quill/1.2.6/quill.snow.css"></script>
 <script>
 import { VueEditor } from 'vue2-editor'
 import DateTime from '@/common/datetime'
-import TeamDB from '@/db/student.team'
-import TeamFollowDB from '@/db/student.team.follow'
-import TeamMemberDB from '@/db/student.team.member'
-import DocumentDB from '@/db/document'
-import TeamCommentDB from '@/db/student.team.comment'
-import StudentDB from '@/db/student'
 import Config from '@/common/config'
 import Encode from '@/common/encode'
 
@@ -185,7 +178,7 @@ export default {
         getTeam() {
             var _this = this;
             //Load team details
-            TeamDB.getStudentTeamDetails(this, { id: this.$route.params.id }).then(res => {
+            this.$db.getStudentTeamDetails(this, { id: this.$route.params.id }).then(res => {
                 _this.team = res[0];
                 _this.team.time = DateTime.dateFormat(_this.team.time);
                 document.title = this.team.name + ' - ' + Config.title;
@@ -197,7 +190,7 @@ export default {
          */
         checkTeamLeader() {
             var _this = this;
-            TeamDB.isStudentTeamLeader(this, { student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id }).then(res => {
+            this.$db.isStudentTeamLeader(this, { student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id }).then(res => {
                 _this.isTeamLeader = res[0].is_team_leader == 1 ? true : false;
             });
         },
@@ -211,7 +204,7 @@ export default {
          */
         getFollowCount() {
             var _this = this;
-            TeamFollowDB.getStudentTeamFollowCount(this, { team_id: this.$route.params.id }).then(res => {
+            this.$db.getStudentTeamFollowCount(this, { team_id: this.$route.params.id }).then(res => {
                 _this.followTotal = res[0].count;
             });
         },
@@ -221,7 +214,7 @@ export default {
          */
         getFollow() {
             var _this = this;
-            TeamFollowDB.getStudentTeamFollow(this, { team_id: this.$route.params.id }).then(res => {
+            this.$db.getStudentTeamFollow(this, { team_id: this.$route.params.id }).then(res => {
                 _this.follows = res;
             });
         },
@@ -231,7 +224,7 @@ export default {
          */
         checkFollow() {
             var _this = this;
-            TeamFollowDB.isStudentTeamFollowed(this, { student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id }).then(res => {
+            this.$db.isStudentTeamFollowed(this, { student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id }).then(res => {
                 _this.isFollowed = res == 1 ? true : false;
             });
         },
@@ -248,7 +241,7 @@ export default {
                 }
                 else {
                     //new student follow
-                    TeamFollowDB.newStudentTeamFollow(this, { student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id }).then(res => {
+                    this.$db.newStudentTeamFollow(this, { student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id }).then(res => {
                         if (res.insertId > 0) {
                             _this.isFollowed = true;
                         }
@@ -265,7 +258,7 @@ export default {
          */
         deleteFollow() {
             var _this = this;
-            TeamFollowDB.delStudentTeamFollow(this, { student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id }).then(res => {
+            this.$db.delStudentTeamFollow(this, { student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id }).then(res => {
                 if (res.affectedRows > 0) {
                     _this.isFollowed = false;
                 }
@@ -291,7 +284,7 @@ export default {
         getMember() {
             var _this = this;
             //Load team members
-            TeamMemberDB.getStudentTeamMember(this, { team_id: this.$route.params.id }).then(res => {
+            this.$db.getStudentTeamMember(this, { team_id: this.$route.params.id }).then(res => {
                 _this.members = res;
             });
         },
@@ -331,7 +324,7 @@ export default {
          */
         deleteMember() {
             var _this = this;
-            TeamMemberDB.delStudentTeamMember(this, { id: this.toDeleteMemberId }).then(res => {
+            this.$db.delStudentTeamMember(this, { id: this.toDeleteMemberId }).then(res => {
                 if (res.affectedRows > 0) {
                     _this.getMember(); //Refresh Members
                     _this.closeDeleteMemberConfirmDialog();
@@ -343,7 +336,7 @@ export default {
          * Show add member confirm dialog
          */
         showAddMemberConfirmDialog(id, name) {
-            StudentDB.searchStudentUsername(this, { username: this.newMemberUsername }).then(res => {
+            this.$db.searchStudentUsername(this, { username: this.newMemberUsername }).then(res => {
                 if (res.length) {
                     this.toAddMemberId = res[0].id;
                     this.toAddMember = res[0].name;
@@ -368,7 +361,7 @@ export default {
          */
         newMember() {
             var _this = this;
-            TeamMemberDB.newStudentTeamMember(this, { student_id: this.toAddMemberId, team_id: this.$route.params.id }).then(res => {
+            this.$db.newStudentTeamMember(this, { student_id: this.toAddMemberId, team_id: this.$route.params.id }).then(res => {
                 if (res.insertId > 0) {
                     _this.getMember();
                     _this.closeAddMemberConfirmDialog();
@@ -392,7 +385,7 @@ export default {
             this.isEditDisplay = true;
         },
         submitEdit() {
-            TeamDB.setStudentTeamDetails(this, { details: this.team.details, team_id: this.$route.params.id }).then(res => {
+            this.$db.setStudentTeamDetails(this, { details: this.team.details, team_id: this.$route.params.id }).then(res => {
                 if (res.affectedRows > 0) {
                     this.isEditDisplay = false;
                 }
@@ -407,13 +400,13 @@ export default {
         /*=======================================================================================*/
         getDocumentCount() {
             var _this = this;
-            DocumentDB.getTeamDocumentCount(this, { team_id: this.$route.params.id }).then(res => {
+            this.$db.getTeamDocumentCount(this, { team_id: this.$route.params.id }).then(res => {
                 _this.documentTotal = res[0].count;
             });
         },
         getDocument() {
             var _this = this;
-            DocumentDB.getTeamDocument(this, { team_id: this.$route.params.id, pagenum:0, pagesize:10 }).then(res => {
+            this.$db.getTeamDocument(this, { team_id: this.$route.params.id, pagenum:0, pagesize:10 }).then(res => {
                 _this.documents = res;
                 for (var i = 0; i < _this.documents.length; i++) {
                     _this.documents[i].time = DateTime.dateFormat(_this.documents[i].time);
@@ -427,14 +420,14 @@ export default {
 
         getCommentCount() {
             var _this = this;
-            TeamCommentDB.getStudentTeamCommentCount(this, { team_id: this.$route.params.id }).then(res => {
+            this.$db.getStudentTeamCommentCount(this, { team_id: this.$route.params.id }).then(res => {
                 _this.commentTotal = res[0].count;
             });
         },
         getComment() {
             var _this = this;
             //Get all comments, without reply
-            TeamCommentDB.getStudentTeamComment(this, { pagesize: 10, pagenum: this.commentCurrentPage - 1, team_id: this.$route.params.id }).then(res => {
+            this.$db.getStudentTeamComment(this, { pagesize: 10, pagenum: this.commentCurrentPage - 1, team_id: this.$route.params.id }).then(res => {
                 _this.comments = res;
 
                 _this.comments.forEach(function (e, i) {
@@ -454,7 +447,7 @@ export default {
 
             if (this.$cookie.getCookie('sid')) {
                 if (this.newComment) {
-                    TeamCommentDB.newStudentTeamComment(this, {
+                    this.$db.newStudentTeamComment(this, {
                         team_id: this.$route.params.id,
                         details: Encode.htmlEncode(this.newComment),
                         student_id: this.$cookie.getCookie('sid')
