@@ -153,6 +153,10 @@ export default new Router({
             component: (resolve) => { require(['@/components/login/login.vue'], resolve) }
         },
         {
+            path: '/password',
+            component: (resolve) => { require(['@/components/password/password.vue'], resolve) }
+        },
+        {
             path: '/logoff',
             component: (resolve) => { require(['@/components/logoff/logoff.vue'], resolve) }
         },
