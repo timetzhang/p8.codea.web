@@ -9,6 +9,32 @@ import Config from '@/common/config'
 export default {
 
     /******************* STUDENT TEAM FOLLOW ********************/
+    getStudentTeamFollowCount(obj, options) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/getStudentTeamFollowCount?team_id=' + options.team_id;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+    getStudentTeamFollow(obj, options) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/getStudentTeamFollow?team_id=' + options.team_id;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
 
     newStudentTeamFollow(obj, data) {
         return new Promise(

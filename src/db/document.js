@@ -1,6 +1,6 @@
 /*
- * Name: student.team.comment.js
- * Desc: student.team.comment db api
+ * Name: document.js
+ * Desc: document db api
  * Author: T.T
  * Last Update: 2017/6/22 09:13
  */
@@ -12,10 +12,10 @@ export default {
      * 获取项目组Members
      * @param {*} obj 为this
      */
-    getStudentTeamComment(obj, options) {
+    getTeamDocument(obj, options) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/getStudentTeamComment?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum + '&team_id=' + options.team_id;
+                var dbUrl = Config.dbBaseUrl + '/getTeamDocument?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum + '&team_id=' + options.team_id;
                 obj.$http({
                     url: dbUrl,
                     method: 'GET'
@@ -25,10 +25,10 @@ export default {
             }
         );
     },
-    getStudentTeamCommentCount(obj, options) {
+    getTeamDocumentCount(obj, options) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/getStudentTeamCommentCount?&team_id=' + options.team_id;
+                var dbUrl = Config.dbBaseUrl + '/getTeamDocumentCount?team_id=' + options.team_id;
                 obj.$http({
                     url: dbUrl,
                     method: 'GET'
@@ -38,15 +38,13 @@ export default {
             }
         );
     },
-    newStudentTeamComment(obj, data) {
+    getDocumentDetails(obj, options) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/newStudentTeamComment';
-                obj.$http.post(dbUrl, { data: data }, {
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    emulateJSON: true
+                var dbUrl = Config.dbBaseUrl + '/getDocumentDetails?id=' + options.id;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
                 }).then(res => {
                     resolve(res.data);
                 });

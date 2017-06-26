@@ -24,13 +24,13 @@ export default {
         }
     },
     mounted: function () {
-        this.loadTeam();
+        this.getTeam();
         document.title = '项目组 - ' + Config.title;
     },
     methods: {
-        loadTeam() {
+        getTeam() {
             var _this = this;
-            StudentTeamDB.getStudentTeam(this).then(res => {
+            StudentTeamDB.getStudentTeam(this,{pagenum: 0, pagesize:10}).then(res => {
                 _this.teams = res;
             });
         }

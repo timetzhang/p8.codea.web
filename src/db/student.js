@@ -104,5 +104,23 @@ export default {
                 });
             }
         );
+    },
+    /**
+     * Search student username
+     * @param {*} obj 为this
+     * @param {*} options { cellphone, email }
+     */
+    searchStudentUsername(obj, options) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/searchStudentUsername?username=' + options.username;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
     }
 }

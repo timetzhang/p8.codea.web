@@ -2,37 +2,37 @@
 div.padded
     mu-paper(style="padding:10px")
         mu-content-block.para
-            mu-row.center.aligned(gutter)
-                mu-col(desktop="100")
-                    mu-raised-button(label="前往文档中心",href="/doc",style="float:left")
-                    br
-                    h1 {{title}}
-                    span {{student}}建立于{{time}}
-                    p(v-html="detail")
+            div.center.aligned(gutter)
+                mu-raised-button(label="前往文档中心",href="/doc",style="float:left")
+                br
+                h1 {{document.name}}
+                span {{document.student_name}} 建立于 {{document.time}}
+            p(v-html="document.details")
 </template>
 
 <script>
-import { VueEditor } from 'vue2-editor'
 import Config from '@/common/config'
+import DocumentDB from '@/db/document'
+import DateTime from '@/common/datetime'
 
 export default {
     name: 'details',
-    components: {
-        VueEditor
-    },
     data() {
         return {
-            title:"团队介绍整体资料",
-            student:"秀逗",
-            time:"2017-6-8",
-            detail:"<h2>具体详情介绍</h2><p>图文介绍</p>"
+            document:{}
         }
     },
     mounted: function () {
-        
+        this.loadDocument();
     },
     methods: {
-        
+        loadDocument(){
+            var _this = this;
+            DocumentDB.getDocumentDetails(this,{id: this.$route.params.id}).then(res=>{
+                _this.document = res[0];
+                _this.document.time = DateTime.dateFormat(_this.document.time);
+            });
+        }
     }
 }
 </script>

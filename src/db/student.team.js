@@ -11,10 +11,10 @@ export default {
      * 获取项目组List
      * @param {*} obj 为this
      */
-    getStudentTeam(obj) {
+    getStudentTeam(obj, options) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/getStudentTeam';
+                var dbUrl = Config.dbBaseUrl + '/getStudentTeam?pagenum=' + options.pagenum + "&pagesize=" + options.pagesize;
                 obj.$http({
                     url: dbUrl,
                     method: 'GET'

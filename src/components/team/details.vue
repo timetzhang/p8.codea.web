@@ -19,20 +19,20 @@ div.padded
             h2(style="display:inline-block;") 项目成员
                 mu-flat-button(style="display:inline-block",label="管理成员",@click="toggleManageMemberDisplay",v-if='isTeamLeader')
             div(style="margin-bottom: 10px")
-                mu-chip(v-for="member in members",:key="member.id",@delete="deleteMember(member.id)",:showDelete="isMemberManageDisplay")
+                mu-chip(v-for="member in members",:key="member.id",@delete="showDeleteMemberConfirmDialog(member.id, member.name)",:showDelete="isMemberManageDisplay")
                     mu-avatar(:size="32",:src="member.head_image")
                     {{member.name}}
             div(v-if="isMemberManageDisplay")
-                mu-text-field(label="用户名",v-model="newMemberName")
-                mu-raised-button(label="添加新成员",@click="addMember", secondary, style='margin-left:10px;')
-                mu-raised-button(label="取消",@click="cancelMemberManage", primary, style='margin-left:10px;')
+                mu-text-field(label="手机号码或Email",v-model="newMemberUsername")
+                mu-raised-button(label="添加新成员",@click="showAddMemberConfirmDialog", secondary, style='margin-left:10px;')
+                mu-raised-button(label="取消",@click="hideMemberManage", primary, style='margin-left:10px;')
 
             mu-divider
 
             h2 项目详情
             div(v-html="team.details" v-if="!isEditDisplay")
             div.center.aligned
-                mu-raised-button(icon="edit",style="margin:20px;",label="修改项目简介",v-if="isTeamLeader && !isEditDisplay",@click="detailsEdit")
+                mu-raised-button(icon="edit",style="margin:20px;",label="修改项目简介",v-if="isTeamLeader && !isEditDisplay",@click="showDetailsEdit")
                 vue-editor(v-model="team.details" v-if="isEditDisplay")
                 mu-raised-button(label="提 交",style="margin:10px 0",v-if="isEditDisplay",@click="submitEdit")
                 span &nbsp;
@@ -41,12 +41,11 @@ div.padded
             mu-divider
 
             mu-tabs(:value="activeTab",@change="handleTabChange")
-                mu-tab(value="tab1",title="项目组文档资料")
-                mu-tab(value="tab2",title="评论")
-                mu-tab(value="tab3",title="关注")
+                mu-tab(value="tab1",:title="'文档(' + documentTotal + '篇)'",@click="getDocument")
+                mu-tab(value="tab2",:title="'评论('+commentTotal +'条)'",@click="getComment")
+                mu-tab(value="tab3",:title="'关注('+followTotal+'人)'",@click="getFollow")
 
             div(v-if="activeTab==='tab1'")
-                h4 项目组文档资料
                 mu-table(:showCheckbox='false',:selectable='false')
                     mu-thead
                         mu-tr
@@ -55,45 +54,48 @@ div.padded
                             mu-th 发布人
                             mu-th 操作
                     mu-tbody
-                        mu-tr(v-for="doc in documents",:key="doc.document_id")
+                        mu-tr(v-for="document in documents",:key="document.id")
                             mu-td
-                                a(:href="'/doc/id='+doc.document_id") {{doc.document_name}}
-                            mu-td {{doc.time}}
-                            mu-td {{doc.student_name}}
+                                a(:href="'/doc/id='+document.id") {{document.name}}
+                            mu-td {{document.time}}
+                            mu-td {{document.student_name}}
                             mu-td.right.aligned
-                                a(:href="'/doc/id='+doc.document_id")
+                                a(:href="'/doc/id='+document.id")
                                     mu-raised-button(label="查看")
                 mu-col.center.aligned(desktop="100" style="margin:20px;")
                     mu-raised-button(icon="edit",label="撰写新文档")
 
             div(v-if="activeTab==='tab2'")
-                mu-row
-                    mu-col(desktop="100" style="margin-bottom:20px;")
-                        h4 评论({{comments.length}}条)
-                        mu-col.center.aligned(desktop="100")
-                            mu-text-field(hintText="不允许超过140个字符",:maxLength="140",:fullWidth="true")
-                            mu-raised-button(label="评论")
-                        mu-paper
-                            mu-list
-                                mu-list-item(v-for="comment in comments",:key="comment.comment_id",:title="comment.name+'  '+comment.time")
-                                    mu-avatar(slot="left",:src="comment.head_img")
-                                    i.icon.star(slot="right")
-                                    span(slot="describe")
-                                        span {{comment.details}}
-                                    mu-list-item(v-for="list in reply",:key="list.id",:title="list.name+'  '+list.time")
-                                        mu-avatar(slot="left",:src="list.headimg")
-                                        span(slot="describe")
-                                            span {{list.detail}}
-
+                mu-paper
+                    mu-list
+                        mu-list-item(v-for="comment in comments",:key="comment.comment_id",:title="comment.name+'  '+comment.time", @click="commentReply(comment.comment_id, comment.name)")
+                            mu-avatar(slot="left",:src="comment.head_img")
+                            i.icon.star(slot="right")
+                            span(slot="describe")
+                                span {{comment.details}}
+                            mu-list-item(v-for="reply in comment.replies",:key="reply.id",:title="reply.name+'  '+reply.time")
+                                mu-avatar(slot="left",:src="reply.headimg")
+                                span(slot="describe")
+                                    span {{reply.details}}
+                mu-pagination(:total="commentTotal",:current="commentCurrentPage",@pageChange="commentPageChange")
+                div.center.aligned(style='margin-top:20px')
+                    mu-text-field(name="comment-input",hintText="不允许超过140个字符",:multiLine="true",:rowsMax="6",:maxLength="140",:fullWidth="true",v-model="newComment",:errorText ="commentErrorText")
+                    mu-raised-button(label="评论",@click="submitComment")
             div(v-if="activeTab==='tab3'")
-                mu-row(gutter)
-                    mu-col(desktop="100")
-                        h4 他们对此感兴趣
-                        mu-avatar(src="/static/img/team/404.png")
+                h4 他们对此感兴趣
+                mu-avatar(:src="follow.head_image", v-for="follow in follows", :key="follow.id", :label='follow.name', style='margin-right:10px;')
                 
-    mu-dialog(:open="isDialogDeleteFollowDisplay",title="Dialog",@close="closeDeleteFollowConfirmDialog") 是否取消关注
+    mu-dialog(:open="isDialogDeleteFollowDisplay",title="提示",@close="closeDeleteFollowConfirmDialog") 是否取消关注
         mu-flat-button(slot="actions",@click="closeDeleteFollowConfirmDialog",primary,label="取消")
         mu-flat-button(slot="actions",secondary,@click="deleteFollow",label="确定")
+    mu-dialog(:open="isDialogDeleteMemberDisplay",title="提示",@close="closeDeleteMemberConfirmDialog") 是否删除小组成员 <b>{{toDeleteMember}}</b>
+        mu-flat-button(slot="actions",@click="closeDeleteMemberConfirmDialog",primary,label="取消")
+        mu-flat-button(slot="actions",secondary,@click="deleteMember",label="确定")
+    mu-dialog(:open="isDialogAddMemberDisplay",title="提示",@close="closeAddMemberConfirmDialog") 是否添加小组成员 <b>{{toAddMember}}</b>
+        mu-flat-button(slot="actions",@click="closeAddMemberConfirmDialog",primary,label="取消")
+        mu-flat-button(slot="actions",secondary,@click="newMember",label="确定")
+    mu-dialog(:open="isNoticeDialogDisplay",title="提示",@close="closeNoticeDialog") {{notice}}
+        mu-flat-button(slot="actions",secondary,@click="closeNoticeDialog",label="确定")
 </template>
 <script src="https://cdn.bootcss.com/quill/1.2.6/quill.snow.css"></script>
 <script>
@@ -102,9 +104,11 @@ import DateTime from '@/common/datetime'
 import TeamDB from '@/db/student.team'
 import TeamFollowDB from '@/db/student.team.follow'
 import TeamMemberDB from '@/db/student.team.member'
-import TeamDocumentDB from '@/db/student.team.document'
+import DocumentDB from '@/db/document'
 import TeamCommentDB from '@/db/student.team.comment'
+import StudentDB from '@/db/student'
 import Config from '@/common/config'
+import Encode from '@/common/encode'
 
 export default {
     name: 'details',
@@ -113,125 +117,283 @@ export default {
     },
     data() {
         return {
-            team:{},                             //team details
+            isNoticeDialogDisplay: false,
+            notice: '',
+
+            team: {},                             //team details
             isTeamLeader: false,                 //is student a team leader flag
 
+            follows: [],                          //Followers list
+            followTotal: 0,
             isFollowed: false,                   //has student followed the team flag
             isDialogDeleteFollowDisplay: false,  //delete follow confirm dialog display flag
 
+            members: [],                         //team members list
             isMemberManageDisplay: false,        //member manage div display flag
-            newMemberName:'',                    //member name which to add.
-            members: [],
-
-            isEditDisplay:false,                 //team details editor display flag
+            isDialogDeleteMemberDisplay: false,  //delete member confirm dialog display flag
+            isDialogAddMemberDisplay: false,     //add member confirm dialog display flag
+            newMemberUsername: '',               //member name which to add.
+            toDeleteMember: '',                  //name of member to delete.
+            toDeleteMemberId: 0,                 //the id of member to delete.
+            toAddMember: '',                     //name of member to add.
+            toAddMemberId: 0,                    //the id of member to delete.
+            isEditDisplay: false,                //team details editor display flag
 
             documents: [],                       //team documents list
-            
-            comments: [],                        //team comments
-            
-            activeTab:'tab1',                    //current active tab
+            documentTotal: 0,                    //document total
+
+            comments: [],                        //team comments list
+            newComment: '',                      //student input comment
+            activeTab: 'tab1',                   //current active tab
+            commentTotal: 1,                     //comment total
+            commentCurrentPage: 1,               //comment pagination current page
+            commentErrorText: '',                //comment input error text
         }
     },
     mounted: function () {
-        this.loadTeam();
-        if(this.$cookie.getCookie('sid')){
-           this.checkFollow();
-           this.checkTeamLeader();
+        this.getTeam();
+        this.getMember();
+        if (this.$cookie.getCookie('sid')) {
+            this.checkFollow();
+            this.checkTeamLeader();
         }
-        this.loadDocument();
-        this.loadComment();
+        this.getDocumentCount()
+        this.getDocument();
+        this.getCommentCount();
+        this.getFollowCount();
     },
     methods: {
-        //Load team's details.
-        loadTeam(){
-            var _this = this;
-            //Load team details
-            TeamDB.getStudentTeamDetails(this, {id: this.$route.params.id}).then(res=>{
-                _this.team = res[0];
-                _this.team.time = DateTime.dateFormat(_this.team.time);
-                document.title = this.team.name + ' - ' + Config.title;
-            });
-            //Load team members
-            TeamMemberDB.getStudentTeamMember(this, {team_id: this.$route.params.id}).then(res=>{
-                _this.members = res;
-            });
-        },
+        /*=======================================================================================*/
+        /*= Page General ========================================================================*/
+        /*=======================================================================================*/
 
-        //determine: is the student a team leader.
-        checkTeamLeader(){
-            var _this = this;
-            TeamDB.isStudentTeamLeader(this, {student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id}).then(res=>{
-                _this.isTeamLeader = res[0].is_team_leader == 1 ? true : false;
-            });
-        },
-
-        //tabs
         handleTabChange(val) {
             this.activeTab = val;
         },
 
-        /* Follow */
+        closeNoticeDialog() {
+            this.isNoticeDialogDisplay = false;
+        },
 
-        //check: has student followed the team.
-        checkFollow(){
+        /*=======================================================================================*/
+        /*= TEAM ================================================================================*/
+        /*=======================================================================================*/
+
+        /**
+         * Load team details
+         */
+        getTeam() {
             var _this = this;
-            TeamFollowDB.isStudentTeamFollowed(this, {student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id}).then(res=>{
-                _this.isFollowed = res == 1? true : false;
+            //Load team details
+            TeamDB.getStudentTeamDetails(this, { id: this.$route.params.id }).then(res => {
+                _this.team = res[0];
+                _this.team.time = DateTime.dateFormat(_this.team.time);
+                document.title = this.team.name + ' - ' + Config.title;
             });
         },
 
-        //follow the team
-        follow(){
+        /**
+         * CHECK: is the student a team leader.
+         */
+        checkTeamLeader() {
             var _this = this;
-            if(this.isFollowed){
-                //delete student follow
-                this.isDialogDeleteFollowDisplay = true; //open delete confirm dialog   
-            }
-            else{
-                //new student follow
-                TeamFollowDB.newStudentTeamFollow(this, {student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id}).then(res=>{
-                    if(res.insertId > 0){
-                        _this.isFollowed = true;
-                    }             
-                }); 
-            }
-            
+            TeamDB.isStudentTeamLeader(this, { student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id }).then(res => {
+                _this.isTeamLeader = res[0].is_team_leader == 1 ? true : false;
+            });
         },
 
-        //delete follow
-        deleteFollow(){
+        /*=======================================================================================*/
+        /*= FOLLOW ==============================================================================*/
+        /*=======================================================================================*/
+
+        /**
+         * Load follows count
+         */
+        getFollowCount() {
             var _this = this;
-            TeamFollowDB.delStudentTeamFollow(this, {student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id}).then(res=>{
-                if(res.affectedRows > 0){
+            TeamFollowDB.getStudentTeamFollowCount(this, { team_id: this.$route.params.id }).then(res => {
+                _this.followTotal = res[0].count;
+            });
+        },
+
+        /*
+         * Load follows
+         */
+        getFollow() {
+            var _this = this;
+            TeamFollowDB.getStudentTeamFollow(this, { team_id: this.$route.params.id }).then(res => {
+                _this.follows = res;
+            });
+        },
+
+        /**
+         * CHECK: has student followed the team.
+         */
+        checkFollow() {
+            var _this = this;
+            TeamFollowDB.isStudentTeamFollowed(this, { student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id }).then(res => {
+                _this.isFollowed = res == 1 ? true : false;
+            });
+        },
+
+        /**
+         * Follow the team
+         */
+        follow() {
+            var _this = this;
+            if (this.$cookie.getCookie('sid')) {
+                if (this.isFollowed) {
+                    //delete student follow
+                    this.isDialogDeleteFollowDisplay = true; //open delete confirm dialog   
+                }
+                else {
+                    //new student follow
+                    TeamFollowDB.newStudentTeamFollow(this, { student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id }).then(res => {
+                        if (res.insertId > 0) {
+                            _this.isFollowed = true;
+                        }
+                    });
+                }
+            }
+            else {
+                location.href = '/login';
+            }
+        },
+
+        /**
+         * Delete follow
+         */
+        deleteFollow() {
+            var _this = this;
+            TeamFollowDB.delStudentTeamFollow(this, { student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id }).then(res => {
+                if (res.affectedRows > 0) {
                     _this.isFollowed = false;
-                }             
+                }
             });
             //close confirmation dialog.
             this.closeDeleteFollowConfirmDialog();
         },
 
-        closeDeleteFollowConfirmDialog(){
+        /**
+         * Close the delete follow confirm dialog
+         */
+        closeDeleteFollowConfirmDialog() {
             this.isDialogDeleteFollowDisplay = false;
-        },     
+        },
 
-        /* Manage Member */
+        /*=======================================================================================*/
+        /*= MEMBER ==============================================================================*/
+        /*=======================================================================================*/
 
-        //to show manage member div.
+        /**
+         * Load Teams member
+         */
+        getMember() {
+            var _this = this;
+            //Load team members
+            TeamMemberDB.getStudentTeamMember(this, { team_id: this.$route.params.id }).then(res => {
+                _this.members = res;
+            });
+        },
+
+        /**
+         * Show manage member div.
+         */
         toggleManageMemberDisplay() {
             this.isMemberManageDisplay = !this.isMemberManageDisplay;
         },
 
-        cancelMemberManage() { //取消添加成员
+        /**
+         * Hide member manage div
+         */
+        hideMemberManage() {
             this.isMemberManageDisplay = false;
         },
 
-        /* Details */
-        detailsEdit(){
+        /**
+         * Close delete member confirm dialog
+         */
+        closeDeleteMemberConfirmDialog() {
+            this.isDialogDeleteMemberDisplay = false;
+        },
+
+        /**
+         * Show confirm delete dialog
+         */
+        showDeleteMemberConfirmDialog(id, name) {
+            this.toDeleteMemberId = id;
+            this.toDeleteMember = name;
+            this.isDialogDeleteMemberDisplay = true;
+        },
+
+        /**
+         * Delete member
+         */
+        deleteMember() {
+            var _this = this;
+            TeamMemberDB.delStudentTeamMember(this, { id: this.toDeleteMemberId }).then(res => {
+                if (res.affectedRows > 0) {
+                    _this.getMember(); //Refresh Members
+                    _this.closeDeleteMemberConfirmDialog();
+                }
+            });
+        },
+
+        /**
+         * Show add member confirm dialog
+         */
+        showAddMemberConfirmDialog(id, name) {
+            StudentDB.searchStudentUsername(this, { username: this.newMemberUsername }).then(res => {
+                if (res.length) {
+                    this.toAddMemberId = res[0].id;
+                    this.toAddMember = res[0].name;
+                    this.isDialogAddMemberDisplay = true;
+                }
+                else {
+                    this.notice = '用户不存在.'
+                    this.isNoticeDialogDisplay = true;
+                }
+            });
+        },
+
+        /**
+         * Close add member confirm dialog
+         */
+        closeAddMemberConfirmDialog() {
+            this.isDialogAddMemberDisplay = false;
+        },
+
+        /**
+         * New Member
+         */
+        newMember() {
+            var _this = this;
+            TeamMemberDB.newStudentTeamMember(this, { student_id: this.toAddMemberId, team_id: this.$route.params.id }).then(res => {
+                if (res.insertId > 0) {
+                    _this.getMember();
+                    _this.closeAddMemberConfirmDialog();
+                    _this.newMemberUsername = '';
+                }
+                else {
+                    _this.notice = '成员已经存在.'
+                    _this.isNoticeDialogDisplay = true;
+                }
+            });
+        },
+
+        /*=======================================================================================*/
+        /*= DETAILS =============================================================================*/
+        /*=======================================================================================*/
+
+        /**
+         * Show team details editor
+         */
+        showDetailsEdit() {
             this.isEditDisplay = true;
         },
         submitEdit() {
-            TeamDB.setStudentTeamDetails(this, {details: this.team.details, team_id: this.$route.params.id}).then(res=>{
-                if(res.affectedRows > 0){
+            TeamDB.setStudentTeamDetails(this, { details: this.team.details, team_id: this.$route.params.id }).then(res => {
+                if (res.affectedRows > 0) {
                     this.isEditDisplay = false;
                 }
             });
@@ -240,28 +402,81 @@ export default {
             this.isEditDisplay = false;
         },
 
-        /* Document */
-        loadDocument(){
+        /*=======================================================================================*/
+        /*= DOCUMENT ============================================================================*/
+        /*=======================================================================================*/
+        getDocumentCount() {
             var _this = this;
-            TeamDocumentDB.getStudentTeamDocument(this, {team_id: this.$route.params.id}).then(res=>{
+            DocumentDB.getTeamDocumentCount(this, { team_id: this.$route.params.id }).then(res => {
+                _this.documentTotal = res[0].count;
+            });
+        },
+        getDocument() {
+            var _this = this;
+            DocumentDB.getTeamDocument(this, { team_id: this.$route.params.id, pagenum:0, pagesize:10 }).then(res => {
                 _this.documents = res;
-                for(var i=0; i<_this.documents.length; i++){
+                for (var i = 0; i < _this.documents.length; i++) {
                     _this.documents[i].time = DateTime.dateFormat(_this.documents[i].time);
                 }
             });
         },
 
-        /* Comment */
-        loadComment(){
+        /*=======================================================================================*/
+        /*= COMMENT =============================================================================*/
+        /*=======================================================================================*/
+
+        getCommentCount() {
             var _this = this;
-            TeamCommentDB.getStudentTeamComment(this,{pagesize:10, pagenum:0, team_id: this.$route.params.id}).then(res=>{
-                _this.comments = res;
-                console.log(res);
-                for(var i=0; i<_this.comments.length; i++){
-                    _this.comments[i].time = DateTime.dateFormat(_this.comments[i].time);
-                }
+            TeamCommentDB.getStudentTeamCommentCount(this, { team_id: this.$route.params.id }).then(res => {
+                _this.commentTotal = res[0].count;
             });
-        }
+        },
+        getComment() {
+            var _this = this;
+            //Get all comments, without reply
+            TeamCommentDB.getStudentTeamComment(this, { pagesize: 10, pagenum: this.commentCurrentPage - 1, team_id: this.$route.params.id }).then(res => {
+                _this.comments = res;
+
+                _this.comments.forEach(function (e, i) {
+                    //Time Format
+                    _this.comments[i].details = Encode.htmlDecode(e.details);
+                    _this.comments[i].time = DateTime.dateFormat(e.time);
+                }, this);
+
+            });
+        },
+        commentPageChange(newIndex) {
+            this.commentCurrentPage = newIndex;
+            this.getComment();
+        },
+        submitComment() {
+            var _this = this;
+
+            if (this.$cookie.getCookie('sid')) {
+                if (this.newComment) {
+                    TeamCommentDB.newStudentTeamComment(this, {
+                        team_id: this.$route.params.id,
+                        details: Encode.htmlEncode(this.newComment),
+                        student_id: this.$cookie.getCookie('sid')
+                    }).then(res => {
+                        if (res.insertId > 0) {
+                            _this.newComment = '';
+                            _this.commentErrorText = '';
+                            _this.getComment();
+                            _this.getCommentCount();
+                        }
+                    }).catch(err => {
+                        console.log(err);
+                    });
+                }
+                else {
+                    this.commentErrorText = '评论内容不能为空'
+                }
+            }
+            else {
+                location.href = '/login';
+            }
+        },
     }
 }
 </script>
@@ -270,11 +485,13 @@ export default {
 .mu-chip {
     margin: 10px;
 }
+
 .mu-td {
     word-wrap: break-word !important;
 }
+
 .mu-tab-active {
     background-color: #457cce;
-    color:white;
+    color: white;
 }
 </style>
