@@ -17,8 +17,6 @@
 </template>
 
 <script>
-import Config from '@/common/config'
-
 export default {
     name: 'school-contact',
     data() {
@@ -31,7 +29,7 @@ export default {
         }
     },
     mounted: function () {
-        document.title = '登录 - ' + Config.title;
+        document.title = '登录 - ' + this.$config.title;
     },
     methods: {
         goBack() {

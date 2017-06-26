@@ -45,8 +45,6 @@
 
 <script>
 import Browser from '@/common/browser'
-import Config from '@/common/config'
-
 
 export default {
     name: 'course',
@@ -66,7 +64,7 @@ export default {
     mounted: function () {
         this.loadType();
         this.loadCourse(this.$route.params.course_type);
-        document.title = '教程 - ' + Config.title;
+        document.title = '教程 - ' + this.$config.title;
     },
     methods: {
         loadType() {

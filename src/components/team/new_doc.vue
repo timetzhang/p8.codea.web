@@ -4,9 +4,7 @@ div
 </template>
 
 <script>
-
 import { VueEditor } from 'vue2-editor'
-import Config from '@/common/config'
 
 export default {
     name: 'team',
@@ -20,7 +18,7 @@ export default {
     },
     mounted: function () {
         this.loadTeam();
-        document.title = '撰写新小组文档 - ' + Config.title;
+        document.title = '撰写新小组文档 - ' + this.$config.title;
     },
     methods: {
         loadTeam() {

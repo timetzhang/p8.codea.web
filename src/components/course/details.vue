@@ -20,7 +20,6 @@
 <script>
 import DateTime from '@/common/datetime.js'
 import Browser from '@/common/browser'
-import Config from '@/common/config'
 import 'highlightjs/styles/androidstudio.css'
 
 export default {
@@ -45,7 +44,7 @@ export default {
             var _this = this;
             this.$db.getCourseDetails(this, { course_id: this.courseId }).then(res => {
                 _this.item = res[0];
-                document.title = _this.item.name + Config.title;
+                document.title = _this.item.name + this.$config.title;
             });
         },
         favCourse() {

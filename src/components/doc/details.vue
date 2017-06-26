@@ -11,7 +11,6 @@ div.padded
 </template>
 
 <script>
-import Config from '@/common/config'
 import DateTime from '@/common/datetime'
 
 export default {

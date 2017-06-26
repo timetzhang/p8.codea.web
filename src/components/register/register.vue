@@ -100,8 +100,6 @@
 </template>
 
 <script>
-import Config from '@/common/config'
-
 const address = {
     '北京': ['北京'],
     '广东': ['广州', '深圳', '珠海', '汕头', '韶关', '佛山', '江门', '湛江', '茂名', '肇庆', '惠州', '梅州', '汕尾', '河源', '阳江', '清远', '东莞', '中山', '潮州', '揭阳', '云浮'],
@@ -196,7 +194,7 @@ export default {
         }
     },
     mounted: function () {
-        document.title = '注册 - ' + Config.title;
+        document.title = '注册 - ' + this.$config.title;
     },
     methods: {
         //判断cellphone

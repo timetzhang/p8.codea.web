@@ -100,7 +100,6 @@ div.padded
 <script>
 import { VueEditor } from 'vue2-editor'
 import DateTime from '@/common/datetime'
-import Config from '@/common/config'
 import Encode from '@/common/encode'
 
 export default {
@@ -181,7 +180,7 @@ export default {
             this.$db.getStudentTeamDetails(this, { id: this.$route.params.id }).then(res => {
                 _this.team = res[0];
                 _this.team.time = DateTime.dateFormat(_this.team.time);
-                document.title = this.team.name + ' - ' + Config.title;
+                document.title = this.team.name + ' - ' + this.$config.title;
             });
         },
 

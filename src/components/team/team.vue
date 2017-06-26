@@ -13,8 +13,6 @@ div
 </template>
 
 <script>
-import Config from '@/common/config'
-
 export default {
     name: 'team',
     data() {
@@ -24,7 +22,7 @@ export default {
     },
     mounted: function () {
         this.getTeam();
-        document.title = '项目组 - ' + Config.title;
+        document.title = '项目组 - ' + this.$config.title;
     },
     methods: {
         getTeam() {
