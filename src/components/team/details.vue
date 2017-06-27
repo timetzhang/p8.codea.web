@@ -4,7 +4,7 @@ div.padded
         mu-content-block.para
             mu-row(gutter)
                 mu-col(desktop="15",table="50",width="100")
-                    img(:src="team.logo_url", style='border:1px solid #eee',width="100%")
+                    img(:src="team.logo", style='border:1px solid #eee',width="100%")
                 mu-col(desktop="85",table="50",width="100")
                     h2(style="margin-top:10px;") {{team.name}}
                         span(style="font-size:12px;font-weight: normal;float:right") (浏览量：{{team.click_count}})
@@ -30,10 +30,10 @@ div.padded
             mu-divider
 
             h2 项目详情
-            div(v-html="team.details" v-if="!isEditDisplay")
+            div.html.ql-editor(v-html="team.details" v-if="!isEditDisplay")
             div.center.aligned
                 mu-raised-button(icon="edit",style="margin:20px;",label="修改项目简介",v-if="isTeamLeader && !isEditDisplay",@click="showDetailsEdit")
-                vue-editor(v-model="team.details" v-if="isEditDisplay")
+                quill-editor(ref="myTextEditor",v-model="team.details",:config="editorOption",v-if="isEditDisplay")
                 mu-raised-button(label="提 交",style="margin:10px 0",v-if="isEditDisplay",@click="submitEdit")
                 span &nbsp;
                 mu-raised-button(label="取 消",style="margin:10px 0",v-if="isEditDisplay",@click="cancelEdit")
@@ -52,19 +52,16 @@ div.padded
                             mu-th 文件名
                             mu-th 上传时间
                             mu-th 发布人
-                            mu-th 操作
                     mu-tbody
                         mu-tr(v-for="document in documents",:key="document.id")
                             mu-td
                                 a(:href="'/doc/id='+document.id") {{document.name}}
                             mu-td {{document.time}}
                             mu-td {{document.student_name}}
-                            mu-td.right.aligned
-                                a(:href="'/doc/id='+document.id")
-                                    mu-raised-button(label="查看")
+                mu-pagination(:total="documentTotal",:current="documentCurrentPage",@pageChange="documentPageChange")
                 mu-col.center.aligned(desktop="100" style="margin:20px;")
-                    mu-raised-button(icon="edit",label="撰写新文档")
-
+                    mu-raised-button(icon="edit",label="撰写新文档",:to='"/team/new/doc/id="+ this.$route.params.id')
+                
             div(v-if="activeTab==='tab2'")
                 mu-paper
                     mu-list
@@ -97,15 +94,16 @@ div.padded
     mu-dialog(:open="isNoticeDialogDisplay",title="提示",@close="closeNoticeDialog") {{notice}}
         mu-flat-button(slot="actions",secondary,@click="closeNoticeDialog",label="确定")
 </template>
+
 <script>
-import { VueEditor } from 'vue2-editor'
+import { quillEditor } from 'vue-quill-editor'
 import DateTime from '@/common/datetime'
 import Encode from '@/common/encode'
 
 export default {
     name: 'details',
     components: {
-        VueEditor
+        quillEditor
     },
     data() {
         return {
@@ -133,6 +131,8 @@ export default {
 
             documents: [],                       //team documents list
             documentTotal: 0,                    //document total
+            documentCurrentPage: 0,
+
 
             comments: [],                        //team comments list
             newComment: '',                      //student input comment
@@ -156,7 +156,7 @@ export default {
     },
     methods: {
         /*=======================================================================================*/
-        /*= Page General ========================================================================*/
+        /*= ##Page General ======================================================================*/
         /*=======================================================================================*/
 
         handleTabChange(val) {
@@ -168,7 +168,7 @@ export default {
         },
 
         /*=======================================================================================*/
-        /*= TEAM ================================================================================*/
+        /*= ##TEAM ==============================================================================*/
         /*=======================================================================================*/
 
         /**
@@ -195,7 +195,7 @@ export default {
         },
 
         /*=======================================================================================*/
-        /*= FOLLOW ==============================================================================*/
+        /*= ##FOLLOW ============================================================================*/
         /*=======================================================================================*/
 
         /**
@@ -274,7 +274,7 @@ export default {
         },
 
         /*=======================================================================================*/
-        /*= MEMBER ==============================================================================*/
+        /*= ##MEMBER ============================================================================*/
         /*=======================================================================================*/
 
         /**
@@ -374,7 +374,7 @@ export default {
         },
 
         /*=======================================================================================*/
-        /*= DETAILS =============================================================================*/
+        /*= ##DETAILS ===========================================================================*/
         /*=======================================================================================*/
 
         /**
@@ -395,26 +395,28 @@ export default {
         },
 
         /*=======================================================================================*/
-        /*= DOCUMENT ============================================================================*/
+        /*= ##DOCUMENT ==========================================================================*/
         /*=======================================================================================*/
         getDocumentCount() {
             var _this = this;
-            this.$db.getTeamDocumentCount(this, { team_id: this.$route.params.id }).then(res => {
+            this.$db.getDocumentCount(this, { id: "team_id=" + this.$route.params.id }).then(res => {
                 _this.documentTotal = res[0].count;
             });
         },
         getDocument() {
             var _this = this;
-            this.$db.getTeamDocument(this, { team_id: this.$route.params.id, pagenum:0, pagesize:10 }).then(res => {
+            this.$db.getDocument(this, { id: "team_id=" + this.$route.params.id, pagenum: this.documentCurrentPage, pagesize:10 }).then(res => {
                 _this.documents = res;
                 for (var i = 0; i < _this.documents.length; i++) {
                     _this.documents[i].time = DateTime.dateFormat(_this.documents[i].time);
                 }
             });
         },
-
+        documentPageChange(newIndex){
+            this.documentCurrentPage = newIndex;
+        },
         /*=======================================================================================*/
-        /*= COMMENT =============================================================================*/
+        /*= ##COMMENT ===========================================================================*/
         /*=======================================================================================*/
 
         getCommentCount() {
@@ -485,5 +487,9 @@ export default {
 .mu-tab-active {
     background-color: #457cce;
     color: white;
+}
+
+.ql-align-center{
+    text-align: center !important;
 }
 </style>

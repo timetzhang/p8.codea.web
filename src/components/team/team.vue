@@ -5,7 +5,7 @@ div
     mu-paper
         mu-list(v-for="team in teams", :key="team.id")
             mu-list-item(:title="team.name",:href="'/team/id='+team.id")
-                mu-avatar(:src="team.logo_url",slot="leftAvatar")
+                mu-avatar(:src="team.logo",slot="leftAvatar")
                 span(slot="describe")
                     span {{team.intro}}
                 mu-icon-menu(slot="right" icon="more_vert" tooltip="进入")

@@ -36,7 +36,7 @@
                         mu-card.card
                             mu-card-header {{item.name}}
                             mu-card-media
-                                img(:src='item.logo_url')
+                                img(:src='item.logo')
                             mu-card-text.card-text {{item.brief}}
                             mu-card-actions
                                 a(:href='"/course/id="+item.id')

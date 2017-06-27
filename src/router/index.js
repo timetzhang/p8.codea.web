@@ -91,12 +91,28 @@ export default new Router({
             component: (resolve) => { require(['@/components/team/details.vue'], resolve) },
         },
         {
+            path: '/team/new/doc/id=:id',
+            component: (resolve) => { require(['@/components/team/new/doc.vue'], resolve) },
+        },
+        {
+            path: '/team/new/team',
+            component: (resolve) => { require(['@/components/team/new/team.vue'], resolve) },
+        },
+        {
             path: '/doc',
             component: (resolve) => { require(['@/components/doc/doc.vue'], resolve) },
         },
         {
             path: '/doc/id=:id',
             component: (resolve) => { require(['@/components/doc/details.vue'], resolve) },
+        },
+        {
+            path: '/doc/edit/id=:id',
+            component: (resolve) => { require(['@/components/doc/edit.vue'], resolve) },
+        },
+        {
+            path: '/doc/new',
+            component: (resolve) => { require(['@/components/doc/new.vue'], resolve) },
         },
         {
             path: '/sdk',

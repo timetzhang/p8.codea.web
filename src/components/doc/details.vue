@@ -7,11 +7,12 @@ div.padded
                 br
                 h1 {{document.name}}
                 span {{document.student_name}} 建立于 {{document.time}}
-            p(v-html="document.details")
+            p.html.ql-editor(v-html="document.details")
 </template>
 
 <script>
 import DateTime from '@/common/datetime'
+import 'quill/dist/quill.core.css'
 
 export default {
     name: 'details',

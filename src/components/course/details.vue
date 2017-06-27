@@ -4,7 +4,7 @@
             mu-content-block.para
                 mu-row(gutter)
                     mu-col.center.aligned(desktop="35",table="50",width="100")
-                        img(:src="item.logo_url", style='border:1px solid #eee')
+                        img(:src="item.logo", style='border:1px solid #eee')
                     mu-col(desktop="65",table="50",width="100")
                         h2(style="margin-top:10px;") {{item.name}}
                         p(v-html="item.intro")
