@@ -20,7 +20,7 @@
                             mu-raised-button(label="前往登录" href="/login")
                         template(v-if="!finished")
                             div(v-if="activeStep === 0")
-                                mu-text-field(hintText="输入手机号/邮箱",v-model="cellPhoneAndEmail",:errorText="cellPhoneAndEmailErrorText",@blur="validCellPhoneOrEmail")
+                                mu-text-field(hintText="输入手机号/邮箱",v-model="cellphoneAndEmail",:errorText="cellphoneAndEmailErrorText",@blur="validCellphoneOrEmail")
                             div(v-if="activeStep === 1")
                                 mu-text-field(hintText="输入验证码")
                                 mu-flat-button(label="发送验证码")
@@ -39,8 +39,8 @@ export default {
     data() {
         return {
             activeStep: 0,
-            cellPhoneAndEmailErrorText:'',
-            cellPhoneAndEmail:'',
+            cellphoneAndEmailErrorText:'',
+            cellphoneAndEmail:'',
         }
     },
     computed: {
@@ -58,23 +58,38 @@ export default {
         },
         handleNext () {
             var _this = this;
+            var type;
             switch (this.activeStep) {
                 case 0:
-                    if (!this.cellPhoneAndEmail) {
-                        this.cellPhoneAndEmailErrorText = '这是必填项';
-                    }
-                    else {
-                        if (/^1[34578]\d{9}$/.test(this.cellPhoneAndEmail) == false) {
-                            this.cellPhoneAndEmailErrorText = '请输入正确的手机号码';
+                    if (!this.cellphoneAndEmail) {
+                        this.cellphoneAndEmailErrorText = '这是必填项';
+                    }else {
+                        if (/^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/.test(this.cellphoneAndEmail) == true){
+                            type = "email";
+                        }else if(/^1[34578]\d{9}$/.test(this.cellphoneAndEmail) == true){
+                            type = "cellphone";
+                        }else{
+                            this.cellphoneAndEmailErrorText = '请输入正确的手机号码或邮箱';
                         }
-                        else{
+                        
+                        if(type == "cellphone"){
                             //判断cellphone是否存在
-                            this.$db.isStudentCellphoneExist(this, { cellPhoneAndEmail: this.cellPhoneAndEmail }).then(res => {
-                                if (res != 1) {
-                                    _this.cellPhoneAndEmailErrorText = '此用户不存在';
-                                }else{
-                                    this.cellPhoneAndEmailErrorText = null;
+                            StudentDB.isStudentCellphoneExist(this, { cellphone: this.cellphoneAndEmail }).then(res => {
+                                if (res == 1) {
+                                    this.cellphoneAndEmailErrorText = null;
                                     this.activeStep++;
+                                }else{
+                                    _this.cellphoneAndEmailErrorText = '此用户不存在';
+                                }
+                            });
+                        }else if(type == "email"){
+                            //判断email是否存在
+                            StudentDB.isStudentEmailExist(this, { email: this.cellphoneAndEmail }).then(res => {
+                                if (res == 1) {
+                                    this.cellphoneAndEmailErrorText = null;
+                                    this.activeStep++;
+                                }else{
+                                    _this.cellphoneAndEmailErrorText = '此用户不存在';
                                 }
                             });
                         }
@@ -96,7 +111,7 @@ export default {
         handlePrev () {
             this.activeStep--;
         },
-        validCellPhoneOrEmail () {
+        validCellphoneOrEmail () {
             var _this = this;
             
         }
