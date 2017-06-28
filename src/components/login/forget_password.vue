@@ -74,7 +74,7 @@ export default {
                         
                         if(type == "cellphone"){
                             //判断cellphone是否存在
-                            StudentDB.isStudentCellphoneExist(this, { cellphone: this.cellphoneAndEmail }).then(res => {
+                            this.$db.isStudentCellphoneExist(this, { cellphone: this.cellphoneAndEmail }).then(res => {
                                 if (res == 1) {
                                     this.cellphoneAndEmailErrorText = null;
                                     this.activeStep++;
@@ -84,7 +84,7 @@ export default {
                             });
                         }else if(type == "email"){
                             //判断email是否存在
-                            StudentDB.isStudentEmailExist(this, { email: this.cellphoneAndEmail }).then(res => {
+                            this.$db.isStudentEmailExist(this, { email: this.cellphoneAndEmail }).then(res => {
                                 if (res == 1) {
                                     this.cellphoneAndEmailErrorText = null;
                                     this.activeStep++;
