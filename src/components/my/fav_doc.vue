@@ -4,7 +4,7 @@
             mu-content-block
                 mu-list(style='overflow: hidden;')
                     mu-list-item(title="HTML5 机")
-                        img(:src='logo',slot='left', style='width:60px; height:40px;')
+                        img(:src='logo_img',slot='left', style='width:60px; height:40px;')
                         span(slot="describe")
                             span(style="color: #444 !important") Myron Liu - 周末要来你这里出差，要不要一起吃个饭呀，实在编不下去了,哈哈哈哈哈哈
                         mu-icon-menu(slot="right",icon="more_vert",tooltip="操作")

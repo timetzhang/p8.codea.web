@@ -143,12 +143,12 @@ export default new Router({
                     component: (resolve) => { require(['@/components/my/profile.vue'], resolve) }
                 },
                 {
-                    path: '/my/level',
-                    component: (resolve) => { require(['@/components/my/level.vue'], resolve) }
+                    path: '/my/dev_level',
+                    component: (resolve) => { require(['@/components/my/dev_level.vue'], resolve) }
                 },
                 {
-                    path: '/my/project',
-                    component: (resolve) => { require(['@/components/my/project.vue'], resolve) }
+                    path: '/my/op_level',
+                    component: (resolve) => { require(['@/components/my/op_level.vue'], resolve) }
                 },
                 {
                     path: '/my/course',
@@ -161,6 +161,22 @@ export default new Router({
                 {
                     path: '/my/team',
                     component: (resolve) => { require(['@/components/my/team.vue'], resolve) }
+                },
+                {
+                    path: '/my/fav_doc',
+                    component: (resolve) => { require(['@/components/my/fav_doc.vue'], resolve) }
+                },
+                {
+                    path: '/my/joined_talk',
+                    component: (resolve) => { require(['@/components/my/joined_talk.vue'], resolve) }
+                },
+                {
+                    path: '/my/doc',
+                    component: (resolve) => { require(['@/components/my/doc.vue'], resolve) }
+                },
+                {
+                    path: '/my/follow_team',
+                    component: (resolve) => { require(['@/components/my/follow_team.vue'], resolve) }
                 }
             ]
         },

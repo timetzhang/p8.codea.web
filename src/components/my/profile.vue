@@ -5,7 +5,8 @@
                 p.center.aligned(style='padding: 30px 0')
                     mu-avatar(src="/static/img/my/noheadimg.png", style='width:120px; height:120px')
                 mu-list(style='overflow: hidden;')
-                    mu-sub-header 基本信息
+                    mu-sub-header 
+                        b 基本信息
                     mu-list-item(:disableRipple='true',title="姓名")
                         span(slot='describe') {{data.name}}
                     mu-list-item(:disableRipple='true',title="性别")
@@ -14,8 +15,11 @@
                         span(slot='describe') {{ data.dob }}
                     mu-list-item(:disableRipple='true',title="身份证号码")
                         span(slot='describe') {{data.id_number}}
-                    P
-                    mu-sub-header 联系信息
+                    p
+                    mu-divider
+                    p
+                    mu-sub-header 
+                        b 联系信息
                     mu-list-item(:disableRipple='true',title="手机号码")
                         span(slot='describe') {{data.cellphone}}
                     mu-list-item(:disableRipple='true',title="Email")
@@ -25,7 +29,10 @@
                     mu-list-item(:disableRipple='true',title="邮政编码")
                         span(slot='describe') {{data.zipcode}}
                     p
-                    mu-sub-header 学历背景
+                    mu-divider
+                    p
+                    mu-sub-header 
+                        b 学历背景
                     mu-list-item(:disableRipple='true',title="学历")
                         span(slot='describe') {{data.diploma}}
                     mu-list-item(:disableRipple='true',title="毕业学校")
@@ -39,7 +46,10 @@
                     mu-list-item(:disableRipple='true',title="兴趣爱好")
                         span(slot='describe') {{data.hobby}}
                     p
-                    mu-sub-header 监护人信息
+                    mu-divider
+                    p
+                    mu-sub-header 
+                        b 监护人信息
                     mu-list-item(:disableRipple='true',title="第一监护人姓名")
                         span(slot='describe') {{data.guardian_01_name}}
                     mu-list-item(:disableRipple='true',title="第一监护人关系")

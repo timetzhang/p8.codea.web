@@ -447,6 +447,27 @@ export default {
         return new Promise(
             function(resolve) {
                 var dbUrl = Config.dbBaseUrl + '/getStudentTeam?pagenum=' + options.pagenum + "&pagesize=" + options.pagesize;
+
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+
+    /**
+     * Get Student Team List
+     * @param {*} obj 为this
+     */
+    getStudentJoinedTeam(obj, options) {
+        return new Promise(
+            function(resolve) {
+
+                var dbUrl = Config.dbBaseUrl + '/getStudentJoinedTeam?student_id=' + options.student_id;
+
                 obj.$http({
                     url: dbUrl,
                     method: 'GET'
