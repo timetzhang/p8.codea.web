@@ -34,10 +34,7 @@ div.padded
 
         div.center.aligned(v-if="activeTab === 'tab2'")
             mu-tabs.api-view-tabs(:value="activeMinTab",@change="handleMinTabChange")
-                mu-tab(value="minTab1",title="软件开发",@click="handleMenu(1)")
-                mu-tab(value="minTab2",title="硬件开发",@click="handleMenu(2)")
-                mu-tab(value="minTab3",title="艺术",@click="handleMenu(3)")
-                mu-tab(value="minTab4",title="创意课程",@click="handleMenu(4)")
+                mu-tab(v-for="(item,index) in courseDoc",:key="index",:value="'minTab'+index",:title="item",@click="handleMenu(index)")
             mu-row(gutter,v-if="activeMinTab === minNum")
                 mu-col(desktop="25",v-for="item in menu",:key="item.id")
                     h4 {{item.name}}
@@ -56,8 +53,10 @@ export default {
             activeIssue: 'issueTab1',
             issueTab : 'issueTab1',
             activeTab: 'tab1',
-            activeMinTab: 'minTab1',
+            activeMinTab: 'minTab0',
             minNum: 'minTab1',
+            courseDoc: ['软件开发','硬件开发','艺术','创意课程'],
+            allMenuData:[],
             menu: [],
             talkover: [
                 {
@@ -97,9 +96,28 @@ export default {
         }
     },
     mounted: function () {
-        this.handleMenu(1);
+        this.loadMenu();
+        
     },
     methods: {
+        loadMenu(){
+            var _this = this;
+            var data=[];
+            for(var i = 1; i <= _this.courseDoc.length; i++){
+                this.$db.getCourseType(_this, { subject_id: i }).then(res => {
+                    data.splice(0,_this.menu.length);
+                    data = res;
+                    // data.forEach(function(e,i) {
+                        this.$db.getCourse(_this,{}).then(res => {
+                            //_this.allMenuData = res;
+                            console.log(res);
+                        })
+                    // }, this);
+                    
+                });
+            }
+            this.handleMenu(0);
+        },
         handleIssueChange(val) {
             this.activeIssue = val;
         },
@@ -115,6 +133,13 @@ export default {
         handleMenu(e){
             var _this = this;
             this.minNum = 'minTab'+e;
+//            data.forEach(function(body,i){
+//              _this.menu.push(body);
+//            },this);
+//            console.log(_this.menu);
+            /*
+            
+            e = e + 1;
             this.$db.getCourseType(_this, { subject_id: e }).then(res => {
                 _this.menu.splice(0,_this.menu.length);
                 _this.menu = res;
@@ -124,6 +149,7 @@ export default {
                     })
                 }, this);
             });
+            */
         }
     }
 }

@@ -46,18 +46,10 @@ div.padded
                 mu-tab(value="tab3",:title="'关注('+followTotal+'人)'",@click="getFollow")
 
             div(v-if="activeTab==='tab1'")
-                mu-table(:showCheckbox='false',:selectable='false')
-                    mu-thead
-                        mu-tr
-                            mu-th 文件名
-                            mu-th 上传时间
-                            mu-th 发布人
-                    mu-tbody
-                        mu-tr(v-for="document in documents",:key="document.id")
-                            mu-td
-                                a(:href="'/doc/id='+document.id") {{document.name}}
-                            mu-td {{document.time}}
-                            mu-td {{document.student_name}}
+                mu-list(v-for="document in documents",:key="document.id")
+                    mu-list-item(:title="document.name",:describeText="document.time",:href="'/doc/id='+document.id")
+                        mu-avatar(icon="assignment",backgroundColor="blue",slot="leftAvatar")
+                        span(slot="rightAvatar") {{document.student_name}}
                 mu-pagination(:total="documentTotal",:current="documentCurrentPage",@pageChange="documentPageChange")
                 mu-col.center.aligned(desktop="100" style="margin:20px;")
                     mu-raised-button(icon="edit",label="撰写新文档",:to='"/team/new/doc/id="+ this.$route.params.id')
@@ -480,8 +472,12 @@ export default {
     margin: 10px;
 }
 
-.mu-td {
-    word-wrap: break-word !important;
+.mu-td{
+    width: 100%;
+    height: auto;
+    word-wrap:break-word;
+    word-break:break-all;
+    overflow: hidden; 
 }
 
 .mu-tab-active {
