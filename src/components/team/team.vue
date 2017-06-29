@@ -27,7 +27,7 @@ export default {
     methods: {
         getTeam() {
             var _this = this;
-            this.$db.getStudentTeam(this,{pagenum: 0, pagesize:10}).then(res => {
+            this.$db.getTeam(this,{pagenum: 0, pagesize:10}).then(res => {
                 _this.teams = res;
             });
         }

@@ -34,7 +34,7 @@ export default {
     methods: {
         getTeam(){
             var _this = this;
-            this.$db.getStudentJoinedTeam(this,{student_id: this.$cookie.getCookie('sid')}).then(res=>{
+            this.$db.getStudentTeam(this,{student_id: this.$cookie.getCookie('sid')}).then(res=>{
                 _this.team = res[0];
                 _this.team.time = DateTime.dateFormat(_this.team.time);
                 _this.team.join_time = DateTime.dateFormat(_this.team.join_time);

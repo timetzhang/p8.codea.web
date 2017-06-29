@@ -195,6 +195,10 @@ export default new Router({
         {
             path: '/register',
             component: (resolve) => { require(['@/components/register/register.vue'], resolve) }
+        },
+        {
+            path: '/student/id=:id',
+            component: (resolve) => { require(['@/components/student/profile.vue'], resolve) }
         }
     ]
 })

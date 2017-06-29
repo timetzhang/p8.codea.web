@@ -216,7 +216,6 @@ export default {
     /*--- ##Document ---------------------------------------------------------------------------------------*/
     /*------------------------------------------------------------------------------------------------------*/
 
-
     /**
      * 获取Documents Total
      * @param {*} obj 为this
@@ -362,6 +361,25 @@ export default {
     },
 
     /**
+     * 获取用户Profile
+     * @param {*} obj 为this
+     * @param {*} options { id: student id}
+     */
+    getStudentProfile(obj, options) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/getStudentProfile?id=' + options.id;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+
+    /**
      * 获取用户详情
      * @param {*} obj 为this
      * @param {*} options { uid: user id}
@@ -373,6 +391,27 @@ export default {
                 obj.$http({
                     url: dbUrl,
                     method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+
+    /**
+     * 获取用户详情
+     * @param {*} obj 为this
+     * @param {*} options { uid: user id}
+     */
+    setStudentDetails(obj, data) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/setStudentDetails';
+                obj.$http.post(dbUrl, { data: data }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    emulateJSON: true
                 }).then(res => {
                     resolve(res.data);
                 });
@@ -398,6 +437,7 @@ export default {
             }
         );
     },
+
     /**
      * 判断Cellphone是否存在
      * @param {*} obj 为this
@@ -416,6 +456,7 @@ export default {
             }
         );
     },
+
     /**
      * Search student username
      * @param {*} obj 为this
@@ -425,6 +466,29 @@ export default {
         return new Promise(
             function(resolve) {
                 var dbUrl = Config.dbBaseUrl + '/searchStudentUsername?username=' + options.username;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+
+    /*-------------------------------------------------------------------------------------------------------*/
+    /*--- ##STUDENT COURSE ----------------------------------------------------------------------------------*/
+    /*-------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Get Student Course Take
+     * @param {*} obj 为this
+     */
+    getStudentCourseTake(obj, options) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/getStudentCourseTake?student_id=' + options.student_id;
+
                 obj.$http({
                     url: dbUrl,
                     method: 'GET'
@@ -446,7 +510,8 @@ export default {
     getStudentTeam(obj, options) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/getStudentTeam?pagenum=' + options.pagenum + "&pagesize=" + options.pagesize;
+
+                var dbUrl = Config.dbBaseUrl + '/getStudentTeam?student_id=' + options.student_id;
 
                 obj.$http({
                     url: dbUrl,
@@ -458,15 +523,106 @@ export default {
         );
     },
 
+    /*-------------------------------------------------------------------------------------------------------*/
+    /*--- ##STUDENT TEAM MEMBER -----------------------------------------------------------------------------*/
+    /*-------------------------------------------------------------------------------------------------------*/
+
+    isStudentTeamMember(obj, options) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/isStudentTeamMember?student_id=' + options.student_id + '&team_id=' + options.team_id;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+
+    /*-------------------------------------------------------------------------------------------------------*/
+    /*--- ##STUDENT FOLLOW TEAM -----------------------------------------------------------------------------*/
+    /*-------------------------------------------------------------------------------------------------------*/
+
     /**
      * Get Student Team List
      * @param {*} obj 为this
      */
-    getStudentJoinedTeam(obj, options) {
+    getStudentFollowTeam(obj, options) {
         return new Promise(
             function(resolve) {
 
-                var dbUrl = Config.dbBaseUrl + '/getStudentJoinedTeam?student_id=' + options.student_id;
+                var dbUrl = Config.dbBaseUrl + '/getStudentFollowTeam?student_id=' + options.student_id;
+
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+
+    newStudentFollowTeam(obj, data) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/newStudentFollowTeam';
+                obj.$http.post(dbUrl, { data: data }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    emulateJSON: true
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+
+    isStudentFollowTeam(obj, options) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/isStudentFollowTeam?student_id=' + options.student_id + '&team_id=' + options.team_id;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+
+    delStudentTeamFollow(obj, data) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/delStudentFollowTeam';
+                obj.$http.post(dbUrl, { data: data }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    emulateJSON: true
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+
+    /*-------------------------------------------------------------------------------------------------------*/
+    /*--- ##TEAM --------------------------------------------------------------------------------------------*/
+    /*-------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Get Student Team List
+     * @param {*} obj 为this
+     */
+    getTeam(obj, options) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/getTeam?pagenum=' + options.pagenum + "&pagesize=" + options.pagesize;
 
                 obj.$http({
                     url: dbUrl,
@@ -482,10 +638,10 @@ export default {
      * Get student team details
      * @param {*} obj 为this
      */
-    getStudentTeamDetails(obj, options) {
+    getTeamDetails(obj, options) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/getStudentTeamDetails?id=' + options.id;
+                var dbUrl = Config.dbBaseUrl + '/getTeamDetails?id=' + options.id;
                 obj.$http({
                     url: dbUrl,
                     method: 'GET'
@@ -518,10 +674,10 @@ export default {
      * Update the team's details
      * @param {*} obj 为this
      */
-    setStudentTeamDetails(obj, data) {
+    setTeamDetails(obj, data) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/setStudentTeamDetails';
+                var dbUrl = Config.dbBaseUrl + '/setTeamDetails';
                 obj.$http.post(dbUrl, { data: data }, {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -536,17 +692,17 @@ export default {
 
 
     /*-------------------------------------------------------------------------------------------------------*/
-    /*--- ##STUDENT TEAM FOLLOW -----------------------------------------------------------------------------*/
+    /*--- ##TEAM FOLLOW -------------------------------------------------------------------------------------*/
     /*-------------------------------------------------------------------------------------------------------*/
 
     /**
      * Get student team follow count
      * @param {*} obj 为this
      */
-    getStudentTeamFollowCount(obj, options) {
+    getTeamFollowCount(obj, options) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/getStudentTeamFollowCount?team_id=' + options.team_id;
+                var dbUrl = Config.dbBaseUrl + '/getTeamFollowCount?team_id=' + options.team_id;
                 obj.$http({
                     url: dbUrl,
                     method: 'GET'
@@ -561,10 +717,10 @@ export default {
      * get student team follows
      * @param {*} obj 为this
      */
-    getStudentTeamFollow(obj, options) {
+    getTeamFollow(obj, options) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/getStudentTeamFollow?team_id=' + options.team_id;
+                var dbUrl = Config.dbBaseUrl + '/getTeamFollow?team_id=' + options.team_id;
                 obj.$http({
                     url: dbUrl,
                     method: 'GET'
@@ -574,74 +730,15 @@ export default {
             }
         );
     },
-
-    /**
-     * new student team follow
-     * @param {*} obj 为this
-     */
-    newStudentTeamFollow(obj, data) {
-        return new Promise(
-            function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/newStudentTeamFollow';
-                obj.$http.post(dbUrl, { data: data }, {
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    emulateJSON: true
-                }).then(res => {
-                    resolve(res.data);
-                });
-            }
-        );
-    },
-
-    /**
-     * determine is follow the team
-     * @param {*} obj 为this
-     */
-    isStudentTeamFollowed(obj, options) {
-        return new Promise(
-            function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/isStudentTeamFollowed?student_id=' + options.student_id + '&team_id=' + options.team_id;
-                obj.$http({
-                    url: dbUrl,
-                    method: 'GET'
-                }).then(res => {
-                    resolve(res.data);
-                });
-            }
-        );
-    },
-
-    /**
-     * cancel the follow
-     * @param {*} obj 为this
-     */
-    delStudentTeamFollow(obj, data) {
-        return new Promise(
-            function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/delStudentTeamFollow';
-                obj.$http.post(dbUrl, { data: data }, {
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    emulateJSON: true
-                }).then(res => {
-                    resolve(res.data);
-                });
-            }
-        );
-    },
-
 
     /*-------------------------------------------------------------------------------------------------------*/
-    /*--- ##STUDENT TEAM MEMBER -----------------------------------------------------------------------------*/
+    /*--- ##TEAM MEMBER -------------------------------------------------------------------------------------*/
     /*-------------------------------------------------------------------------------------------------------*/
 
-    getStudentTeamMember(obj, options) {
+    getTeamMember(obj, options) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/getStudentTeamMember?team_id=' + options.team_id;
+                var dbUrl = Config.dbBaseUrl + '/getTeamMember?team_id=' + options.team_id;
                 obj.$http({
                     url: dbUrl,
                     method: 'GET'
@@ -651,23 +748,11 @@ export default {
             }
         );
     },
-    isStudentTeamMember(obj, options) {
+
+    newTeamMember(obj, data) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/isStudentTeamMember?student_id=' + options.student_id + '&team_id=' + options.team_id;
-                obj.$http({
-                    url: dbUrl,
-                    method: 'GET'
-                }).then(res => {
-                    resolve(res.data);
-                });
-            }
-        );
-    },
-    newStudentTeamMember(obj, data) {
-        return new Promise(
-            function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/newStudentTeamMember';
+                var dbUrl = Config.dbBaseUrl + '/newTeamMember';
                 obj.$http.post(dbUrl, { data: data }, {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -679,10 +764,11 @@ export default {
             }
         );
     },
-    delStudentTeamMember(obj, data) {
+
+    delTeamMember(obj, data) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/delStudentTeamMember';
+                var dbUrl = Config.dbBaseUrl + '/delTeamMember';
                 obj.$http.post(dbUrl, { data: data }, {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -699,10 +785,10 @@ export default {
     /*--- ##STUDENT TEAM COMMENT ----------------------------------------------------------------------------*/
     /*-------------------------------------------------------------------------------------------------------*/
 
-    getStudentTeamComment(obj, options) {
+    getTeamComment(obj, options) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/getStudentTeamComment?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum + '&team_id=' + options.team_id;
+                var dbUrl = Config.dbBaseUrl + '/getTeamComment?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum + '&team_id=' + options.team_id;
                 obj.$http({
                     url: dbUrl,
                     method: 'GET'
@@ -712,10 +798,11 @@ export default {
             }
         );
     },
-    getStudentTeamCommentCount(obj, options) {
+
+    getTeamCommentCount(obj, options) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/getStudentTeamCommentCount?&team_id=' + options.team_id;
+                var dbUrl = Config.dbBaseUrl + '/getTeamCommentCount?&team_id=' + options.team_id;
                 obj.$http({
                     url: dbUrl,
                     method: 'GET'
@@ -725,10 +812,11 @@ export default {
             }
         );
     },
-    newStudentTeamComment(obj, data) {
+
+    newTeamComment(obj, data) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/newStudentTeamComment';
+                var dbUrl = Config.dbBaseUrl + '/newTeamComment';
                 obj.$http.post(dbUrl, { data: data }, {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'

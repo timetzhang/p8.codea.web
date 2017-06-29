@@ -1,98 +1,98 @@
 <template lang="jade">
-div.padded
-    mu-paper(style="padding:10px")
-        mu-content-block.para
-            mu-row(gutter)
-                mu-col(desktop="15",table="50",width="100")
-                    img(:src="team.logo", style='border:1px solid #eee',width="100%")
-                mu-col(desktop="85",table="50",width="100")
-                    h2(style="margin-top:10px;") {{team.name}}
-                        span(style="font-size:12px;font-weight: normal;float:right") (浏览量：{{team.click_count}})
-                    span 成立时间：{{team.time}}
-                    p {{team.intro}}
-                    div.right.aligned
-                        mu-raised-button(icon="star",:label="isFollowed ? '已关注' : '关注'",:secondary='isFollowed', @click='follow')
-                    br
+    div.padded
+        mu-paper(style="padding:10px")
+            mu-content-block.para
+                mu-row(gutter)
+                    mu-col(desktop="15",table="50",width="100")
+                        img(:src="team.logo", style='border:1px solid #eee',width="100%")
+                    mu-col(desktop="85",table="50",width="100")
+                        h2(style="margin-top:10px;") {{team.name}}
+                            span(style="font-size:12px;font-weight: normal;float:right") (浏览量：{{team.click_count}})
+                        span 成立时间：{{team.time}}
+                        p {{team.intro}}
+                        div.right.aligned
+                            mu-raised-button(icon="star",:label="isFollowed ? '已关注' : '关注'",:secondary='isFollowed', @click='follow')
+                        br
 
-            mu-divider
+                mu-divider
 
-            h2(style="display:inline-block;") 项目成员
-                mu-flat-button(style="display:inline-block",label="管理成员",@click="toggleManageMemberDisplay",v-if='isTeamLeader')
-            div(style="margin-bottom: 10px")
-                mu-chip(v-for="member in members",:key="member.id",@delete="showDeleteMemberConfirmDialog(member.id, member.name)",:showDelete="isMemberManageDisplay")
-                    mu-avatar(:size="32",:src="member.head_image")
-                    span {{member.name}}
-            div(v-if="isMemberManageDisplay")
-                mu-text-field(label="手机号码或Email",v-model="newMemberUsername")
-                mu-raised-button(label="添加新成员",@click="showAddMemberConfirmDialog", secondary, style='margin-left:10px;')
-                mu-raised-button(label="取消",@click="hideMemberManage", primary, style='margin-left:10px;')
+                h2(style="display:inline-block;") 项目成员
+                    mu-flat-button(style="display:inline-block",label="管理成员",@click="toggleManageMemberDisplay",v-if='isTeamLeader')
+                div(style="margin-bottom: 10px")
+                    mu-chip(v-for="member in members",:key="member.id",@delete="showDeleteMemberConfirmDialog(member.id, member.name)",:showDelete="isMemberManageDisplay",@click='redirectStudent(member.student_id)')
+                        mu-avatar(:size="32",:src="member.head_image")
+                        span {{member.name}}
+                div(v-if="isMemberManageDisplay")
+                    mu-text-field(label="手机号码或Email",v-model="newMemberUsername")
+                    mu-raised-button(label="添加新成员",@click="showAddMemberConfirmDialog", secondary, style='margin-left:10px;')
+                    mu-raised-button(label="取消",@click="hideMemberManage", primary, style='margin-left:10px;')
 
-            mu-divider
+                mu-divider
 
-            h2 项目详情
-            div.html.ql-editor(v-html="team.details" v-if="!isEditDisplay")
-            div.center.aligned
-                mu-raised-button(icon="edit",style="margin:20px;",label="修改项目简介",v-if="isTeamLeader && !isEditDisplay",@click="showDetailsEdit")
-                quill-editor(ref="myTextEditor",v-model="team.details",:config="editorOption",v-if="isEditDisplay")
-                mu-raised-button(label="提 交",style="margin:10px 0",v-if="isEditDisplay",@click="submitEdit")
-                span &nbsp;
-                mu-raised-button(label="取 消",style="margin:10px 0",v-if="isEditDisplay",@click="cancelEdit")
-            
-            mu-divider
-
-            mu-tabs(:value="activeTab",@change="handleTabChange")
-                mu-tab(value="tab1",:title="'文档(' + documentTotal + '篇)'",@click="getDocument")
-                mu-tab(value="tab2",:title="'评论('+commentTotal +'条)'",@click="getComment")
-                mu-tab(value="tab3",:title="'关注('+followTotal+'人)'",@click="getFollow")
-
-            div(v-if="activeTab==='tab1'")
-                mu-table(:showCheckbox='false',:selectable='false')
-                    mu-thead
-                        mu-tr
-                            mu-th 文件名
-                            mu-th 上传时间
-                            mu-th 发布人
-                    mu-tbody
-                        mu-tr(v-for="document in documents",:key="document.id")
-                            mu-td
-                                a(:href="'/doc/id='+document.id") {{document.name}}
-                            mu-td {{document.time}}
-                            mu-td {{document.student_name}}
-                mu-pagination(:total="documentTotal",:current="documentCurrentPage",@pageChange="documentPageChange")
-                mu-col.center.aligned(desktop="100" style="margin:20px;")
-                    mu-raised-button(icon="edit",label="撰写新文档",:to='"/team/new/doc/id="+ this.$route.params.id')
+                h2 项目详情
+                div.html.ql-editor(v-html="team.details" v-if="!isEditDisplay")
+                div.center.aligned
+                    mu-raised-button(icon="edit",style="margin:20px;",label="修改项目简介",v-if="isTeamLeader && !isEditDisplay",@click="showDetailsEdit")
+                    quill-editor(ref="myTextEditor",v-model="team.details",:config="editorOption",v-if="isEditDisplay")
+                    mu-raised-button(label="提 交",style="margin:10px 0",v-if="isEditDisplay",@click="submitEdit")
+                    span &nbsp;
+                    mu-raised-button(label="取 消",style="margin:10px 0",v-if="isEditDisplay",@click="cancelEdit")
                 
-            div(v-if="activeTab==='tab2'")
-                mu-paper
-                    mu-list
-                        mu-list-item(v-for="comment in comments",:key="comment.comment_id",:title="comment.name+'  '+comment.time", @click="commentReply(comment.comment_id, comment.name)")
-                            mu-avatar(slot="left",:src="comment.head_img")
-                            i.icon.star(slot="right")
-                            span(slot="describe")
-                                span {{comment.details}}
-                            mu-list-item(v-for="reply in comment.replies",:key="reply.id",:title="reply.name+'  '+reply.time")
-                                mu-avatar(slot="left",:src="reply.headimg")
+                mu-divider
+
+                mu-tabs(:value="activeTab",@change="handleTabChange")
+                    mu-tab(value="tab1",:title="'文档(' + documentTotal + '篇)'",@click="getDocument")
+                    mu-tab(value="tab2",:title="'评论('+commentTotal +'条)'",@click="getComment")
+                    mu-tab(value="tab3",:title="'关注('+followTotal+'人)'",@click="getFollow")
+
+                div(v-if="activeTab==='tab1'")
+                    mu-table(:showCheckbox='false',:selectable='false')
+                        mu-thead
+                            mu-tr
+                                mu-th 文件名
+                                mu-th 上传时间
+                                mu-th 发布人
+                        mu-tbody
+                            mu-tr(v-for="document in documents",:key="document.id")
+                                mu-td
+                                    a(:href="'/doc/id='+document.id") {{document.name}}
+                                mu-td {{document.time}}
+                                mu-td {{document.student_name}}
+                    mu-pagination(:total="documentTotal",:current="documentCurrentPage",@pageChange="documentPageChange")
+                    mu-col.center.aligned(desktop="100" style="margin:20px;")
+                        mu-raised-button(icon="edit",label="撰写新文档",:to='"/team/new/doc/id="+ this.$route.params.id')
+                    
+                div(v-if="activeTab==='tab2'")
+                    mu-paper
+                        mu-list
+                            mu-list-item(v-for="comment in comments",:key="comment.comment_id",:title="comment.name+'  '+comment.time", @click="commentReply(comment.comment_id, comment.name)")
+                                mu-avatar(slot="left",:src="comment.head_img")
+                                i.icon.star(slot="right")
                                 span(slot="describe")
-                                    span {{reply.details}}
-                mu-pagination(:total="commentTotal",:current="commentCurrentPage",@pageChange="commentPageChange")
-                div.center.aligned(style='margin-top:20px')
-                    mu-text-field(name="comment-input",hintText="不允许超过140个字符",:multiLine="true",:rowsMax="6",:maxLength="140",:fullWidth="true",v-model="newComment",:errorText ="commentErrorText")
-                    mu-raised-button(label="评论",@click="submitComment")
-            div(v-if="activeTab==='tab3'")
-                h4 他们对此感兴趣
-                mu-avatar(:src="follow.head_image", v-for="follow in follows", :key="follow.id", :label='follow.name', style='margin-right:10px;')
+                                    span {{comment.details}}
+                                mu-list-item(v-for="reply in comment.replies",:key="reply.id",:title="reply.name+'  '+reply.time")
+                                    mu-avatar(slot="left",:src="reply.headimg")
+                                    span(slot="describe")
+                                        span {{reply.details}}
+                    mu-pagination(:total="commentTotal",:current="commentCurrentPage",@pageChange="commentPageChange")
+                    div.center.aligned(style='margin-top:20px')
+                        mu-text-field(name="comment-input",hintText="不允许超过140个字符",:multiLine="true",:rowsMax="6",:maxLength="140",:fullWidth="true",v-model="newComment",:errorText ="commentErrorText")
+                        mu-raised-button(label="评论",@click="submitComment")
+                div(v-if="activeTab==='tab3'")
+                    h4 他们对此感兴趣
+                    mu-avatar(:src="follow.head_image", v-for="follow in follows", :key="follow.id", :label='follow.name', style='margin-right:10px;cursor:pointer', @click="redirectStudent(follow.id)")
                 
-    mu-dialog(:open="isDialogDeleteFollowDisplay",title="提示",@close="closeDeleteFollowConfirmDialog") 是否取消关注
-        mu-flat-button(slot="actions",@click="closeDeleteFollowConfirmDialog",primary,label="取消")
-        mu-flat-button(slot="actions",secondary,@click="deleteFollow",label="确定")
-    mu-dialog(:open="isDialogDeleteMemberDisplay",title="提示",@close="closeDeleteMemberConfirmDialog") 是否删除小组成员 <b>{{toDeleteMember}}</b>
-        mu-flat-button(slot="actions",@click="closeDeleteMemberConfirmDialog",primary,label="取消")
-        mu-flat-button(slot="actions",secondary,@click="deleteMember",label="确定")
-    mu-dialog(:open="isDialogAddMemberDisplay",title="提示",@close="closeAddMemberConfirmDialog") 是否添加小组成员 <b>{{toAddMember}}</b>
-        mu-flat-button(slot="actions",@click="closeAddMemberConfirmDialog",primary,label="取消")
-        mu-flat-button(slot="actions",secondary,@click="newMember",label="确定")
-    mu-dialog(:open="isNoticeDialogDisplay",title="提示",@close="closeNoticeDialog") {{notice}}
-        mu-flat-button(slot="actions",secondary,@click="closeNoticeDialog",label="确定")
+        mu-dialog(:open="isDialogDeleteFollowDisplay",title="提示",@close="closeDeleteFollowConfirmDialog") 是否取消关注
+            mu-flat-button(slot="actions",@click="closeDeleteFollowConfirmDialog",primary,label="取消")
+            mu-flat-button(slot="actions",secondary,@click="deleteFollow",label="确定")
+        mu-dialog(:open="isDialogDeleteMemberDisplay",title="提示",@close="closeDeleteMemberConfirmDialog") 是否删除小组成员 <b>{{toDeleteMember}}</b>
+            mu-flat-button(slot="actions",@click="closeDeleteMemberConfirmDialog",primary,label="取消")
+            mu-flat-button(slot="actions",secondary,@click="deleteMember",label="确定")
+        mu-dialog(:open="isDialogAddMemberDisplay",title="提示",@close="closeAddMemberConfirmDialog") 是否添加小组成员 <b>{{toAddMember}}</b>
+            mu-flat-button(slot="actions",@click="closeAddMemberConfirmDialog",primary,label="取消")
+            mu-flat-button(slot="actions",secondary,@click="newMember",label="确定")
+        mu-dialog(:open="isNoticeDialogDisplay",title="提示",@close="closeNoticeDialog") {{notice}}
+            mu-flat-button(slot="actions",secondary,@click="closeNoticeDialog",label="确定")
 </template>
 
 <script>
@@ -167,6 +167,9 @@ export default {
             this.isNoticeDialogDisplay = false;
         },
 
+        redirectStudent(id){
+            this.$router.push('/student/id=' + id);
+        },
         /*=======================================================================================*/
         /*= ##TEAM ==============================================================================*/
         /*=======================================================================================*/
@@ -177,7 +180,7 @@ export default {
         getTeam() {
             var _this = this;
             //Load team details
-            this.$db.getStudentTeamDetails(this, { id: this.$route.params.id }).then(res => {
+            this.$db.getTeamDetails(this, { id: this.$route.params.id }).then(res => {
                 _this.team = res[0];
                 _this.team.time = DateTime.dateFormat(_this.team.time);
                 document.title = this.team.name + ' - ' + this.$config.title;
@@ -203,7 +206,7 @@ export default {
          */
         getFollowCount() {
             var _this = this;
-            this.$db.getStudentTeamFollowCount(this, { team_id: this.$route.params.id }).then(res => {
+            this.$db.getTeamFollowCount(this, { team_id: this.$route.params.id }).then(res => {
                 _this.followTotal = res[0].count;
             });
         },
@@ -213,7 +216,7 @@ export default {
          */
         getFollow() {
             var _this = this;
-            this.$db.getStudentTeamFollow(this, { team_id: this.$route.params.id }).then(res => {
+            this.$db.getTeamFollow(this, { team_id: this.$route.params.id }).then(res => {
                 _this.follows = res;
             });
         },
@@ -223,7 +226,7 @@ export default {
          */
         checkFollow() {
             var _this = this;
-            this.$db.isStudentTeamFollowed(this, { student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id }).then(res => {
+            this.$db.isStudentFollowTeam(this, { student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id }).then(res => {
                 _this.isFollowed = res == 1 ? true : false;
             });
         },
@@ -240,7 +243,7 @@ export default {
                 }
                 else {
                     //new student follow
-                    this.$db.newStudentTeamFollow(this, { student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id }).then(res => {
+                    this.$db.newStudentFollowTeam(this, { student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id }).then(res => {
                         if (res.insertId > 0) {
                             _this.isFollowed = true;
                         }
@@ -257,7 +260,7 @@ export default {
          */
         deleteFollow() {
             var _this = this;
-            this.$db.delStudentTeamFollow(this, { student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id }).then(res => {
+            this.$db.delStudentFollowTeam(this, { student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id }).then(res => {
                 if (res.affectedRows > 0) {
                     _this.isFollowed = false;
                 }
@@ -283,7 +286,7 @@ export default {
         getMember() {
             var _this = this;
             //Load team members
-            this.$db.getStudentTeamMember(this, { team_id: this.$route.params.id }).then(res => {
+            this.$db.getTeamMember(this, { team_id: this.$route.params.id }).then(res => {
                 _this.members = res;
             });
         },
@@ -323,7 +326,7 @@ export default {
          */
         deleteMember() {
             var _this = this;
-            this.$db.delStudentTeamMember(this, { id: this.toDeleteMemberId }).then(res => {
+            this.$db.delTeamMember(this, { id: this.toDeleteMemberId }).then(res => {
                 if (res.affectedRows > 0) {
                     _this.getMember(); //Refresh Members
                     _this.closeDeleteMemberConfirmDialog();
@@ -338,6 +341,7 @@ export default {
             this.$db.searchStudentUsername(this, { username: this.newMemberUsername }).then(res => {
                 if (res.length) {
                     this.toAddMemberId = res[0].id;
+                    console.log(this.toAddMemberId);
                     this.toAddMember = res[0].name;
                     this.isDialogAddMemberDisplay = true;
                 }
@@ -360,7 +364,7 @@ export default {
          */
         newMember() {
             var _this = this;
-            this.$db.newStudentTeamMember(this, { student_id: this.toAddMemberId, team_id: this.$route.params.id }).then(res => {
+            this.$db.newTeamMember(this, { student_id: this.toAddMemberId, team_id: this.$route.params.id }).then(res => {
                 if (res.insertId > 0) {
                     _this.getMember();
                     _this.closeAddMemberConfirmDialog();
@@ -384,7 +388,7 @@ export default {
             this.isEditDisplay = true;
         },
         submitEdit() {
-            this.$db.setStudentTeamDetails(this, { details: this.team.details, team_id: this.$route.params.id }).then(res => {
+            this.$db.setTeamDetails(this, { details: this.team.details, team_id: this.$route.params.id }).then(res => {
                 if (res.affectedRows > 0) {
                     this.isEditDisplay = false;
                 }
@@ -421,14 +425,14 @@ export default {
 
         getCommentCount() {
             var _this = this;
-            this.$db.getStudentTeamCommentCount(this, { team_id: this.$route.params.id }).then(res => {
+            this.$db.getTeamCommentCount(this, { team_id: this.$route.params.id }).then(res => {
                 _this.commentTotal = res[0].count;
             });
         },
         getComment() {
             var _this = this;
             //Get all comments, without reply
-            this.$db.getStudentTeamComment(this, { pagesize: 10, pagenum: this.commentCurrentPage - 1, team_id: this.$route.params.id }).then(res => {
+            this.$db.getTeamComment(this, { pagesize: 10, pagenum: this.commentCurrentPage - 1, team_id: this.$route.params.id }).then(res => {
                 _this.comments = res;
 
                 _this.comments.forEach(function (e, i) {
@@ -447,8 +451,8 @@ export default {
             var _this = this;
 
             if (this.$cookie.getCookie('sid')) {
-                if (this.newComment) {
-                    this.$db.newStudentTeamComment(this, {
+                if (this.newComment.trim()) {
+                    this.$db.newTeamComment(this, {
                         team_id: this.$route.params.id,
                         details: Encode.htmlEncode(this.newComment),
                         student_id: this.$cookie.getCookie('sid')
@@ -482,14 +486,5 @@ export default {
 
 .mu-td {
     word-wrap: break-word !important;
-}
-
-.mu-tab-active {
-    background-color: #457cce;
-    color: white;
-}
-
-.ql-align-center{
-    text-align: center !important;
 }
 </style>
