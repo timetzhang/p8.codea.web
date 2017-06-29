@@ -316,6 +316,26 @@ export default {
         );
     },
 
+
+    /**
+     * 获取Documents
+     * @param {*} obj 为this
+     * @param {*} options team.id
+     */
+    getDocumentCourse(obj, options) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/getDocumentCourse';
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+
     /*-------------------------------------------------------------------------------------------------------*/
     /*--- ##STUDENT -----------------------------------------------------------------------------------------*/
     /*-------------------------------------------------------------------------------------------------------*/
