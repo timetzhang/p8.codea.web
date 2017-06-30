@@ -519,6 +519,101 @@ export default {
         );
     },
 
+
+    /*--------------------------------------------------------------------------------------------------------*/
+    /*--- ##Student NOTIFY -----------------------------------------------------------------------------------*/
+    /*--------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Get Student Course Take
+     * @param {*} obj 为this
+     */
+    getStudentUnreadNotifyCount(obj, options) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/getStudentUnreadNotifyCount?student_id=' + options.student_id;
+
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+    getStudentUnreadNotify(obj, options) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/getStudentUnreadNotify?pagenum=' + options.pagenum + '&pagesize=' + options.pagesize + '&student_id=' + options.student_id;
+
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+    getStudentReadNotifyCount(obj, options) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/getStudentReadNotifyCount?student_id=' + options.student_id;
+
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+    getStudentReadNotify(obj, options) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/getStudentReadNotify?pagenum=' + options.pagenum + '&pagesize=' + options.pagesize + '&student_id=' + options.student_id;
+
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+    setStudentNotifyRead(obj, data) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/setStudentNotifyRead';
+                obj.$http.post(dbUrl, { data: data }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    emulateJSON: true
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+    delStudentNotify(obj, data) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/delStudentNotify';
+                obj.$http.post(dbUrl, { data: data }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    emulateJSON: true
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
     /*-------------------------------------------------------------------------------------------------------*/
     /*--- ##STUDENT TEAM ------------------------------------------------------------------------------------*/
     /*-------------------------------------------------------------------------------------------------------*/
@@ -630,6 +725,25 @@ export default {
             }
         );
     },
+
+
+    /*-------------------------------------------------------------------------------------------------------*/
+    /*--- ##STUDENT FOLLOW TEAM -----------------------------------------------------------------------------*/
+    /*-------------------------------------------------------------------------------------------------------*/
+    getStudentDocument(obj, options) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/getStudentDocument?student_id=' + options.student_id;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+
 
     /*-------------------------------------------------------------------------------------------------------*/
     /*--- ##TEAM --------------------------------------------------------------------------------------------*/
@@ -802,7 +916,7 @@ export default {
     },
 
     /*-------------------------------------------------------------------------------------------------------*/
-    /*--- ##STUDENT TEAM COMMENT ----------------------------------------------------------------------------*/
+    /*--- ##TEAM COMMENT ----------------------------------------------------------------------------*/
     /*-------------------------------------------------------------------------------------------------------*/
 
     getTeamComment(obj, options) {
@@ -852,6 +966,25 @@ export default {
     /*-------------------------------------------------------------------------------------------------------*/
     /*--- ##STUDENT FAV COURSE ------------------------------------------------------------------------------*/
     /*-------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * 获取学生已经收藏了课程
+     * @param {*} obj 为this
+     * @param {*} options { student_id, course_id }
+     */
+    getStudentFavCourse(obj, options) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/getStudentFavCourse?student_id=' + options.student_id;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
 
     /**
      * 新课程收藏

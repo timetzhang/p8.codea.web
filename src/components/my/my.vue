@@ -5,36 +5,31 @@
                 mu-paper(height="100")
                     mu-list.column
                         mu-sub-header 
-                            i.icon.student
-                            span &nbsp; 课程与项目
-                        a(href='/my/course')
-                            mu-list-item.item(title="我的课程", :class='currentPage == "course" ? "router-link-active" : ""')
-                        a(href='/my/fav_course')
-                            mu-list-item.item(title="收藏的课程", :class='currentPage == "fav_course" ? "router-link-active" : ""')
-                        a(href='/my/team')
-                            mu-list-item.item(title="我的项目组", :class='currentPage == "team" ? "router-link-active" : ""')
-                        a(href='/my/follow_team')
-                            mu-list-item.item(title="我关注的项目组", :class='currentPage == "follow_team" ? "router-link-active" : ""')
+                            i.icon.university
+                            span &nbsp; 学校
+                        mu-list-item.item(title="通知", to="/my/notify")
                         mu-divider
                         mu-sub-header 
                             i.icon.student
+                            span &nbsp; 课程与项目
+                        mu-list-item.item(title="我的课程", to="/my/course")
+                        mu-list-item.item(title="收藏的课程", to="/my/fav_course")
+                        mu-list-item.item(title="我的项目组", to='/my/team')
+                        mu-list-item.item(title="我关注的项目组",to='/my/follow_team')
+                        mu-divider
+                        mu-sub-header 
+                            i.icon.file.text
                             span &nbsp; 讨论与文档
-                        a(href='/my/doc')
-                            mu-list-item.item(title="我的文档", :class='currentPage == "doc" ? "router-link-active" : ""')
-                        a(href='/my/fav_doc')
-                            mu-list-item.item(title="我收藏的文档", :class='currentPage == "fav_doc" ? "router-link-active" : ""')
-                        a(href='/my/joined_talk')
-                            mu-list-item.item(title="我参与的讨论", :class='currentPage == "joined_talk" ? "router-link-active" : ""')  
+                        mu-list-item.item(title="我的文档",to='/my/doc')
+                        mu-list-item.item(title="我收藏的文档",to='/my/fav_doc')
+                        mu-list-item.item(title="我参与的讨论",to='/my/joined_talk')  
                         mu-divider
                         mu-sub-header 
                             i.icon.user
                             span &nbsp; 学生
-                        a(href='/my/profile')
-                            mu-list-item.item(title="我的资料", :class='currentPage == "profile" ? "router-link-active" : ""')
-                        a(href='/my/dev_level')
-                            mu-list-item.item(title="我的研发能力", :class='currentPage == "dev_level" ? "router-link-active" : ""')
-                        a(href='/my/op_level')
-                            mu-list-item.item(title="我的运营能力", :class='currentPage == "op_level" ? "router-link-active" : ""')
+                        mu-list-item.item(title="我的资料",to='/my/profile')
+                        mu-list-item.item(title="我的研发能力",to='/my/dev_level')
+                        mu-list-item.item(title="我的运营能力",to='/my/op_level')
             mu-col(:desktop="contentWidth", width="100")
                 mu-appbar(:title="title")
                     mu-icon-button(icon="menu",slot="right",@click='toggleMenu')

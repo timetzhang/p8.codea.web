@@ -2,37 +2,36 @@
     div
         mu-paper
             mu-content-block
-                mu-list(style='overflow: hidden;')
-                    mu-list-item(title="HTML5 机")
-                        img(:src='logo_img',slot='left', style='width:60px; height:40px;')
-                        span(slot="describe")
-                            span(style="color: #444 !important") Myron Liu - 周末要来你这里出差，要不要一起吃个饭呀，实在编不下去了,哈哈哈哈哈哈
-                        mu-icon-menu(slot="right",icon="more_vert",tooltip="操作")
-                            mu-menu-item(title="查看")
-                            mu-menu-item(title="删除")
-                    mu-list-item(title="HTML5 机")
-                        img(:src='logo_img',slot='left', style='width:60px; height:40px;')
-                        span(slot="describe")
-                            span(style="color: #444 !important") Myron Liu - 周末要来你这里出差，要不要一起吃个饭呀，实在编不下去了,哈哈哈哈哈哈
-                        mu-icon-menu(slot="right",icon="more_vert",tooltip="操作")
-                            mu-menu-item(title="查看")
-                            mu-menu-item(title="删除")
+                mu-list(v-for="doc,index in docs",:key="index")
+                    mu-list-item(:title="doc.name",:describeText="doc.brief",:href="'/doc/id='+doc.id")
+                        mu-avatar(icon="assignment",backgroundColor="blue",slot="leftAvatar")
+                        span(slot="after") {{doc.time}}
 </template>
 
 <script>
+import DateTime from '@/common/datetime'
 export default {
     name: 'my-fav-course',
     data() {
         return {
-            logo_img: '/static/img/course/h5.png'
+            docs: []
         }
     },
     mounted: function () {
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
+        this.getDocs();
     },
     methods: {
-
+        getDocs(){
+            var _this = this;
+            this.$db.getStudentDocument(this,{student_id: this.$cookie.getCookie('sid')}).then(res=>{
+                _this.docs = res;
+                _this.docs.forEach(function(element) {
+                    element.time = DateTime.dateFormat(element.time)
+                }, this);
+            });
+        }
     }
 }
 </script>

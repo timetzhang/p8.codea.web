@@ -21,6 +21,8 @@
                     a(href='/register')
                         mu-flat-button.item(label='注册',:class='curMenu == "register" ? "router-link-active" : ""')
                 mu-col(desktop='30',style='text-align:right',v-if='sid > 0')
+                    a(href='/my/notify',v-if="notify > 0")
+                        mu-badge(:content="notify",secondary)
                     a(href='/logoff')
                         mu-flat-button.item(label='退出登录')
         div.mobile-menu(v-if='isMobile')
@@ -60,15 +62,18 @@ export default {
             scrolled: 0,
             isMobile: Browser.mobile,
             bottomNav: this.$route.path.split('/')[1],
-            sid: this.$cookie.getCookie('sid')
+            sid: this.$cookie.getCookie('sid'),
+            notify: '0'
         };
     },
     mounted: function () {
         window.addEventListener('scroll', this.handleScroll);
-        console.log(window.location.pathname.split('/')[1]);
     },
     beforeUpdate: function () {
         this.bottomNav = this.$route.path.split('/')[1];
+        if (this.$cookie.getCookie('sid')) {
+            this.getUnreadNotifyCount();
+        }
     },
     methods: {
         handleScroll() {
@@ -86,6 +91,12 @@ export default {
         },
         handleMobileMenuChange(val) {
             this.bottomNav = val;
+        },
+        getUnreadNotifyCount() {
+            var _this = this;
+            this.$db.getStudentUnreadNotifyCount(this, { student_id: this.$cookie.getCookie('sid') }).then(res => {
+                _this.notify = res[0].count.toString();
+            });
         }
     }
 }

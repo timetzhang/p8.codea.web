@@ -2,18 +2,19 @@
     div
         mu-paper
             mu-content-block
-                mu-row(gutter)
+                mu-row(gutter, v-for="team, index in teams", :key="index")
                     mu-col(desktop="15",table="50",width="100")
                         img(:src="team.logo", style='border:1px solid #eee',width="100%")
                     mu-col(desktop="85",table="50",width="100")
                         h2(style="margin-top:10px;") {{team.name}}
                             span(style="font-size:12px;font-weight: normal;float:right")
-                        p 成立时间：{{team.time}}
-                        p 加入时间：{{team.join_time}}
+                        p 关注时间：{{team.time}}
                         p {{team.intro}}
                         div.right.aligned
                             mu-raised-button(label="进入项目组首页",secondary, :to="'/team/id=' + team.id")
                         br
+                    mu-divider
+                    br
 </template>
 
 <script>
@@ -23,7 +24,7 @@ export default {
     name: 'school-contact',
     data() {
         return {
-            team:{}
+            teams: []
         }
     },
     mounted: function () {
@@ -32,13 +33,17 @@ export default {
         this.getTeam();
     },
     methods: {
-        getTeam(){
+        getTeam() {
             var _this = this;
-            this.$db.getStudentJoinedTeam(this,{student_id: this.$cookie.getCookie('sid')}).then(res=>{
-                _this.team = res[0];
-                _this.team.time = DateTime.dateFormat(_this.team.time);
-                _this.team.join_time = DateTime.dateFormat(_this.team.join_time);
+            this.$db.getStudentFollowTeam(this, { student_id: this.$cookie.getCookie('sid') }).then(res => {
+                _this.teams = res;
+                _this.teams.forEach(function (element) {
+                    element.time = DateTime.dateFormat(element.time);
+                    element.join_time = DateTime.dateFormat(element.join_time);
+                }, this);
+
             });
+
         }
     }
 }

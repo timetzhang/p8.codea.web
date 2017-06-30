@@ -133,12 +133,16 @@ export default new Router({
         },
         {
             path: '/my',
-            redirect: '/my/profile',
+            redirect: '/my/course',
         },
         {
             path: '/my',
             component: (resolve) => { require(['@/components/my/my.vue'], resolve) },
             children: [{
+                    path: '/my/notify',
+                    component: (resolve) => { require(['@/components/my/notify.vue'], resolve) }
+                },
+                {
                     path: '/my/profile',
                     component: (resolve) => { require(['@/components/my/profile.vue'], resolve) }
                 },
