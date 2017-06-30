@@ -28,7 +28,6 @@
                                 mu-menu-item(title="删除", @click="delNotify(notify.id)")
                         mu-divider(inset)
                     mu-pagination(:total="readTotal",:current="readCurrent",@pageChange="handleReadPageClick")
-                    
 </template>
 
 <script>
