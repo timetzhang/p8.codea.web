@@ -6,45 +6,47 @@ div.padded
         mu-tabs.api-view-tabs(:value="activeTab",@change="handleTabChange")
             mu-tab(value="tab1",title="讨论区")
             mu-tab(value="tab2",title="课程文档")
-
+        
+        // issue 
         div(v-if="activeTab === 'tab1'")
             mu-tabs.api-view-tabs(:value="activeIssue",@change="handleIssueChange")
-                mu-tab(value="issueTab1",title="所有问题",@click="handleIssue(1)")
+                mu-tab(value="issueTab1",title="所有",@click="handleIssue(1)")
                 mu-tab(value="issueTab2",title="最新",@click="handleIssue(2)")
                 mu-tab(value="issueTab3",title="最热",@click="handleIssue(3)")
                 mu-tab(value="issueTab4",title="精华",@click="handleIssue(4)")
                 mu-tab(value="issueTab5",title="周",@click="handleIssue(5)")
                 mu-tab(value="issueTab6",title="月",@click="handleIssue(6)")
+            
             div(v-if="activeIssue === issueTab")
+                
                 div(v-for="item in talkover",:key="item.id")
                     mu-row(gutter,style="padding:10px;")
                         mu-col.center.aligned(desktop="10",style="padding:3% 0;")
                             span(style="padding:6% 0") 未解决
                         mu-col(desktop="65")
-                            p(style="color:#475cce") {{item.issue}}  
+                            p
+                                a(:href="'/doc/issueid='+item.id") {{item.issue}}
                             span.badge(v-for="tag in item.tags") {{tag}}
                         mu-col(desktop="25")
                             p(style="font-size:12px") 最后一条回复于{{item.releaseTime}}
                             div(style="font-size:12px;")
-                                span 浏览量({{item.viewNum}})
-                                span 关注量({{item.followNum}})
                                 span 回复量({{item.replyNum}})
                     mu-divider
 
-
+        // course document
         div.center.aligned(v-if="activeTab === 'tab2'")
+            
             mu-tabs.api-view-tabs(:value="activeMinTab",@change="handleMinTabChange")
                 mu-tab(v-for="(item,index) in courseDoc",:key="index",:value="'minTab'+index",:title="item",@click="handleMenu(index)")
-            mu-row(gutter,v-if="activeMinTab === minNum")
-                mu-col(desktop="25",v-for="item in menu",:key="item.id")
-                    h4 {{item.name}}
-                    a(v-for="list in item.course",:key="list.id") {{list.name}}
+            
+            mu-row(gutter,v-if="activeMinTab === timeNum")
+                mu-col(desktop="25",v-for="item in filterBy(allMenuData,menuIndex,'subject_id')",:key="item.id")
+                    a(:href="'/doc/id='+item.id") {{item.name | filterBy(item,item.type_id,'type_id')}}
                         hr
 
 </template>
 
 <script>
-import { VueEditor } from 'vue2-editor'
 
 export default {
     name: 'doc',
@@ -54,11 +56,11 @@ export default {
             issueTab : 'issueTab1',
             activeTab: 'tab1',
             activeMinTab: 'minTab0',
-            minNum: 'minTab1',
+            timeNum: 'minTab1', // time classify page index
             courseDoc: ['软件开发','硬件开发','艺术','创意课程'],
-            allMenuData:[],
-            menu: [],
-            talkover: [
+            allMenuData:[],// all course Document Data
+            menuIndex: 1,// course Document subject index
+            talkover: [// issue content
                 {
                     id:0,
                     issue:"Different behavior async/await in almost the same methods",
@@ -100,22 +102,13 @@ export default {
         
     },
     methods: {
+        // load all course data
         loadMenu(){
             var _this = this;
-            var data=[];
-            for(var i = 1; i <= _this.courseDoc.length; i++){
-                this.$db.getCourseType(_this, { subject_id: i }).then(res => {
-                    data.splice(0,_this.menu.length);
-                    data = res;
-                    // data.forEach(function(e,i) {
-                        this.$db.getCourse(_this,{}).then(res => {
-                            //_this.allMenuData = res;
-                            console.log(res);
-                        })
-                    // }, this);
-                    
-                });
-            }
+            this.$db.getDocumentCourse(_this, {}).then(res => {
+                _this.allMenuData = res;
+            });
+            
             this.handleMenu(0);
         },
         handleIssueChange(val) {
@@ -131,25 +124,8 @@ export default {
             this.activeMinTab = val;
         },
         handleMenu(e){
-            var _this = this;
-            this.minNum = 'minTab'+e;
-//            data.forEach(function(body,i){
-//              _this.menu.push(body);
-//            },this);
-//            console.log(_this.menu);
-            /*
-            
-            e = e + 1;
-            this.$db.getCourseType(_this, { subject_id: e }).then(res => {
-                _this.menu.splice(0,_this.menu.length);
-                _this.menu = res;
-                _this.menu.forEach(function(e,i) {
-                    this.$db.getCourse(_this,{type_id:e.id}).then(re => {
-                           _this.$set(e,'course',re);
-                    })
-                }, this);
-            });
-            */
+            this.timeNum = 'minTab'+e;
+            this.menuIndex = e + 1;
         }
     }
 }
@@ -162,6 +138,7 @@ export default {
 }
 .api-view-tabs .mu-tab-active{
         color: #7e57c2;
+        
 }
 .api-view-tabs .mu-tab-link{
     color: rgba(0,0,0,.54);
