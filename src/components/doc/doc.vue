@@ -18,21 +18,8 @@ div.padded
                 mu-tab(value="issueTab6",title="月",@click="handleIssue(6)")
             
             div(v-if="activeIssue === issueTab")
-                
                 div(v-for="item in talkover",:key="item.id")
-                    mu-row(gutter,style="padding:10px;")
-                        mu-col.center.aligned(desktop="10",style="padding:3% 0;")
-                            span(style="padding:6% 0") 未解决
-                        mu-col(desktop="65")
-                            p
-                                a(:href="'/doc/issueid='+item.id") {{item.issue}}
-                            span.badge(v-for="tag in item.tags") {{tag}}
-                        mu-col(desktop="25")
-                            p(style="font-size:12px") 最后一条回复于{{item.releaseTime}}
-                            div(style="font-size:12px;")
-                                span 回复量({{item.replyNum}})
-                    mu-divider
-
+                    doc_list(:headimg="item.headimg",:name="item.name",:type="item.type",:time="item.time",:views="item.views",:comments="item.comments",:isLike="item.isLike",:title="item.title",:breif="item.breif",:tags="item.tags",isSolved="item.isSolved")
         // course document
         div.center.aligned(v-if="activeTab === 'tab2'")
             
@@ -41,15 +28,18 @@ div.padded
             
             mu-row(gutter,v-if="activeMinTab === timeNum")
                 mu-col(desktop="25",v-for="item in filterBy(allMenuData,menuIndex,'subject_id')",:key="item.id")
-                    a(:href="'/doc/doc_list='+item.id") {{item.name | filterBy(item,item.type_id,'type_id')}}
+                    a(:href="'/doc/id'+item.id") {{item.name | filterBy(item,item.type_id,'type_id')}}
                         hr
 
 </template>
 
 <script>
-
+import doc_list from '../common/doc_list.vue';
 export default {
     name: 'doc',
+    components: {
+        doc_list
+    },
     data() {
         return {
             activeIssue: 'issueTab1',
@@ -63,36 +53,45 @@ export default {
             talkover: [// issue content
                 {
                     id:0,
-                    issue:"Different behavior async/await in almost the same methods",
-                    student:"Sandune",
-                    replyNum:"230",
-                    viewNum:"600",
-                    followNum:"130",
-                    tags:["java","js"],
-                    releaseTime:"2017-6-25",//发布时间
-                    isTrue:"1",//问题是否已解决
+                    headimg:"/static/img/student/tt.jpg",
+                    name:"TT",
+                    type:"1",
+                    time:"12小时前",
+                    title:"Different behavior async/await in almost the same methods",
+                    breif:"down votefavoriteI have not been able to edit the buttons as there is not way to use visual composer for the category page.I want to enter the name of each product instead of 'view product' which is currently on the button.",
+                    tags:"java,c",
+                    views:230,
+                    comments:100,
+                    isLike:200,
+                    isSolved:''
                 },
                 {
                     id:1,
-                    issue:"Different behavior async/await in almost the same methods",
-                    student:"Sandune",
-                    replyNum:"230",
-                    viewNum:"600",
-                    followNum:"130",
-                    tags:["c",".net"],
-                    releaseTime:"2017-6-25",//发布时间
-                    isTrue:"1",//问题是否已解决
+                    headimg:"/static/img/student/tt.jpg",
+                    name:"TT",
+                    type:"2",
+                    time:"12小时前",
+                    title:"Different behavior async/await in almost the same methods",
+                    breif:"down votefavoriteI have not been able to edit the buttons as there is not way to use visual composer for the category page.I want to enter the name of each product instead of 'view product' which is currently on the button.",
+                    tags:"java,c",
+                    views:230,
+                    comments:100,
+                    isLike:200,
+                    isSolved:'1',
                 },
                 {
-                    id:2,
-                    issue:"Different behavior async/await in almost the same methods",
-                    student:"Sandune",
-                    replyNum:"230",
-                    viewNum:"600",
-                    followNum:"130",
-                    tags:["ios","swift"],
-                    releaseTime:"2017-6-25",//发布时间
-                    isTrue:"1",//问题是否已解决
+                    id:3,
+                    headimg:"/static/img/student/tt.jpg",
+                    name:"TT",
+                    type:"3",
+                    time:"12小时前",
+                    title:"Different behavior async/await in almost the same methods",
+                    breif:"down votefavoriteI have not been able to edit the buttons as there is not way to use visual composer for the category page.I want to enter the name of each product instead of 'view product' which is currently on the button.",
+                    tags:"java,ios",
+                    views:230,
+                    comments:100,
+                    isLike:200,
+                    isSolved:''
                 }
             ]
         }
@@ -151,4 +150,6 @@ export default {
     border-radius: 4px;
     margin-left: 4px;
 }
+
+
 </style>

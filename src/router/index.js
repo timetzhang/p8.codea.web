@@ -107,10 +107,6 @@ export default new Router({
             component: (resolve) => { require(['@/components/doc/issue.vue'], resolve) },
         },
         {
-            path: '/doc/doc_list=:id',
-            component: (resolve) => { require(['@/components/doc/doc_list.vue'], resolve) },
-        },
-        {
             path: '/doc/id=:id',
             component: (resolve) => { require(['@/components/doc/details.vue'], resolve) },
         },
