@@ -41,7 +41,7 @@ div.padded
             
             mu-row(gutter,v-if="activeMinTab === timeNum")
                 mu-col(desktop="25",v-for="item in filterBy(allMenuData,menuIndex,'subject_id')",:key="item.id")
-                    a(:href="'/doc/id='+item.id") {{item.name | filterBy(item,item.type_id,'type_id')}}
+                    a(:href="'/doc/doc_list='+item.id") {{item.name | filterBy(item,item.type_id,'type_id')}}
                         hr
 
 </template>
