@@ -1,8 +1,10 @@
 <template lang="jade">
     div.doc_list
-        mu-avatar(:src="headimg",:size="30",style="vertical-align:middle;")
+        a(:href="studentHref")
+            mu-avatar(:src="headimg",:size="30",style="vertical-align:middle;")
         div.name
-            span {{name}}
+            a(:href="studentHref",style="color:black")
+                span {{name}}
             span.time {{time}}
             a(:href="typeHref")
                 mu-badge(:content="typeStr",:color="typeColor")
@@ -28,6 +30,10 @@
 export default {
     name:"doc_list",
     props: {
+        studentHref:{
+            type:String,
+            default:''
+        },
         docHref:{  //详情跳转地址
             type:String,
             default:''
@@ -132,6 +138,11 @@ export default {
 
 .doc_list p {
     margin: 4px 0 4px 0;
+    overflow: hidden;
+ 	text-overflow: ellipsis;
+ 	display: -webkit-box;
+ 	-webkit-line-clamp: 2;
+ 	-webkit-box-orient: vertical;
 }
 
 .doc_list label{

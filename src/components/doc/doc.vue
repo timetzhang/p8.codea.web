@@ -30,15 +30,27 @@ div.padded
                 mu-col(desktop="25",v-for="item in filterBy(allMenuData,menuIndex,'subject_id')",:key="item.id")
                     a(:href="'/doc/id'+item.id") {{item.name | filterBy(item,item.type_id,'type_id')}}
                         hr
-
+        br
+        div(style="padding:20px")
+            mu-row
+                mu-col(width="100",desktop="50")
+                    mu-raised-button(label="下一页",:fullWidth="true")
+                mu-col.center.aligned(width="100",desktop="50")
+                    mu-pagination(:total="total",:current="current",@pageChange="switchPage",style="float:right")
+            br
+            div
+                quill-editor(ref="editor")
+        
 </template>
 
 <script>
-import doc_list from '../common/doc_list.vue';
+import doc_list from '../common/doc_list.vue'
+import { quillEditor } from 'vue-quill-editor'
 export default {
     name: 'doc',
     components: {
-        doc_list
+        doc_list,
+        quillEditor
     },
     data() {
         return {
@@ -72,7 +84,7 @@ export default {
                     type:"2",
                     time:"12小时前",
                     title:"Different behavior async/await in almost the same methods",
-                    breif:"down votefavoriteI have not been able to edit the buttons as there is not way to use visual composer for the category page.I want to enter the name of each product instead of 'view product' which is currently on the button.",
+                    breif:"down votefavoriteI have not been able to edit the buttons as there is not way to use visual composer for the category page.I want to enter the name of each product instead of 'view product' which is currently on the button.down votefavoriteI have not been able to edit the buttons as there is not way to use visual composer for the category page.I want to enter the name of each product instead of 'view product' which is currently on the button.down votefavoriteI have not been able to edit the buttons as there is not way to use visual composer for the category page.I want to enter the name of each product instead of 'view product' which is currently on the button.",
                     tags:"java,c",
                     views:230,
                     comments:100,
@@ -107,7 +119,9 @@ export default {
                     isLike:200,
                     isSolved:''
                 }
-            ]
+            ],
+            total: 50,
+            current:1
         }
     },
     mounted: function () {
@@ -139,6 +153,9 @@ export default {
         handleMenu(e){
             this.timeNum = 'minTab'+e;
             this.menuIndex = e + 1;
+        },
+        switchPage(){
+
         }
     }
 }
