@@ -30,16 +30,30 @@ div.padded
                 mu-col(desktop="25",v-for="item in filterBy(allMenuData,menuIndex,'subject_id')",:key="item.id")
                     a(:href="'/doc/id'+item.id") {{item.name | filterBy(item,item.type_id,'type_id')}}
                         hr
-        br
-        div(style="padding:20px")
+        div(style="padding:20px;")
             mu-row
                 mu-col(width="100",desktop="50")
                     mu-raised-button(label="下一页",:fullWidth="true")
                 mu-col.center.aligned(width="100",desktop="50")
                     mu-pagination(:total="total",:current="current",@pageChange="switchPage",style="float:right")
             br
-            div
-                quill-editor(ref="editor")
+            hr
+            h2 发布 
+            mu-card(style="border:1px solid #f0f0f0;padding:10px")
+                mu-row
+                    mu-col(width="15",desktop="15")
+                        mu-dropDown-menu(:value="docTypeValue",@change="checkoutType",:fullWidth="true")
+                            mu-menu-item(value="0",title="选择类型")
+                            mu-menu-item(v-for="(item,index) in docType",:key="index",:value="index",:title="item")
+                    mu-col(width="85",desktop="85")
+                        mu-text-field(label="标题",hintText="字数限制40字",:fullWidth="true",style="padding-bottom:0")
+                    mu-col(desktop="100")
+                        mu-text-field(label="关键词",hintText="请用逗号,分隔开来",:fullWidth="true",style="padding-bottom:0")
+                br
+                div
+                    quill-editor(ref="editor")
+                br
+                mu-raised-button(label="发布",:fullWidth="true",primary)
         
 </template>
 
@@ -120,8 +134,10 @@ export default {
                     isSolved:''
                 }
             ],
-            total: 50,
-            current:1
+            total: 50,//page number
+            current:1,//what page
+            docType:['文档','文章','提问'],
+            docTypeValue:'0',
         }
     },
     mounted: function () {
@@ -138,6 +154,7 @@ export default {
             
             this.handleMenu(0);
         },
+        //checkout table
         handleIssueChange(val) {
             this.activeIssue = val;
         },
@@ -154,8 +171,13 @@ export default {
             this.timeNum = 'minTab'+e;
             this.menuIndex = e + 1;
         },
+        //checkout page
         switchPage(){
 
+        },
+        //checkout type
+        checkoutType(value){
+            this.docTypeValue = value;
         }
     }
 }
