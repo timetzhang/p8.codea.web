@@ -19,7 +19,7 @@ div.padded
             
             div(v-if="activeIssue === issueTab")
                 div(v-for="item in talkover",:key="item.id")
-                    doc_list(:headimg="item.headimg",:name="item.name",:type="item.type",:time="item.time",:views="item.views",:comments="item.comments",:isLike="item.isLike",:title="item.title",:breif="item.breif",:tags="item.tags",isSolved="item.isSolved")
+                    doc_list(:docHref="'/doc/id='+item.id",:headimg="item.headimg",:name="item.name",:type="item.type",:time="item.time",:views="item.views",:comments="item.comments",:isLike="item.isLike",:title="item.title",:breif="item.breif",:tags="item.tags",:isSolved="item.isSolved")
         // course document
         div.center.aligned(v-if="activeTab === 'tab2'")
             
@@ -78,6 +78,20 @@ export default {
                     comments:100,
                     isLike:200,
                     isSolved:'1',
+                },
+                {
+                    id:1,
+                    headimg:"/static/img/student/tt.jpg",
+                    name:"TT",
+                    type:"2",
+                    time:"12小时前",
+                    title:"Different behavior async/await in almost the same methods",
+                    breif:"down votefavoriteI have not been able to edit the buttons as there is not way to use visual composer for the category page.I want to enter the name of each product instead of 'view product' which is currently on the button.",
+                    tags:"java,c",
+                    views:230,
+                    comments:100,
+                    isLike:200,
+                    isSolved:'0',
                 },
                 {
                     id:3,
