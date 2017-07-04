@@ -1,9 +1,11 @@
 <template lang="jade">
     div
+        mu-paper(style='padding:10px 30px; margin-bottom: 15px')
+            mu-text-field(label="搜索课程",style='width:100%',v-model="keyword")
         mu-appbar(title="课程", v-if='isMobile')
             mu-icon-button(icon="menu",slot="right",@click='toggleMenu')
         mu-row(gutter)
-            mu-col(desktop="20", width="100", v-if='showMenu')
+            mu-col(desktop="20", width="100", v-if='isMenuDisplay')
                 mu-paper(height="100")
                     mu-list
                         mu-sub-header 
@@ -30,7 +32,7 @@
                         a(:href='"/course/type="+item.id',v-for='item in menuArt',:key='item.id')
                             mu-list-item(:title='item.name', :class='currentMenu == item.id ? "router-link-active" : ""')
 
-            mu-col(desktop="80", width="100")
+            mu-col(:desktop="contentWidth", width="100")
                 mu-row(gutter,:class="isMobile? 'padded':''")
                     mu-col(desktop='33', tablet='50', width='50', v-for="item in course", key='item.id')
                         mu-card.card
@@ -58,16 +60,18 @@ export default {
             course: [],
             currentMenu: 13,
             isMobile: Browser.mobile,
-            showMenu: true
+            isMenuDisplay: true,
+            keyword: '',
+            contentWidth: '80'
         }
     },
     mounted: function () {
-        this.loadType();
-        this.loadCourse(this.$route.params.course_type);
+        this.getType();
+        this.getCourse(this.$route.params.course_type);
         document.title = '教程 - ' + this.$config.title;
     },
     methods: {
-        loadType() {
+        getType() {
             var _this = this;
 
             this.$db.getCourseType(_this, { subject_id: 1 }).then(res => {
@@ -83,7 +87,7 @@ export default {
                 _this.menuCrea = res;
             });
         },
-        loadCourse(id) {
+        getCourse(id) {
             var _this = this;
             this.currentMenu = id;
             this.$db.getCourse(this, { type_id: id }).then(res => {
@@ -94,12 +98,33 @@ export default {
             };
             this.goTop();
         },
+        search(e){
+            console.log(e)
+        },
         goTop() {
             document.body.scrollTop = 0;
             document.documentElement.scrollTop = 0;
         },
         toggleMenu() {
-            this.showMenu = !this.showMenu;
+            this.isMenuDisplay = !this.isMenuDisplay;
+        }
+    },
+    watch: {
+        isMenuDisplay: function () {
+            this.contentWidth = this.isMenuDisplay ? '80' : '100';
+        },
+        keyword: function () {
+            var _this = this;
+            if (this.keyword) {
+                this.isMenuDisplay = false;
+                this.$db.getCourse(this, { keyword: this.keyword }).then(res => {
+                    _this.course = res;
+                });
+            }
+            else {
+                this.isMenuDisplay = true;
+                this.getCourse(this.$route.params.course_type);
+            }
         }
     }
 }

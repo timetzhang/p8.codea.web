@@ -61,7 +61,9 @@ export default {
                 if (options.hasOwnProperty('type_id')) {
                     dbUrl += '?type_id=' + options.type_id;
                 }
-
+                if (options.hasOwnProperty('keyword')) {
+                    dbUrl += '?keyword=' + options.keyword;
+                }
                 obj.$http({
                     url: dbUrl,
                     method: 'GET'
@@ -756,7 +758,12 @@ export default {
     getTeam(obj, options) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/getTeam?pagenum=' + options.pagenum + "&pagesize=" + options.pagesize;
+                var dbUrl;
+                if (options.keyword) {
+                    dbUrl = Config.dbBaseUrl + '/getTeam?keyword=' + options.keyword + '&pagenum=' + options.pagenum + "&pagesize=" + options.pagesize;
+                } else {
+                    dbUrl = Config.dbBaseUrl + '/getTeam?pagenum=' + options.pagenum + "&pagesize=" + options.pagesize;
+                }
 
                 obj.$http({
                     url: dbUrl,
@@ -824,6 +831,24 @@ export default {
         );
     },
 
+    /**
+     * Get Student Team List
+     * @param {*} obj 为this
+     */
+    searchTeam(obj, options) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/searchTeam?keyword=' + options.keyword + '&pagenum=' + options.pagenum + "&pagesize=" + options.pagesize;
+
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
 
     /*-------------------------------------------------------------------------------------------------------*/
     /*--- ##TEAM FOLLOW -------------------------------------------------------------------------------------*/

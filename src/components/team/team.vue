@@ -1,7 +1,7 @@
 <template lang="jade">
 div
     mu-paper(style='padding:10px 30px; margin-bottom: 15px')
-        mu-text-field(label="搜索项目组",style='width:100%')
+        mu-text-field(label="搜索项目组",style='width:100%',v-model="keyword")
     mu-paper
         mu-list(v-for="team in teams", :key="team.id")
             mu-list-item(:title="team.name",:href="'/team/id='+team.id")
@@ -17,7 +17,9 @@ export default {
     name: 'team',
     data() {
         return {
-            teams: []
+            teams: [],
+            keyword: '',
+            teamPageCurrent: 0
         }
     },
     mounted: function () {
@@ -27,9 +29,14 @@ export default {
     methods: {
         getTeam() {
             var _this = this;
-            this.$db.getTeam(this,{pagenum: 0, pagesize:10}).then(res => {
+            this.$db.getTeam(this, { keyword: this.keyword, pagenum: this.teamPageCurrent, pagesize: 10 }).then(res => {
                 _this.teams = res;
             });
+        }
+    },
+    watch: {
+        keyword: function () {
+            this.getTeam();
         }
     }
 }
