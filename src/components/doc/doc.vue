@@ -18,8 +18,8 @@ div.padded
                 mu-tab(value="issueTab6",title="月",@click="handleIssue(6)")
             
             div(v-if="activeIssue === issueTab")
-                div(v-for="item in talkover",:key="item.id")
-                    doc_list(:docHref="'/doc/id='+item.id",:headimg="item.headimg",:name="item.name",:type="item.type",:time="item.time",:views="item.views",:comments="item.comments",:isLike="item.isLike",:title="item.title",:breif="item.breif",:tags="item.tags",:isSolved="item.isSolved")
+                div(v-for="item in wiki",:key="item.id")
+                    doc_list(:docHref="'/doc/id='+item.id",:headimg="item.head_image",:name="item.student_name",:type="item.type_id",:time="item.time",:views="item.click_count",:comments="item.comment_count",isLike="5",:title="item.name",:breif="item.breif",:tags="item.tag",:isSolved="item.isSolved")
         // course document
         div.center.aligned(v-if="activeTab === 'tab2'")
             
@@ -39,27 +39,33 @@ div.padded
             br
             hr
             h2 发布 
-            mu-card(style="border:1px solid #f0f0f0;padding:10px")
+            mu-card(style="border:1px solid #f0f0f0;padding:10px",v-if="sid > 0")
                 mu-row
                     mu-col(width="15",desktop="15")
                         mu-dropDown-menu(:value="docTypeValue",@change="checkoutType",:fullWidth="true")
-                            mu-menu-item(value="0",title="选择类型")
-                            mu-menu-item(v-for="(item,index) in docType",:key="index",:value="index",:title="item")
+                            mu-menu-item(value="001",title="选择类型")
+                            mu-menu-item(v-for="(item,index) in docType",:key="index",:value="index",:title="item.name")
                     mu-col(width="85",desktop="85")
-                        mu-text-field(label="标题",hintText="字数限制40字",:fullWidth="true",style="padding-bottom:0")
+                        mu-text-field(label="标题",hintText="字数限制40字",:fullWidth="true",style="padding-bottom:0",v-model="document.title")
                     mu-col(desktop="100")
-                        mu-text-field(label="关键词",hintText="请用逗号,分隔开来",:fullWidth="true",style="padding-bottom:0")
+                        mu-text-field(label="关键词",hintText="请用逗号,分隔开来",:fullWidth="true",style="padding-bottom:0",v-model="document.tag")
+                    mu-col(desktop="100")
+                        mu-text-field(label="简介",hintText="对帖子进行一段简短的描述",:fullWidth="true",style="padding-bottom:0",:row="3",:rowMax="6",v-model="document.breif")
                 br
                 div
-                    quill-editor(ref="editor")
+                    quill-editor(ref="editor",v-model="document.details",:options="editorOption")
                 br
-                mu-raised-button(label="发布",:fullWidth="true",primary)
-        
+                mu-raised-button(label="发布",:fullWidth="true",primary,@click="submit")
+            div.center.aligned(v-if="sid <= 0")
+                p 登录才能发布！
+                mu-raised-button(label="前往登陆",href="/login")
+        mu-snackbar(v-if="snackbar",:message="snackbarContent",action="关闭",@actionClick="hideSnackbar",@close="hideSnackbar")
 </template>
 
 <script>
 import doc_list from '../common/doc_list.vue'
 import { quillEditor } from 'vue-quill-editor'
+import Encode from '@/common/encode'
 export default {
     name: 'doc',
     components: {
@@ -76,82 +82,47 @@ export default {
             courseDoc: ['软件开发','硬件开发','艺术','创意课程'],
             allMenuData:[],// all course Document Data
             menuIndex: 1,// course Document subject index
-            talkover: [// issue content
-                {
-                    id:0,
-                    headimg:"/static/img/student/tt.jpg",
-                    name:"TT",
-                    type:"1",
-                    time:"12小时前",
-                    title:"Different behavior async/await in almost the same methods",
-                    breif:"down votefavoriteI have not been able to edit the buttons as there is not way to use visual composer for the category page.I want to enter the name of each product instead of 'view product' which is currently on the button.",
-                    tags:"java,c",
-                    views:230,
-                    comments:100,
-                    isLike:200,
-                    isSolved:''
-                },
-                {
-                    id:1,
-                    headimg:"/static/img/student/tt.jpg",
-                    name:"TT",
-                    type:"2",
-                    time:"12小时前",
-                    title:"Different behavior async/await in almost the same methods",
-                    breif:"down votefavoriteI have not been able to edit the buttons as there is not way to use visual composer for the category page.I want to enter the name of each product instead of 'view product' which is currently on the button.down votefavoriteI have not been able to edit the buttons as there is not way to use visual composer for the category page.I want to enter the name of each product instead of 'view product' which is currently on the button.down votefavoriteI have not been able to edit the buttons as there is not way to use visual composer for the category page.I want to enter the name of each product instead of 'view product' which is currently on the button.",
-                    tags:"java,c",
-                    views:230,
-                    comments:100,
-                    isLike:200,
-                    isSolved:'1',
-                },
-                {
-                    id:1,
-                    headimg:"/static/img/student/tt.jpg",
-                    name:"TT",
-                    type:"2",
-                    time:"12小时前",
-                    title:"Different behavior async/await in almost the same methods",
-                    breif:"down votefavoriteI have not been able to edit the buttons as there is not way to use visual composer for the category page.I want to enter the name of each product instead of 'view product' which is currently on the button.",
-                    tags:"java,c",
-                    views:230,
-                    comments:100,
-                    isLike:200,
-                    isSolved:'0',
-                },
-                {
-                    id:3,
-                    headimg:"/static/img/student/tt.jpg",
-                    name:"TT",
-                    type:"3",
-                    time:"12小时前",
-                    title:"Different behavior async/await in almost the same methods",
-                    breif:"down votefavoriteI have not been able to edit the buttons as there is not way to use visual composer for the category page.I want to enter the name of each product instead of 'view product' which is currently on the button.",
-                    tags:"java,ios",
-                    views:230,
-                    comments:100,
-                    isLike:200,
-                    isSolved:''
-                }
-            ],
-            total: 50,//page number
+            total: 1,//page number
             current:1,//what page
-            docType:['文档','文章','提问'],
-            docTypeValue:'0',
+            docType:[],//document all type
+            docTypeValue:'001',
+            wiki: [],//all doc
+            sid: this.$cookie.getCookie('sid'),
+            editorOption: {
+                placeholder: "请输入文档内容"
+            },
+            //data
+            document:{},
+
+            snackbar: false,
+            snackbarContent: '',
         }
     },
     mounted: function () {
+        this.loadWiki();
+        this.loadDocumentType();
         this.loadMenu();
-        
     },
     methods: {
+        loadWiki(){
+            var _this = this;
+            this.$db.getWiki(_this,{pagenum:0,pagesize:10}).then(res => {
+                _this.wiki = res[0];
+                _this.total = res[1][0].count/10;
+            })
+        },
+        loadDocumentType(){
+            var _this = this;
+            this.$db.getDocumentType(_this,{}).then(res => {
+                _this.docType = res;
+            })
+        },
         // load all course data
         loadMenu(){
             var _this = this;
             this.$db.getDocumentCourse(_this, {}).then(res => {
                 _this.allMenuData = res;
             });
-            
             this.handleMenu(0);
         },
         //checkout table
@@ -171,6 +142,7 @@ export default {
             this.timeNum = 'minTab'+e;
             this.menuIndex = e + 1;
         },
+
         //checkout page
         switchPage(){
 
@@ -178,7 +150,38 @@ export default {
         //checkout type
         checkoutType(value){
             this.docTypeValue = value;
-        }
+        },
+        //submit
+        submit(){
+            var _this = this;
+            if (this.verify()){
+                this.$db.newWiki(this,{
+                    name : this.document.title,
+                    type_id : this.docTypeValue + 1,
+                    breif : this.document.breif,
+                    details : Encode.htmlEncode(this.document.details),
+                    student_id : this.sid,
+                    tag : this.document.tag,
+                }).then(res => {
+                    _this.snackbarContent = "发布成功";
+                    this.loadWiki();
+                    this.showSnackbar();
+                });
+            }
+        },
+        verify(){
+            return this.document.title && this.docTypeValue && this.document.tag && this.document.breif && this.document.details && this.sid;
+        },
+
+        showSnackbar () {
+            this.snackbar = true
+            if (this.snackTimer) clearTimeout(this.snackTimer)
+            this.snackTimer = setTimeout(() => { this.snackbar = false }, 2000)
+        },
+        hideSnackbar () {
+            this.snackbar = false
+            if (this.snackTimer) clearTimeout(this.snackTimer)
+        },
     }
 }
 </script>

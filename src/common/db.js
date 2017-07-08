@@ -245,7 +245,9 @@ export default {
     getDocument(obj, options) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/getDocument?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum + '&' + options.id;
+                if (options.id) {
+                    var dbUrl = Config.dbBaseUrl + '/getDocument?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum + '&' + options.id;
+                }
                 obj.$http({
                     url: dbUrl,
                     method: 'GET'
@@ -254,6 +256,60 @@ export default {
                 });
             }
         );
+    },
+
+    /**
+     * 获取DocumentType
+     * @param {*} obj 为this
+     */
+    getDocumentType(obj) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/getDocumentType';
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+    /**
+     * 获取WiKi
+     * @param {*} obj 为this
+     */
+    getWiki(obj, options) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/getWiki?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                })
+            }
+        )
+    },
+
+    /**
+     * new wiki
+     */
+    newWiki(obj, data) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/newWiki';
+                obj.$http.post(dbUrl, { data: data }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    emulateJSON: true
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        )
     },
 
     /**

@@ -27,6 +27,7 @@
         hr
 </template>
 <script>
+import DateTime from '@/common/datetime'
 export default {
     name:"doc_list",
     props: {
@@ -67,7 +68,7 @@ export default {
             default:0
         },
         isLike:{  //点赞量
-            type:Number,
+            type:String,
             default:0
         },
         title:{  //list标题
@@ -83,7 +84,7 @@ export default {
             default:''
         },
         type:{  //list类型
-            type:String,
+            type:Number,
             default:1
         },
         isSolved: {  //提问是否被解决
@@ -101,11 +102,11 @@ export default {
     mounted() {
         this.tagItems = this.tags.split(',');
         switch (this.type) {
-            case '1':
+            case 1:
                 this.typeStr = '文章';
                 this.typeColor = 'amber400';
                 break;
-            case '2':
+            case 2:
                 if(this.isSolved == '1'){
                     this.typeStr = '提问已解决';
                     this.typeColor = 'green400';
@@ -114,7 +115,7 @@ export default {
                     this.typeColor = 'red400';
                 }
                 break;
-            case '3':
+            case 3:
                 this.typeStr = "文档";
                 this.typeColor = 'blue400';
                 break;
