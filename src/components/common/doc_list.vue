@@ -29,7 +29,7 @@
 <script>
 import DateTime from '@/common/datetime'
 export default {
-    name:"doc_list",
+    name:"cu-doc-list",
     props: {
         studentHref:{
             type:String,

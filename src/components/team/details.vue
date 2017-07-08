@@ -122,8 +122,8 @@ export default {
             isEditDisplay: false,                //team details editor display flag
 
             documents: [],                       //team documents list
-            documentTotal: 0,                    //document total
-            documentCurrentPage: 0,
+            documentTotal: 1,                    //document total
+            documentCurrentPage: 1,
 
 
             comments: [],                        //team comments list
@@ -159,7 +159,7 @@ export default {
             this.isNoticeDialogDisplay = false;
         },
 
-        redirectStudent(id){
+        redirectStudent(id) {
             this.$router.push('/student/id=' + id);
         },
         /*=======================================================================================*/
@@ -401,15 +401,16 @@ export default {
         },
         getDocument() {
             var _this = this;
-            this.$db.getDocument(this, { id: "team_id=" + this.$route.params.id, pagenum: this.documentCurrentPage, pagesize:10 }).then(res => {
+            this.$db.getDocument(this, { id: "team_id=" + this.$route.params.id, pagenum: (this.documentCurrentPage - 1), pagesize: 10 }).then(res => {
                 _this.documents = res;
-                for (var i = 0; i < _this.documents.length; i++) {
-                    _this.documents[i].time = DateTime.dateFormat(_this.documents[i].time);
-                }
+                _this.documents.forEach(function (element) {
+                    element.time = DateTime.dateFormat(element.time);
+                })
             });
         },
-        documentPageChange(newIndex){
+        documentPageChange(newIndex) {
             this.documentCurrentPage = newIndex;
+            this.getDocument();
         },
         /*=======================================================================================*/
         /*= ##COMMENT ===========================================================================*/
@@ -476,11 +477,11 @@ export default {
     margin: 10px;
 }
 
-.mu-td{
+.mu-td {
     width: 100%;
     height: auto;
-    word-wrap:break-word;
-    word-break:break-all;
-    overflow: hidden; 
+    word-wrap: break-word;
+    word-break: break-all;
+    overflow: hidden;
 }
 </style>
