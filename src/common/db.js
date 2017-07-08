@@ -245,8 +245,11 @@ export default {
     getDocument(obj, options) {
         return new Promise(
             function(resolve) {
+                var dbUrl = '';
                 if (options.id) {
-                    var dbUrl = Config.dbBaseUrl + '/getDocument?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum + '&' + options.id;
+                    dbUrl = Config.dbBaseUrl + '/getDocument?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum + '&' + options.id;
+                } else {
+                    dbUrl = Config.dbBaseUrl + '/getDocument?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum;
                 }
                 obj.$http({
                     url: dbUrl,
@@ -274,23 +277,6 @@ export default {
                 });
             }
         );
-    },
-    /**
-     * 获取WiKi
-     * @param {*} obj 为this
-     */
-    getWiki(obj, options) {
-        return new Promise(
-            function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/getWiki?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum;
-                obj.$http({
-                    url: dbUrl,
-                    method: 'GET'
-                }).then(res => {
-                    resolve(res.data);
-                })
-            }
-        )
     },
 
     /**

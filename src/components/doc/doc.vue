@@ -18,7 +18,7 @@ div.padded
                 mu-tab(value="issueTab6",title="月",@click="handleIssue(6)")
             
             div(v-if="activeIssue === issueTab")
-                div(v-for="item in wiki",:key="item.id")
+                div(v-for="item in docs",:key="item.id")
                     doc_list(:docHref="'/doc/id='+item.id",:headimg="item.head_image",:name="item.student_name",:type="item.type_id",:time="item.time",:views="item.click_count",:comments="item.comment_count",isLike="5",:title="item.name",:breif="item.breif",:tags="item.tag",:isSolved="item.isSolved")
 
         // course document
@@ -85,11 +85,11 @@ export default {
             courseDoc: ['软件开发','硬件开发','艺术','创意课程'],
             allMenuData:[],// all course Document Data
             menuIndex: 1,// course Document subject index
-            total: 1,//page number
+            docTotal: 1,//page number
             current:1,//what page
             docType:[],//document all type
             docTypeValue:'001',
-            wiki: [],//all doc
+            docs: [],//all doc
             sid: this.$cookie.getCookie('sid'),
             editorOption: {
                 placeholder: "请输入文档内容"
@@ -102,29 +102,30 @@ export default {
         }
     },
     mounted: function () {
-        this.loadWiki();
-        this.loadDocumentType();
-        this.loadMenu();
+        this.getDocs();
+        this.getDocumentType();
+        this.getMenu();
     },
     methods: {
-        loadWiki(){
+        getDocs(){
             var _this = this;
-            this.$db.getWiki(_this,{pagenum:0,pagesize:10}).then(res => {
-                _this.wiki = res[0];
-                _this.wiki.forEach(function(element) {
+            this.$db.getDocument(this,{pagenum:0,pagesize:10}).then(res => {
+                console.log(res);
+                _this.docs = res[0];
+                _this.docs.forEach(function(element) {
                     element.time = DateTime.getTimespan(element.time);
                 }, this);
-                _this.total = res[1][0].count;
+                _this.docTotal = res[1][0].count;
             })
         },
-        loadDocumentType(){
+        getDocumentType(){
             var _this = this;
             this.$db.getDocumentType(_this,{}).then(res => {
                 _this.docType = res;
             })
         },
         // load all course data
-        loadMenu(){
+        getMenu(){
             var _this = this;
             this.$db.getDocumentCourse(_this, {}).then(res => {
                 _this.allMenuData = res;
