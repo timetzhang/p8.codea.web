@@ -7,7 +7,7 @@ div.padded
             mu-tab(value="tab1",title="讨论区")
             mu-tab(value="tab2",title="课程文档")
         
-        // issue 
+        // issue
         div(v-if="activeTab === 'tab1'")
             mu-tabs.api-view-tabs(:value="activeIssue",@change="handleIssueChange")
                 mu-tab(value="issueTab1",title="所有",@click="handleIssue(1)")
@@ -20,6 +20,7 @@ div.padded
             div(v-if="activeIssue === issueTab")
                 div(v-for="item in wiki",:key="item.id")
                     doc_list(:docHref="'/doc/id='+item.id",:headimg="item.head_image",:name="item.student_name",:type="item.type_id",:time="item.time",:views="item.click_count",:comments="item.comment_count",isLike="5",:title="item.name",:breif="item.breif",:tags="item.tag",:isSolved="item.isSolved")
+
         // course document
         div.center.aligned(v-if="activeTab === 'tab2'")
             
@@ -66,6 +67,8 @@ div.padded
 import doc_list from '../common/doc_list.vue'
 import { quillEditor } from 'vue-quill-editor'
 import Encode from '@/common/encode'
+import DateTime from '@/common/datetime'
+
 export default {
     name: 'doc',
     components: {
@@ -108,7 +111,10 @@ export default {
             var _this = this;
             this.$db.getWiki(_this,{pagenum:0,pagesize:10}).then(res => {
                 _this.wiki = res[0];
-                _this.total = res[1][0].count/10;
+                _this.wiki.forEach(function(element) {
+                    element.time = DateTime.getTimespan(element.time);
+                }, this);
+                _this.total = res[1][0].count;
             })
         },
         loadDocumentType(){
