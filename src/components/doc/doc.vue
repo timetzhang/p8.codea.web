@@ -7,7 +7,7 @@ div.padded
             mu-tab(value="tab1",title="讨论区")
             mu-tab(value="tab2",title="课程文档")
         
-        // issue
+        // document
         div(v-if="activeTab === 'tab1'")
             mu-tabs.api-view-tabs(:value="activeIssue",@change="handleIssueChange")
                 mu-tab(value="issueTab1",title="所有",@click="handleIssue(1)")
@@ -19,9 +19,9 @@ div.padded
             
             div(v-if="activeIssue === issueTab")
                 div(v-for="item in docs",:key="item.id")
-                    doc_list(:docHref="'/doc/id='+item.id",:headimg="item.head_image",:name="item.student_name",:type="item.type_id",:time="item.time",:views="item.click_count",:comments="item.comment_count",isLike="5",:title="item.name",:breif="item.breif",:tags="item.tag",:isSolved="item.isSolved")
+                    doc_list(:docHref="'/doc/id='+item.id",:headimg="item.head_image",:name="item.student_name",:type="item.type_id",:time="item.time",:views="item.click_count",:comments="item.comment_count",:isLike="item.like_count",:title="item.name",:brief="item.brief",:tags="item.tag",:isSolved="item.isSolved")
 
-        // course document
+        // course document tag
         div.center.aligned(v-if="activeTab === 'tab2'")
             
             mu-tabs.api-view-tabs(:value="activeMinTab",@change="handleMinTabChange")
@@ -32,11 +32,8 @@ div.padded
                     a(:href="'/doc/id'+item.id") {{item.name | filterBy(item,item.type_id,'type_id')}}
                         hr
         div(style="padding:20px;")
-            mu-row
-                mu-col(width="100",desktop="50")
-                    mu-raised-button(label="下一页",:fullWidth="true")
-                mu-col.center.aligned(width="100",desktop="50")
-                    mu-pagination(:total="total",:current="current",@pageChange="switchPage",style="float:right")
+            div.center.aligned(style="padding:20px;")
+                mu-pagination(:total="docTotal",:current="current",@pageChange="switchPage",style="float:right")
             br
             hr
             h2 发布 
@@ -51,7 +48,7 @@ div.padded
                     mu-col(desktop="100")
                         mu-text-field(label="关键词",hintText="请用逗号,分隔开来",:fullWidth="true",style="padding-bottom:0",v-model="document.tag")
                     mu-col(desktop="100")
-                        mu-text-field(label="简介",hintText="对帖子进行一段简短的描述",:fullWidth="true",style="padding-bottom:0",:row="3",:rowMax="6",v-model="document.breif")
+                        mu-text-field(label="简介",hintText="对帖子进行一段简短的描述",:fullWidth="true",style="padding-bottom:0",:row="3",:rowMax="6",v-model="document.brief")
                 br
                 div
                     quill-editor(ref="editor",v-model="document.details",:options="editorOption")
@@ -90,6 +87,7 @@ export default {
             docType:[],//document all type
             docTypeValue:'001',
             docs: [],//all doc
+            pageNum:0,//page number
             sid: this.$cookie.getCookie('sid'),
             editorOption: {
                 placeholder: "请输入文档内容"
@@ -109,13 +107,13 @@ export default {
     methods: {
         getDocs(){
             var _this = this;
-            this.$db.getDocument(this,{pagenum:0,pagesize:10}).then(res => {
-                console.log(res);
+            this.$db.getDocument(this,{pagenum : this.pageNum, pagesize : 10}).then(res => {
                 _this.docs = res[0];
                 _this.docs.forEach(function(element) {
                     element.time = DateTime.getTimespan(element.time);
                 }, this);
                 _this.docTotal = res[1][0].count;
+                console.log(_this.docTotal);
             })
         },
         getDocumentType(){
@@ -149,10 +147,16 @@ export default {
             this.timeNum = 'minTab'+e;
             this.menuIndex = e + 1;
         },
-
-        //checkout page
+        //checkout page & NEXT PAGE
         switchPage(){
-
+            this.pageNum++;
+            this.current++;
+            this.$db.getDocument(this,{pagenum : this.pageNum, pagesize : 10}).then(res => {
+                _this.docs = res[0];
+                _this.docs.forEach(function(element) {
+                    element.time = DateTime.getTimespan(element.time);
+                }, this);
+            })
         },
         //checkout type
         checkoutType(value){
@@ -165,7 +169,7 @@ export default {
                 this.$db.newWiki(this,{
                     name : this.document.title,
                     type_id : this.docTypeValue + 1,
-                    breif : this.document.breif,
+                    brief : this.document.brief,
                     details : Encode.htmlEncode(this.document.details),
                     student_id : this.sid,
                     tag : this.document.tag,
@@ -177,7 +181,7 @@ export default {
             }
         },
         verify(){
-            return this.document.title && this.docTypeValue && this.document.tag && this.document.breif && this.document.details && this.sid;
+            return this.document.title && this.docTypeValue != '001'&& this.docTypeValue && this.document.tag && this.document.brief && this.document.details && this.sid;
         },
 
         showSnackbar () {

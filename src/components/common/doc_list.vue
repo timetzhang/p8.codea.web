@@ -18,7 +18,7 @@
         div
             a(:href="docHref")
                 h2 {{title}}
-            p {{breif}}
+            p {{brief}}
             br
             div
                 a(:href="tagHref",v-for="(item,index) in tagItems",:key="item.index")
@@ -68,14 +68,14 @@ export default {
             default:0
         },
         isLike:{  //点赞量
-            type:String,
+            type:Number,
             default:0
         },
         title:{  //list标题
             type:String,
             default:''
         },
-        breif:{  //list简介
+        brief:{  //list简介
             type:String,
             default:''
         },
