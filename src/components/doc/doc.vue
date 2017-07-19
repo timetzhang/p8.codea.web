@@ -37,7 +37,7 @@ div.padded
             br
             hr
             h2 发布 
-            mu-card(style="border:1px solid #f0f0f0;padding:10px",v-if="sid > 0")
+            mu-card#submit(style="border:1px solid #f0f0f0;padding:10px",v-if="sid > 0")
                 mu-row
                     mu-col(width="15",desktop="15")
                         mu-dropDown-menu(:value="docTypeValue",@change="checkoutType",:fullWidth="true")
@@ -113,7 +113,6 @@ export default {
                     element.time = DateTime.getTimespan(element.time);
                 }, this);
                 _this.docTotal = res[1][0].count;
-                console.log(_this.docTotal);
             })
         },
         getDocumentType(){
@@ -148,9 +147,9 @@ export default {
             this.menuIndex = e + 1;
         },
         //checkout page & NEXT PAGE
-        switchPage(){
-            this.pageNum++;
-            this.current++;
+        switchPage(newIndex){
+            var _this = this;
+            this.pageNum = newIndex-1;
             this.$db.getDocument(this,{pagenum : this.pageNum, pagesize : 10}).then(res => {
                 _this.docs = res[0];
                 _this.docs.forEach(function(element) {
@@ -166,7 +165,7 @@ export default {
         submit(){
             var _this = this;
             if (this.verify()){
-                this.$db.newWiki(this,{
+                this.$db.newDocument(this,{
                     name : this.document.title,
                     type_id : this.docTypeValue + 1,
                     brief : this.document.brief,
@@ -175,13 +174,27 @@ export default {
                     tag : this.document.tag,
                 }).then(res => {
                     _this.snackbarContent = "发布成功";
-                    this.loadWiki();
-                    this.showSnackbar();
+                    _this.getDocs();
+                    _this.showSnackbar();
+                    _this.clearmit();
+                    _this.returnTop();
                 });
             }
         },
+        // clear form
+        clearmit(){
+            this.document.title = "";
+            this.docTypeValue = "";
+            this.document.brief = "";
+            this.document.details = "";
+            this.document.tag = "";
+        },
+        returnTop() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        },
         verify(){
-            return this.document.title && this.docTypeValue != '001'&& this.docTypeValue && this.document.tag && this.document.brief && this.document.details && this.sid;
+            return this.document.title && this.docTypeValue && this.document.tag && this.document.brief && this.document.details && this.sid;
         },
 
         showSnackbar () {
