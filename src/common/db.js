@@ -341,6 +341,109 @@ export default {
         );
     },
 
+    /**
+     * document访问量
+     * @param {*} obj 
+     * @param {*} data 
+     */
+    newDocumentClickCount(obj, data) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/newDocumentClickCount';
+                obj.$http.post(dbUrl, { data: data }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    emulateJSON: true
+                }).then(res => {
+                    resolve(res.data);
+                });
+
+            }
+        );
+    },
+
+    /**
+     * 获取是否对此文章点赞
+     * @param {*} obj 
+     * @param {*} options 
+     */
+    getDocumentLike(obj, options) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/getDocumentLike?student_id=' + options.student_id + '&document_id=' + options.document_id;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+
+    /**
+     * 点赞
+     * @param {*} obj 
+     * @param {*} data 
+     */
+    newDocumentLike(obj, data) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/newDocumentLike';
+                obj.$http.post(dbUrl, { data: data }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    emulateJSON: true
+                }).then(res => {
+                    resolve(res.data);
+                });
+
+            }
+        );
+    },
+
+    /**
+     * 取消赞
+     * @param {*} obj 
+     * @param {*} data 
+     */
+    delDocumentLike(obj, data) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/delDocumentLike';
+                obj.$http.post(dbUrl, { data: data }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    emulateJSON: true
+                }).then(res => {
+                    resolve(res.data);
+                });
+
+            }
+        );
+    },
+
+    /**
+     * 获取document评论
+     * @param {*} obj 
+     * @param {*} options 
+     */
+    getDocumentComment(obj, options) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/getDocumentComment?document_id=' + options.document_id;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        )
+    },
 
     /**
      * 获取Documents
