@@ -12,9 +12,9 @@ div.padded
             hr
             h2 发表评论
             mu-card(style="border:1px solid #f0f0f0;padding:10px",v-if="sid > 0")
-                quill-editor(ref="editor",v-model="comment",:options="editorOption")
+                quill-editor(ref="editor",v-model="documentComment",:options="editorOption")
                 br
-                mu-raised-button(label="发布",:fullWidth="true",primary,@click="submit")
+                mu-raised-button(label="发布",:fullWidth="true",primary,@click="submitComment")
             div.center.aligned(v-if="sid <= 0")
                 p 登录才能评论！
                 mu-raised-button(label="前往登陆",href="/login")
@@ -22,12 +22,44 @@ div.padded
             // comment
             br
             hr
-            h3 评论（18 条）
-            mu-card(v-for="item in comments",:key="item.id")
-                mu-card-header(:title="item.name",:subTitle="item.time")
-                    mu-avatar(:src="item.head_image",slot="avatar")
-                    p(v-html="item.detail")
+            h3 评论（{{comment_count}} 条）
+            div(v-for="item in comments",:key="item.id")
+                a(:href="'/student/id='+item.owner_student_id")
+                    mu-avatar(:src="item.owner_student_headimage",:size="30",style="vertical-align:middle;")
+                div.name
+                    a(:href="'/student/id='+item.owner_student_id",style="color:black")
+                        span {{item.owner_student_name}}
+                    span.time {{item.time}}
+                p(v-html="item.detail")
+                blockquote
+                    div(v-for="list in item.sub_comments",:key="list.id",style="font-size:12px;")
+                        div
+                            p
+                                a(:href="'/student/id='+list.owner_student_id") {{list.owner_student_name}}
+                                label(v-if="list.target_student_name != item.owner_student_name") &nbsp;回复&nbsp;
+                                a(:href="'/student/id='+list.target_student_id",v-if="list.target_student_name != item.owner_student_name") {{list.target_student_name}}
+                                label &nbsp;:
+                                div(v-html="list.detail",style="padding-left:20px;")
+                            div
+                                label(style="color:#d1d1d1") 评论于{{list.time}}
+                                label.point(@click="replay([list.id, list.owner_student_name, list.owner_student_id, item.id])")
+                                    &nbsp;&nbsp;&nbsp;
+                                    i(class="comment outline icon")
+                                    回复
+                        hr
+                    label.point(@click="replay([item.id, item.owner_student_name, item.owner_student_id, item.id])")
+                                &nbsp;&nbsp;&nbsp;
+                                i(class="paint brush icon")
+                                新评论
+                    div(v-if="replayEditor === item.id")
+                        hr
+                        quill-editor(ref="editor",v-model="replayDetail",:options="editorOption")
+                        br
+                        mu-raised-button(label="发表评论",style="width:100%",@click="submitReplay(item.id)")
                 hr
+            div.center.aligned(style="padding:20px;",v-if="comment_count > 20")
+                mu-pagination(:total="comment_count",:current="current",:pageSize="20",@pageChange="switchPage",style="float:right")
+                br
 </template>
 
 <script>
@@ -35,6 +67,7 @@ import DateTime from '@/common/datetime'
 import { quillEditor } from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
 import Cookie from '@/common/cookie.js'
+import Encode from '@/common/encode'
 
 export default {
     name: 'details',
@@ -46,12 +79,23 @@ export default {
             document:{},
             sid: this.$cookie.getCookie('sid'),
             editorOption: {
-                placeholder: "请输入文档内容"
+                placeholder: "请输入评论内容"
             },
             snackbar: false,
             snackbarContent: '',
             comments:[],
+            comment_count:0,
             isLikeIcon:false,
+
+            //comment replay
+            replayEditor: 0,
+            replayNum: 0,//被评论id
+            replayStuId: 0,//被评论人id
+            documentComment:'',//评论文档
+            replayDetail:'',
+
+            current:1,//what page
+            pageNum:0,
         }
     },
     mounted: function () {
@@ -65,6 +109,7 @@ export default {
             this.$db.getDocumentDetails(this,{id: documentID}).then(res=>{
                 _this.document = res[0];
                 _this.document.time = DateTime.dateFormat(_this.document.time);
+                _this.document.details = Encode.htmlDecode(_this.document.details);
             }).then(res =>{
                 //clickCount
                 if(!Cookie.getCookie(documentID)){
@@ -81,14 +126,35 @@ export default {
                     });
                 }
             });
-            
-            this.$db.getDocumentComment(this,{document_id:documentID}).then(res=>{
-                res.forEach(function(el) {
-                    if (el.comment_id) {
-                        _this.comments.push(el);
+           this.loadComment();
+        },
+        loadComment(){
+            var _this = this;
+            this.comments.splice(0,this.comments.length);
+            var documentID = this.$route.params.id;
+             //get comment
+            this.$db.getDocumentComment(this,{document_id : documentID,pagenum : this.pageNum, pagesize : 20}).then(res=>{
+                var arr = [];
+                res[0].forEach(function(element) {
+                    element.time = DateTime.getTimespan(element.time);
+                    element.detail = Encode.htmlDecode(element.detail);
+                    if (!element.target_student_id){
+                        _this.comments.push(element);
+                    }else{
+                        arr.push(element);
                     }
                 }, this);
-                //_this.comments = res;
+                arr.forEach(function(element) {
+                    _this.comments.forEach(function(el,i) {
+                        if(el.id == element.comment_id){
+                            if (!el.sub_comments){
+                                _this.$set(el,"sub_comments",[]);
+                            }
+                            el.sub_comments.push(element);
+                        }
+                    }, this);
+                }, this);
+                _this.comment_count = res[1][0].count;
             });
         },
         //watch isLike
@@ -100,10 +166,67 @@ export default {
             }
         },
 
-        submit(){
-
+        submitComment(){
+            var _this = this;
+            if (this.sid > 0 && this.documentComment != "") {
+                this.$db.newDocumentComment(this,{
+                    document_id:this.$route.params.id,
+                    detail:Encode.htmlEncode(this.documentComment),
+                    student_id:this.sid,
+                    comment_id:0,
+                    target_student_id:0,
+                }).then(res => {
+                    _this.snackbarContent = "发布成功";
+                    _this.documentComment = "",
+                    _this.loadComment();
+                    _this.showSnackbar();
+                });
+            }
         },
-        
+        submitReplay(value){
+            var _this = this;
+            if(this.sid > 0 && this.replayDetail != ""){
+                this.$db.newDocumentComment(this,{
+                    document_id:this.$route.params.id,
+                    detail:Encode.htmlEncode(this.replayDetail),
+                    student_id:this.sid,
+                    comment_id:value,
+                    target_student_id:this.replayStuId,
+                }).then(res => {
+                    _this.snackbarContent = "发布成功";
+                    _this.loadComment();
+                    _this.showSnackbar();
+                    _this.clearmit();
+                });
+            }
+        },
+        clearmit(){
+            this.replayEditor = 0;
+            this.replayNum = 0;
+        },
+        replay(val){
+            if (this.sid <= 0){
+                this.$router.push({path:'/login'})
+            }
+            if (this.replayNum == val[0] && this.replayStuId == val[2]){
+                this.replayEditor = 0;
+                this.replayNum = 0;
+            }else{
+                this.replayEditor = 0;
+                this.replayNum = val[0];
+                this.replayStuId = val[2];
+                this.replayDetail = "";
+                this.$set(this.editorOption,'placeholder',"回复 " + val[1]);
+                this.$nextTick(function () {
+                    this.replayEditor = val[3];
+                })  
+            }
+        },
+        switchPage(newIndex) {
+            var _this = this;
+            this.pageNum = newIndex-1;
+            this.loadComment();
+        },
         showSnackbar () {
             this.snackbar = true
             if (this.snackTimer) clearTimeout(this.snackTimer)
@@ -119,5 +242,23 @@ export default {
 </script>
 
 <style scoped>
-
+blockquote {
+    padding: 15px;
+    border-left: 5px solid #f0f0f0;
+}
+.name{
+    display: inline-block;
+    margin-left: 5px;
+}
+.name .time {
+    display: inline-block;
+    padding:0 5px 0 3px;
+    color: #969696;
+}
+.point {
+    cursor: pointer;
+}
+.point:hover{
+    color:#457cce;
+}
 </style>

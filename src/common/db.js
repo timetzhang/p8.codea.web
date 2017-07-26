@@ -434,7 +434,7 @@ export default {
     getDocumentComment(obj, options) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/getDocumentComment?document_id=' + options.document_id;
+                var dbUrl = Config.dbBaseUrl + '/getDocumentComment?document_id=' + options.document_id + '&pagesize=' + options.pagesize + '&pagenum=' + options.pagenum;
                 obj.$http({
                     url: dbUrl,
                     method: 'GET'
@@ -443,6 +443,28 @@ export default {
                 });
             }
         )
+    },
+
+    /**
+     * 发布新的评论
+     * @param {*} obj 
+     * @param {*} options 
+     */
+
+    newDocumentComment(obj, data) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/newDocumentComment';
+                obj.$http.post(dbUrl, { data: data }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    emulateJSON: true
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
     },
 
     /**
