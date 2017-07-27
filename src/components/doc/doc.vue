@@ -9,17 +9,16 @@ div.padded
         
         // document
         div(v-if="activeTab === 'tab1'")
-            mu-tabs.api-view-tabs(:value="activeIssue",@change="handleIssueChange")
-                mu-tab(value="issueTab1",title="所有",@click="handleIssue(1)")
-                mu-tab(value="issueTab2",title="最新",@click="handleIssue(2)")
-                mu-tab(value="issueTab3",title="最热",@click="handleIssue(3)")
-                mu-tab(value="issueTab4",title="精华",@click="handleIssue(4)")
-                mu-tab(value="issueTab5",title="周",@click="handleIssue(5)")
-                mu-tab(value="issueTab6",title="月",@click="handleIssue(6)")
+            mu-tabs.api-view-tabs(:value="activeDoc",@change="handleDocChange")
+                mu-tab(value="docTab1",title="所有",@click="handleDoc(1)")
+                mu-tab(value="docTab2",title="最热",@click="handleDoc(2)")
+                mu-tab(value="docTab3",title="精华",@click="handleDoc(3)")
+                mu-tab(value="docTab4",title="周",@click="handleDoc(4)")
+                mu-tab(value="docTab5",title="月",@click="handleDoc(5)")
             
-            div(v-if="activeIssue === issueTab")
+            div(v-if="activeDoc === docTab")
                 div(v-for="item in docs",:key="item.id")
-                    doc_list(:docHref="'/doc/id='+item.id",:headimg="item.head_image",:name="item.student_name",:type="item.type_id",:time="item.time",:views="item.click_count",:comments="item.comment_count",:isLike="item.like_count",:title="item.name",:brief="item.brief",:tags="item.tag",:isSolved="item.isSolved")
+                    doc_list(:docHref="'/doc/id='+item.id",:headimg="item.head_image",:name="item.student_name",:type="item.type_id",:time="item.time",:views="item.click_count",:comments="item.comment_count",:isLike="item.like_count",:title="item.name",:brief="item.brief",:tags="item.tag",:isSolved="item.isSolved",:elite="item.elite")
 
         // course document tag
         div.center.aligned(v-if="activeTab === 'tab2'")
@@ -74,8 +73,8 @@ export default {
     },
     data() {
         return {
-            activeIssue: 'issueTab1',
-            issueTab : 'issueTab1',
+            activeDoc: 'docTab1',
+            docTab : 'docTab1',
             activeTab: 'tab1',
             activeMinTab: 'minTab0',
             timeNum: 'minTab1', // time classify page index
@@ -85,6 +84,7 @@ export default {
             docTotal: 1,//page number
             current:1,//what page
             docType:[],//document all type
+            getDocType:"all",
             docTypeValue:'001',
             docs: [],//all doc
             pageNum:0,//page number
@@ -107,8 +107,11 @@ export default {
     methods: {
         getDocs(){
             var _this = this;
-            this.$db.getDocument(this,{pagenum : this.pageNum, pagesize : 10}).then(res => {
+            this.$db.getDocument(this,{pagenum : this.pageNum, pagesize : 10, type: this.getDocType}).then(res => {
                 _this.docs = res[0];
+                if(res[1][0].count == 0){
+                    return false;
+                }
                 _this.docs.forEach(function(element) {
                     element.time = DateTime.getTimespan(element.time);
                 }, this);
@@ -130,11 +133,31 @@ export default {
             this.handleMenu(0);
         },
         //checkout table
-        handleIssueChange(val) {
-            this.activeIssue = val;
+        handleDocChange(val) {
+            this.activeDoc = val;
         },
-        handleIssue(e) {
-            this.issueTab = 'issueTab' + e;
+        handleDoc(e) {
+            this.docTab = 'docTab' + e;
+            switch(e){
+                case 1:
+                    this.getDocType = "all";
+                    break;
+                case 2:
+                    this.getDocType = "hot";
+                    break;
+                case 3:
+                    this.getDocType = "elite";
+                    break;
+                case 4:
+                    this.getDocType = "week";
+                    break;
+                case 5:
+                    this.getDocType = "month";
+                    break;
+                default:
+                    break;
+            }
+            this.getDocs()
         },
         handleTabChange(val) {
             this.activeTab = val;

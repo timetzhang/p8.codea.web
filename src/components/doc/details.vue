@@ -8,7 +8,7 @@ div.padded
                 h1 {{document.name}}
                 span {{document.student_name}} 建立于 {{document.time}}
             p.html.ql-editor(v-html="document.details")
-            mu-checkbox(:label="sid > 0 ? '点赞' : '点赞（请先登录）'",uncheckIcon="favorite_border",checkedIcon="favorite",v-model="isLikeIcon",:disabled="sid > 0 ? false : true")
+            mu-checkbox(:label="isLikeLabel",uncheckIcon="favorite_border",checkedIcon="favorite",v-model="isLikeIcon",:disabled="sid > 0 ? false : true")
             hr
             h2 发表评论
             mu-card(style="border:1px solid #f0f0f0;padding:10px",v-if="sid > 0")
@@ -23,7 +23,9 @@ div.padded
             br
             hr
             h3 评论（{{comment_count}} 条）
-            div(v-for="item in comments",:key="item.id")
+            div(v-if="comment_count === 0")
+                p.aligned.center 快来占领沙发吧！
+            div(v-for="(item,index) in comments",:key="item.id")
                 a(:href="'/student/id='+item.owner_student_id")
                     mu-avatar(:src="item.owner_student_headimage",:size="30",style="vertical-align:middle;")
                 div.name
@@ -32,7 +34,7 @@ div.padded
                     span.time {{item.time}}
                 p(v-html="item.detail")
                 blockquote
-                    div(v-for="list in item.sub_comments",:key="list.id",style="font-size:12px;")
+                    div(v-for="(list,index) in item.sub_comments",:key="list.id",style="font-size:12px;")
                         div
                             p
                                 a(:href="'/student/id='+list.owner_student_id") {{list.owner_student_name}}
@@ -42,20 +44,20 @@ div.padded
                                 div(v-html="list.detail",style="padding-left:20px;")
                             div
                                 label(style="color:#d1d1d1") 评论于{{list.time}}
-                                label.point(@click="replay([list.id, list.owner_student_name, list.owner_student_id, item.id])")
+                                label.point(@click="reply([list.id, list.owner_student_name, list.owner_student_id, item.id])")
                                     &nbsp;&nbsp;&nbsp;
                                     i(class="comment outline icon")
                                     回复
+                            hr
+                    label.point(@click="reply([item.id, item.owner_student_name, item.owner_student_id, item.id])")
+                        &nbsp;&nbsp;&nbsp;
+                        i(class="paint brush icon")
+                        新评论
+                    div(v-if="replyEditor === item.id")
                         hr
-                    label.point(@click="replay([item.id, item.owner_student_name, item.owner_student_id, item.id])")
-                                &nbsp;&nbsp;&nbsp;
-                                i(class="paint brush icon")
-                                新评论
-                    div(v-if="replayEditor === item.id")
-                        hr
-                        quill-editor(ref="editor",v-model="replayDetail",:options="editorOption")
+                        quill-editor(ref="editor",v-model="replyDetail",:options="editorOption")
                         br
-                        mu-raised-button(label="发表评论",style="width:100%",@click="submitReplay(item.id)")
+                        mu-raised-button(label="发表评论",style="width:100%",@click="submitreply(item.id)")
                 hr
             div.center.aligned(style="padding:20px;",v-if="comment_count > 20")
                 mu-pagination(:total="comment_count",:current="current",:pageSize="20",@pageChange="switchPage",style="float:right")
@@ -86,13 +88,14 @@ export default {
             comments:[],
             comment_count:0,
             isLikeIcon:false,
+            isLikeLabel:"点赞",
 
-            //comment replay
-            replayEditor: 0,
-            replayNum: 0,//被评论id
-            replayStuId: 0,//被评论人id
+            //comment reply
+            replyEditor: 0,
+            replyId: 0,//被评论id
+            replyStuId: 0,//被评论人id
             documentComment:'',//评论文档
-            replayDetail:'',
+            replyDetail:'',
 
             current:1,//what page
             pageNum:0,
@@ -121,9 +124,12 @@ export default {
                     this.$db.getDocumentLike(this,{document_id : this.$route.params.id, student_id : this.sid}).then(res=>{
                         if(res[0].count != 0){
                             _this.isLikeIcon = true;
+                            _this.isLikeLabel = "已点赞";
                         }
                         _this.$watch('isLikeIcon',this.isLikeChange);
                     });
+                }else{
+                    this.isLikeLabel = "点赞（请先登录）";
                 }
             });
            this.loadComment();
@@ -134,6 +140,7 @@ export default {
             var documentID = this.$route.params.id;
              //get comment
             this.$db.getDocumentComment(this,{document_id : documentID,pagenum : this.pageNum, pagesize : 20}).then(res=>{
+                
                 var arr = [];
                 res[0].forEach(function(element) {
                     element.time = DateTime.getTimespan(element.time);
@@ -146,23 +153,40 @@ export default {
                 }, this);
                 arr.forEach(function(element) {
                     _this.comments.forEach(function(el,i) {
+                        if (!el.sub_comments){
+                            _this.$set(el,"sub_comments",[]);
+                        }
                         if(el.id == element.comment_id){
-                            if (!el.sub_comments){
-                                _this.$set(el,"sub_comments",[]);
-                            }
                             el.sub_comments.push(element);
                         }
                     }, this);
                 }, this);
                 _this.comment_count = res[1][0].count;
+                this.$nextTick(function(){
+                    _this.comments.forEach(function(el){
+                        var val = el.sub_comments.length;
+                        if(val <= 5){
+                            _this.surplusDataNum.push(0);
+                        }else{
+                            _this.surplusDataNum.push(val - 5);
+                        }
+                    })
+                    
+                });
             });
         },
         //watch isLike
         isLikeChange(value){
             if(value){
                 this.$db.newDocumentLike(this,{document_id : this.$route.params.id, student_id : this.sid});
+                this.$nextTick(function () {
+                    this.isLikeLabel = "已点赞";
+                })
             }else{
                 this.$db.delDocumentLike(this,{document_id : this.$route.params.id, student_id : this.sid});
+                this.$nextTick(function () {
+                    this.isLikeLabel = "点赞";
+                })
             }
         },
 
@@ -183,15 +207,15 @@ export default {
                 });
             }
         },
-        submitReplay(value){
+        submitreply(value){
             var _this = this;
-            if(this.sid > 0 && this.replayDetail != ""){
+            if(this.sid > 0 && this.replyDetail != ""){
                 this.$db.newDocumentComment(this,{
                     document_id:this.$route.params.id,
-                    detail:Encode.htmlEncode(this.replayDetail),
+                    detail:Encode.htmlEncode(this.replyDetail),
                     student_id:this.sid,
                     comment_id:value,
-                    target_student_id:this.replayStuId,
+                    target_student_id:this.replyStuId,
                 }).then(res => {
                     _this.snackbarContent = "发布成功";
                     _this.loadComment();
@@ -201,24 +225,24 @@ export default {
             }
         },
         clearmit(){
-            this.replayEditor = 0;
-            this.replayNum = 0;
+            this.replyEditor = 0;
+            this.replyId = 0;
         },
-        replay(val){
+        reply(val){
             if (this.sid <= 0){
                 this.$router.push({path:'/login'})
             }
-            if (this.replayNum == val[0] && this.replayStuId == val[2]){
-                this.replayEditor = 0;
-                this.replayNum = 0;
+            if (this.replyId == val[0] && this.replyStuId == val[2]){
+                this.replyEditor = 0;
+                this.replyId = 0;
             }else{
-                this.replayEditor = 0;
-                this.replayNum = val[0];
-                this.replayStuId = val[2];
-                this.replayDetail = "";
+                this.replyEditor = 0;
+                this.replyId = val[0];
+                this.replyStuId = val[2];
+                this.replyDetail = "";
                 this.$set(this.editorOption,'placeholder',"回复 " + val[1]);
                 this.$nextTick(function () {
-                    this.replayEditor = val[3];
+                    this.replyEditor = val[3];
                 })  
             }
         },

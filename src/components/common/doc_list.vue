@@ -8,13 +8,16 @@
             span.time {{time}}
             a(:href="typeHref")
                 mu-badge(:content="typeStr",:color="typeColor")
+            &nbsp;&nbsp;
+            a(:href="typeHref")
+                mu-badge(content="精华",color="gold",v-if="elite == 1")
         div(style="float:right")
             mu-icon(value="visibility",style="vertical-align:middle;",:size="20")
-            label {{views}}&nbsp;&nbsp;
+            label &nbsp;{{views}}&nbsp;&nbsp;
             mu-icon(value="speaker_notes",style="vertical-align:middle;",:size="20")
-            label {{comments}}&nbsp;&nbsp;
+            label &nbsp;{{comments}}&nbsp;&nbsp;
             mu-icon(value="favorite",style="vertical-align:middle;",:size="20")
-            label {{isLike}}&nbsp;&nbsp;
+            label &nbsp;{{isLike}}&nbsp;&nbsp;
         div
             a(:href="docHref")
                 h2 {{title}}
@@ -90,6 +93,10 @@ export default {
         isSolved: {  //提问是否被解决
             type:String,
             default:'0'
+        },
+        elite: {
+            type:Number,
+            default: 0
         }
     },
     data() {
