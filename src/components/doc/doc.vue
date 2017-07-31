@@ -18,7 +18,7 @@ div.padded
             
             div(v-if="activeDoc === docTab")
                 div(v-for="item in docs",:key="item.id")
-                    doc_list(:docHref="'/doc/id='+item.id",:headimg="item.head_image",:name="item.student_name",:type="item.type_id",:time="item.time",:views="item.click_count",:comments="item.comment_count",:isLike="item.like_count",:title="item.name",:brief="item.brief",:tags="item.tag",:isSolved="item.isSolved",:elite="item.elite")
+                    doc_list(:docHref="'/doc/id='+item.id",:headimg="item.head_image",:name="item.student_name",:type="item.type_id",:time="item.time",:views="item.click_count",:comments="item.comment_count",:isLike="item.like_count",:title="item.name",:brief="item.brief",:tags="item.tag",:isSolved="item.isSolved",:is_star="item.is_star")
 
         // course document tag
         div.center.aligned(v-if="activeTab === 'tab2'")
