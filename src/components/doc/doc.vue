@@ -146,7 +146,7 @@ export default {
                     this.getDocType = "hot";
                     break;
                 case 3:
-                    this.getDocType = "is_star";
+                    this.getDocType = "star";
                     break;
                 case 4:
                     this.getDocType = "week";
