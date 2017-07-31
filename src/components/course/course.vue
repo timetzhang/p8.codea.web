@@ -9,12 +9,6 @@
                 mu-paper(height="100")
                     mu-list
                         mu-sub-header 
-                            i.icon.bomb
-                            span &nbsp; 创意课程
-                        a(:href='"/course/type="+item.id',v-for='item in menuCrea',:key='item.id')
-                            mu-list-item(:title='item.name', :class='currentMenu == item.id ? "router-link-active" : ""')
-                        mu-divider
-                        mu-sub-header 
                             i.icon.browser
                             span &nbsp; 软件开发
                         a(:href='"/course/type="+item.id',v-for='item in menuSoft',:key='item.id')
@@ -31,7 +25,12 @@
                             span &nbsp; 艺术
                         a(:href='"/course/type="+item.id',v-for='item in menuArt',:key='item.id')
                             mu-list-item(:title='item.name', :class='currentMenu == item.id ? "router-link-active" : ""')
-
+                        mu-sub-header 
+                            i.icon.bomb
+                            span &nbsp; 创意课程
+                        a(:href='"/course/type="+item.id',v-for='item in menuCrea',:key='item.id')
+                            mu-list-item(:title='item.name', :class='currentMenu == item.id ? "router-link-active" : ""')
+                        mu-divider
             mu-col(:desktop="contentWidth", width="100")
                 mu-row(gutter,:class="isMobile? 'padded':''")
                     mu-col(desktop='33', tablet='50', width='50', v-for="item in course", key='item.id')

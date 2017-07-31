@@ -57,7 +57,7 @@ div.padded
                         hr
                         quill-editor(ref="editor",v-model="replyDetail",:options="editorOption")
                         br
-                        mu-raised-button(label="发表评论",style="width:100%",@click="submitreply(item.id)")
+                        mu-raised-button(label="发表评论",style="width:100%",@click="submitReply(item.id)")
                 hr
             div.center.aligned(style="padding:20px;",v-if="comment_count > 20")
                 mu-pagination(:total="comment_count",:current="current",:pageSize="20",@pageChange="switchPage",style="float:right")
@@ -207,7 +207,7 @@ export default {
                 });
             }
         },
-        submitreply(value){
+        submitReply(value){
             var _this = this;
             if(this.sid > 0 && this.replyDetail != ""){
                 this.$db.newDocumentComment(this,{
