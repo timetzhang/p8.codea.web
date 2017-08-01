@@ -6,10 +6,10 @@
             a(:href="studentHref",style="color:black")
                 span {{name}}
             span.time {{time}}
-            a(:href="typeHref")
+            a(@click="pushType")
                 mu-badge(:content="typeStr",:color="typeColor")
             &nbsp;&nbsp;
-            a(:href="typeHref")
+            a
                 mu-badge(content="精华",color="gold",v-if="is_star == 1")
         div(style="float:right")
             mu-icon(value="visibility",style="vertical-align:middle;",:size="20")
@@ -24,7 +24,7 @@
             p {{brief}}
             br
             div
-                a(:href="tagHref",v-for="(item,index) in tagItems",:key="item.index")
+                a(v-for="(item,index) in tagItems",:key="item.index",@click="pushTag(item)")
                     mu-badge(:content="item",secondary,style="margin-right:5px;")
         br
         hr
@@ -39,14 +39,6 @@ export default {
             default:''
         },
         docHref:{  //详情跳转地址
-            type:String,
-            default:''
-        },
-        tagHref:{  //标签跳转
-            type:String,
-            default:''
-        },
-        typeHref:{  //类型跳转
             type:String,
             default:''
         },
@@ -104,6 +96,14 @@ export default {
             tagItems:[],//关键词数组
             typeStr:'',//doc类型
             typeColor:'',//类型颜色
+        }
+    },
+    methods: {
+        pushType:function(){
+            this.$emit('listen-type',this.type);
+        },
+        pushTag:function(data){
+            this.$emit('listen-tag',data);
         }
     },
     mounted() {
@@ -171,5 +171,9 @@ export default {
     display: inline-block;
     padding:0 5px 0 3px;
     color: #969696;
+}
+
+a {
+    cursor: pointer;
 }
 </style>

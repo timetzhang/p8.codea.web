@@ -18,7 +18,7 @@ div.padded
             
             div(v-if="activeDoc === docTab")
                 div(v-for="item in docs",:key="item.id")
-                    doc_list(:docHref="'/doc/id='+item.id",:headimg="item.head_image",:name="item.student_name",:type="item.type_id",:time="item.time",:views="item.click_count",:comments="item.comment_count",:isLike="item.like_count",:title="item.name",:brief="item.brief",:tags="item.tag",:isSolved="item.isSolved",:is_star="item.is_star")
+                    doc_list(:docHref="'/doc/id='+item.id",:headimg="item.head_image",:name="item.student_name",:type="item.type_id",:time="item.time",:views="item.click_count",:comments="item.comment_count",:isLike="item.like_count",:title="item.name",:brief="item.brief",:tags="item.tag",:isSolved="item.isSolved",:is_star="item.is_star",@listen-type="showTypePage",@listen-tag="showTagPage")
 
         // course document tag
         div.center.aligned(v-if="activeTab === 'tab2'")
@@ -41,7 +41,7 @@ div.padded
                     mu-col(width="15",desktop="15")
                         mu-dropDown-menu(:value="docTypeValue",@change="checkoutType",:fullWidth="true")
                             mu-menu-item(value="001",title="选择类型")
-                            mu-menu-item(v-for="(item,index) in docType",:key="index",:value="index",:title="item.name")
+                            mu-menu-item(v-for="item in docType",:key="item.id",:value="item.id",:title="item.name")
                     mu-col(width="85",desktop="85")
                         mu-text-field(label="标题",hintText="字数限制40字",:fullWidth="true",style="padding-bottom:0",v-model="document.title")
                     mu-col(desktop="100")
@@ -85,6 +85,8 @@ export default {
             current:1,//what page
             docType:[],//document all type
             getDocType:"all",
+            getDocTypeNum:0,
+            getTag:"",//筛选具有此tag的文档
             docTypeValue:'001',
             docs: [],//all doc
             pageNum:0,//page number
@@ -107,13 +109,15 @@ export default {
     methods: {
         getDocs(){
             var _this = this;
-            this.$db.getDocument(this,{pagenum : this.pageNum, pagesize : 10, type: this.getDocType}).then(res => {
+            this.$db.getDocument(this,{pagenum : this.pageNum, pagesize : 10, type: this.getDocType, typenum: this.getDocTypeNum, tag: this.getTag}).then(res => {
                 _this.docs = res[0];
                 if(res[1][0].count == 0){
                     return false;
                 }
                 _this.docs.forEach(function(element) {
-                    element.time = DateTime.getTimespan(element.time);
+                    if(element.time != null){
+                        element.time = DateTime.getTimespan(element.time);
+                    }
                 }, this);
                 _this.docTotal = res[1][0].count;
             })
@@ -141,6 +145,7 @@ export default {
             switch(e){
                 case 1:
                     this.getDocType = "all";
+                    this.getDocTypeNum = 0;//获取所有类型
                     break;
                 case 2:
                     this.getDocType = "hot";
@@ -173,16 +178,26 @@ export default {
         switchPage(newIndex){
             var _this = this;
             this.pageNum = newIndex-1;
-            this.$db.getDocument(this,{pagenum : this.pageNum, pagesize : 10}).then(res => {
+            this.$db.getDocument(this,{pagenum : this.pageNum, pagesize : 10,type: this.getDocType, typenum: this.getDocTypeNum, tag: this.getTag}).then(res => {
                 _this.docs = res[0];
                 _this.docs.forEach(function(element) {
-                    element.time = DateTime.getTimespan(element.time);
+                    if(element.time != null){
+                        element.time = DateTime.getTimespan(element.time);
+                    }
                 }, this);
             })
         },
         //checkout type
         checkoutType(value){
             this.docTypeValue = value;
+        },
+        showTypePage(data){
+            this.getDocTypeNum = data;
+            this.getDocs();
+        },
+        showTagPage(data){
+            this.getTag = data;
+            this.getDocs();
         },
         //submit
         submit(){

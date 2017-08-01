@@ -34,7 +34,7 @@
 
 <script>
 import DateTime from '@/common/datetime'
-import CuDocList from '@/components/common/doc_list'
+import CuDocList from '@/components/common/doc_list.vue'
 
 export default {
     name: 'profile',
