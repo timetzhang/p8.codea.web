@@ -100,14 +100,15 @@ export default {
     },
     methods: {
         pushType:function(){
-            this.$emit('listen-type',this.type);
+            this.$emit('listen-type',this.type);//获取点击的文档类型id
         },
         pushTag:function(data){
-            this.$emit('listen-tag',data);
+            this.$emit('listen-tag',data);//获取点击的tag
         }
     },
     mounted() {
-        this.tagItems = this.tags.split(',');
+        var tag = this.tags.replace(/，/g,",");
+        this.tagItems = tag.split(',');
         switch (this.type) {
             case 1:
                 this.typeStr = '文章';
