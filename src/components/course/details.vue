@@ -10,6 +10,8 @@
                         p(v-html="item.intro")
                         p.right.aligned
                             mu-raised-button(label='收藏',icon='favorite', :secondary='isFav', @click='favCourse')
+                            &nbsp;
+                            mu-raised-button(label='添加至我的课程',icon='add', :secondary='isTaken', @click='takeCourse')
             mu-divider
             mu-content-block.para(v-html='item.details')
         mu-dialog(:open="isDialogDeleteFavDisplay",title="请确认",@close="closeDeleteFavConfirmDialog") 是否取消收藏
@@ -37,6 +39,7 @@ export default {
         this.loadCourseDetails();
         if (this.$cookie.getCookie('sid')) {
             this.isStudentFavCourse();
+            this.isStudentTakeCourse();
         }
     },
     methods: {
@@ -75,18 +78,46 @@ export default {
                     _this.isFav = false;
             });
         },
-        closeDeleteFavConfirmDialog(){
+        closeDeleteFavConfirmDialog() {
             this.isDialogDeleteFavDisplay = false;
         },
-        deleteFav(){
+        deleteFav() {
             var _this = this;
-            this.$db.delStudentFavCourse(this, { student_id: this.$cookie.getCookie('sid'), course_id: this.courseId }).then(res => {     
+            this.$db.delStudentFavCourse(this, { student_id: this.$cookie.getCookie('sid'), course_id: this.courseId }).then(res => {
                 if (res.affectedRows > 0) {
                     _this.isFav = false;
                     _this.closeDeleteFavConfirmDialog();
                 };
             });
-        }
+        },
+        takeCourse() {
+            if (this.$cookie.getCookie('sid')) {
+                var _this = this;
+                if (this.isFav) { //如果已经收藏了课程，删除收藏的课程
+                    this.isDialogDeleteFavDisplay = true;
+                }
+                else { //如果没有收藏，加入收藏
+                    this.$db.newStudentFavCourse(this, { student_id: this.$cookie.getCookie('sid'), course_id: this.courseId }).then(res => {
+                        if (res.affectedRows > 0) {
+                            _this.isFav = true;
+                        };
+                    });
+                }
+            }
+            else {
+                this.$router.push('/login');
+            }
+
+        },
+        isStudentTakeCourse() {
+            var _this = this;
+            this.$db.isStudentFavCourse(this, { student_id: this.$cookie.getCookie('sid'), course_id: this.courseId }).then(res => {
+                if (res == '1')
+                    _this.isFav = true;
+                else
+                    _this.isFav = false;
+            });
+        },
     }
 }
 </script>

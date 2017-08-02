@@ -669,6 +669,45 @@ export default {
         );
     },
 
+    /**
+     * Get Student Course Take
+     * @param {*} obj 为this
+     */
+    setStudentCourseTake(obj, data) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/setStudentCourseTake';
+                obj.$http.post(dbUrl, { data: data }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    emulateJSON: true
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+
+    /**
+     * Get Student Course Take
+     * @param {*} obj 为this
+     */
+    isStudentTakeCourse(obj, options) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/isStudentTakeCourse?student_id=' + options.student_id;
+
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+
 
     /*--------------------------------------------------------------------------------------------------------*/
     /*--- ##Student NOTIFY -----------------------------------------------------------------------------------*/
