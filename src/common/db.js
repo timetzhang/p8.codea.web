@@ -860,7 +860,7 @@ export default {
         );
     },
 
-    delStudentTeamFollow(obj, data) {
+    delStudentFollowTeam(obj, data) {
         return new Promise(
             function(resolve) {
                 var dbUrl = Config.dbBaseUrl + '/delStudentFollowTeam';

@@ -1,12 +1,14 @@
 <template lang="jade">
     div.padded
-        mu-paper
-            mu-content-block
-                mu-text-field(hintText="文档标题",:fullWidth='true',style="font-size:18px; font-weight:bold;",v-model="document.name")
-                mu-text-field(hintText="文档简介",:fullWidth='true',style="font-size:12px;",v-model="document.brief")
+        mu-card#submit(style="padding:20px")
+            mu-text-field(label="标题",hintText="字数限制40字",:fullWidth="true",style="padding-bottom:0",v-model="document.name")
+            mu-text-field(label="关键词",hintText="请用逗号“,”分隔开来",:fullWidth="true",style="padding-bottom:0",v-model="document.tag")
+            mu-text-field(label="简介",hintText="对文章进行简短的描述",:fullWidth="true",style="padding-bottom:0",:row="3",:rowMax="6",v-model="document.brief")
+            br
+            div
                 quill-editor(ref="editor",v-model="document.details",:options="editorOption")
-                div.center.aligned
-                    mu-raised-button(icon="edit",style="margin:20px;",label="提交修改",@click="confirmSubmit",secondary)
+            br
+            mu-raised-button(label="发布",:fullWidth="true",primary,@click="confirmSubmit")
         mu-dialog(:open="isDialogConfirmSubmitDisplay",title="提示",@close="closeConfirmSubmitDialog") 是否确定提交？
             mu-flat-button(slot="actions",@click="closeConfirmSubmitDialog",primary,label="取消")
             mu-flat-button(slot="actions",secondary,@click="submit",label="确定")
@@ -23,6 +25,8 @@ export default {
     data() {
         return {
             document: {},
+            documentType: [],
+            documentTypeValue: '0',
             courses: [],
             course_id: 0,
             isContentChanged: false,
@@ -43,12 +47,22 @@ export default {
             //Check the student is the member of team
             this.checkStudentTeamMember();
             document.title = '新建小组文档 - ' + this.$config.title;
+            this.getDocumentType();
         }
     },
     methods: {
-        checkStudentTeamMember(){
-            this.$db.isStudentTeamMember(this, {student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id}).then(res=>{
-                if(res.length <= 0){
+        documentTypeChanged(value) {
+            this.documentTypeValue = value;
+        },
+        getDocumentType() {
+            var _this = this;
+            this.$db.getDocumentType(this, {}).then(res => {
+                _this.documentType = res;
+            })
+        },
+        checkStudentTeamMember() {
+            this.$db.isStudentTeamMember(this, { student_id: this.$cookie.getCookie('sid'), team_id: this.$route.params.id }).then(res => {
+                if (res.length <= 0) {
                     alert('您不是该小组成员');
                     window.location.href = '/team';
                 }
@@ -66,8 +80,8 @@ export default {
             if (this.verify()) {
                 var _this = this;
                 this.$db.newDocument(this, {
-                    id: this.document.id,
                     name: this.document.name,
+                    type_id: 1,
                     brief: this.document.brief,
                     details: this.document.details,
                     team_id: this.$route.params.id,
