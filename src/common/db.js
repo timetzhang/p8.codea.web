@@ -249,7 +249,7 @@ export default {
                 if (options.id) {
                     dbUrl = Config.dbBaseUrl + '/getDocument?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum + '&' + options.id;
                 } else {
-                    dbUrl = Config.dbBaseUrl + '/getDocument?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum + '&type=' + options.type;
+                    dbUrl = Config.dbBaseUrl + '/getDocument?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum + '&type=' + options.type + '&typenum=' + options.typenum + '&tag=' + options.tag;
                 }
                 obj.$http({
                     url: dbUrl,

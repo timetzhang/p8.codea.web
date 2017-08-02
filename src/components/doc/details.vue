@@ -143,7 +143,9 @@ export default {
                 
                 var arr = [];
                 res[0].forEach(function(element) {
-                    element.time = DateTime.getTimespan(element.time);
+                    if(element.time != null){
+                        element.time = DateTime.getTimespan(element.time);
+                    }
                     element.detail = Encode.htmlDecode(element.detail);
                     if (!element.target_student_id){
                         _this.comments.push(element);
