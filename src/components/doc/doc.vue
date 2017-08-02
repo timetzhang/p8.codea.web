@@ -82,7 +82,7 @@ export default {
             allMenuData:[],// all course Document Data
             menuIndex: 1,// course Document subject index
             docTotal: 1,//page number
-            current:1,//what page
+            current:100,//what page
             docType:[],//document all type
             getDocType:"all",
             getDocTypeNum:0,
@@ -111,6 +111,7 @@ export default {
         getDocs(){
             var _this = this;
             this.documentNoneHintText = "";
+            this.pagenum = 0;
             this.$db.getDocument(this,{pagenum : this.pageNum, pagesize : 10, type: this.getDocType, typenum: this.getDocTypeNum, tag: this.getTag}).then(res => {
                 _this.docs = res[0];
                 if(res[1][0].count == 0){
@@ -123,8 +124,12 @@ export default {
                         element.time = DateTime.getTimespan(element.time);
                     }
                 }, this);
-                _this.docTotal = res[1][0].count;
-            })
+                _this.current = 0;
+                _this.$nextTick(function () {
+                    _this.current = 1;
+                    _this.docTotal = res[1][0].count;
+                });
+            });
         },
         getDocumentType(){
             var _this = this;
@@ -144,6 +149,7 @@ export default {
         handleDocChange(val) {
             this.activeDoc = val;
         },
+        //get type and checkout page
         handleDoc(e) {
             this.docTab = 'docTab' + e;
             switch(e){
@@ -194,7 +200,6 @@ export default {
         },
         //select course tag
         selectCourseTag(value){
-            console.log(value);
             this.getTag = value;
             this.getDocType = "all";
             this.pageNum = 0;
