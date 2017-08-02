@@ -18,45 +18,45 @@ div.padded
             
             div(v-if="activeDoc === docTab")
                 div(v-for="item in docs",:key="item.id")
-                    doc_list(:docHref="'/doc/id='+item.id",:headimg="item.head_image",:name="item.student_name",:type="item.type_id",:time="item.time",:views="item.click_count",:comments="item.comment_count",:isLike="item.like_count",:title="item.name",:brief="item.brief",:tags="item.tag",:isSolved="item.isSolved",:is_star="item.is_star",@listen-type="showTypePage",@listen-tag="showTagPage")
-
+                    doc_list(:studentHref="'/student/id=' + item.student_id",:docHref="'/doc/id='+item.id",:headimg="item.head_image",:name="item.student_name",:type="item.type_id",:time="item.time",:views="item.click_count",:comments="item.comment_count",:isLike="item.like_count",:title="item.name",:brief="item.brief",:tags="item.tag",:isSolved="item.isSolved",:is_star="item.is_star",@listen-type="showTypePage",@listen-tag="showTagPage")
+                div.center.aligned
+                    h4 {{documentNoneHintText}}
+                div(style="padding:20px;")
+                    div.center.aligned(style="padding:20px;")
+                        mu-pagination(:total="docTotal",:current="current",@pageChange="switchPage",style="float:right")
+                    br
+                    hr
+                    h2 发布 
+                    mu-card#submit(style="border:1px solid #f0f0f0;padding:10px",v-if="sid > 0")
+                        mu-row
+                            mu-col.center.aligned(width="100",desktop="15",tablet="15")
+                                mu-dropDown-menu(:value="docTypeValue",@change="checkoutType",:fullWidth="true")
+                                    mu-menu-item(value="001",title="选择类型")
+                                    mu-menu-item(v-for="item in docType",:key="item.id",:value="item.id",:title="item.name")
+                            mu-col(width="100",desktop="85",tablet="85")
+                                mu-text-field(label="标题",hintText="字数限制30字",:fullWidth="true",style="padding-bottom:0",v-model="document.title",:maxLength="30")
+                            mu-col(desktop="100",tablet="100")
+                                mu-text-field(label="关键词",hintText="请用逗号,分隔开来",:fullWidth="true",style="padding-bottom:0",v-model="document.tag")
+                            mu-col(desktop="100",tablet="100")
+                                mu-text-field(label="简介",hintText="对帖子进行一段简短的描述",:fullWidth="true",style="padding-bottom:0",:row="3",:rowMax="6",v-model="document.brief",:maxLength="140")
+                        br
+                        div
+                            quill-editor(ref="editor",v-model="document.details",:options="editorOption")
+                        br
+                        mu-raised-button(label="发布",:fullWidth="true",primary,@click="submit")
+                    div.center.aligned(v-if="sid <= 0")
+                        p 登录才能发布！
+                        mu-raised-button(label="前往登陆",href="/login")
+                mu-snackbar(v-if="snackbar",:message="snackbarContent",action="关闭",@actionClick="hideSnackbar",@close="hideSnackbar")
         // course document tag
         div.center.aligned(v-if="activeTab === 'tab2'")
-            
             mu-tabs.api-view-tabs(:value="activeMinTab",@change="handleMinTabChange")
                 mu-tab(v-for="(item,index) in courseDoc",:key="index",:value="'minTab'+index",:title="item",@click="handleMenu(index)")
-            
             mu-row(gutter,v-if="activeMinTab === timeNum")
                 mu-col(desktop="25",v-for="item in filterBy(allMenuData,menuIndex,'subject_id')",:key="item.id")
-                    a(:href="'/doc/id'+item.id") {{item.name | filterBy(item,item.type_id,'type_id')}}
+                    a(@click="selectCourseTag(item.name)") {{item.name | filterBy(item,item.type_id,'type_id')}}
                         hr
-        div(style="padding:20px;")
-            div.center.aligned(style="padding:20px;")
-                mu-pagination(:total="docTotal",:current="current",@pageChange="switchPage",style="float:right")
-            br
-            hr
-            h2 发布 
-            mu-card#submit(style="border:1px solid #f0f0f0;padding:10px",v-if="sid > 0")
-                mu-row
-                    mu-col(width="15",desktop="15")
-                        mu-dropDown-menu(:value="docTypeValue",@change="checkoutType",:fullWidth="true")
-                            mu-menu-item(value="001",title="选择类型")
-                            mu-menu-item(v-for="item in docType",:key="item.id",:value="item.id",:title="item.name")
-                    mu-col(width="85",desktop="85")
-                        mu-text-field(label="标题",hintText="字数限制40字",:fullWidth="true",style="padding-bottom:0",v-model="document.title")
-                    mu-col(desktop="100")
-                        mu-text-field(label="关键词",hintText="请用逗号,分隔开来",:fullWidth="true",style="padding-bottom:0",v-model="document.tag")
-                    mu-col(desktop="100")
-                        mu-text-field(label="简介",hintText="对帖子进行一段简短的描述",:fullWidth="true",style="padding-bottom:0",:row="3",:rowMax="6",v-model="document.brief")
-                br
-                div
-                    quill-editor(ref="editor",v-model="document.details",:options="editorOption")
-                br
-                mu-raised-button(label="发布",:fullWidth="true",primary,@click="submit")
-            div.center.aligned(v-if="sid <= 0")
-                p 登录才能发布！
-                mu-raised-button(label="前往登陆",href="/login")
-        mu-snackbar(v-if="snackbar",:message="snackbarContent",action="关闭",@actionClick="hideSnackbar",@close="hideSnackbar")
+        
 </template>
 
 <script>
@@ -96,6 +96,7 @@ export default {
             },
             //data
             document:{},
+            documentNoneHintText:"",
 
             snackbar: false,
             snackbarContent: '',
@@ -109,9 +110,12 @@ export default {
     methods: {
         getDocs(){
             var _this = this;
+            this.documentNoneHintText = "";
             this.$db.getDocument(this,{pagenum : this.pageNum, pagesize : 10, type: this.getDocType, typenum: this.getDocTypeNum, tag: this.getTag}).then(res => {
                 _this.docs = res[0];
                 if(res[1][0].count == 0){
+                    this.documentNoneHintText = "暂时没有此类文档以及提问！";
+                    _this.docTotal = 1;
                     return false;
                 }
                 _this.docs.forEach(function(element) {
@@ -146,6 +150,7 @@ export default {
                 case 1:
                     this.getDocType = "all";
                     this.getDocTypeNum = 0;//获取所有类型
+                    this.getTag = "";
                     break;
                 case 2:
                     this.getDocType = "hot";
@@ -186,6 +191,15 @@ export default {
                     }
                 }, this);
             })
+        },
+        //select course tag
+        selectCourseTag(value){
+            console.log(value);
+            this.getTag = value;
+            this.getDocType = "all";
+            this.pageNum = 0;
+            this.activeTab = "tab1";
+            this.getDocs();
         },
         //checkout type
         checkoutType(value){
@@ -268,6 +282,8 @@ export default {
     border-radius: 4px;
     margin-left: 4px;
 }
-
+a{
+    cursor: pointer;
+}
 
 </style>
