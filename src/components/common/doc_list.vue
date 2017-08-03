@@ -111,8 +111,8 @@ export default {
         this.tagItems = tag.split(',');
         switch (this.type) {
             case 1:
-                this.typeStr = '文章';
-                this.typeColor = 'amber400';
+                this.typeStr = '文档';
+                this.typeColor = 'blue400';
                 break;
             case 2:
                 if(this.isSolved == '1'){
@@ -122,10 +122,6 @@ export default {
                     this.typeStr = '提问';
                     this.typeColor = 'red400';
                 }
-                break;
-            case 3:
-                this.typeStr = "文档";
-                this.typeColor = 'blue400';
                 break;
             default:
                 break;
