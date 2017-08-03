@@ -3,7 +3,10 @@
         mu-paper
             mu-content-block
                 p.center.aligned(style='padding: 30px 0')
-                    mu-avatar(:src="student.head_image", style='width:120px; height:120px')
+                    mu-avatar(:src="student.head_image", style='width:120px; height:120px', @click="uploadHeadDialog")
+                    img#head(:src='head_image', style="display:none")
+                    br
+                    input(type='file', style="display:none", accept="image/png,image/jpg", value='student.head_image', @change="uploadHeadChanged")
                 mu-sub-header 
                     b 基本信息
                 mu-text-field(v-model="student.name",:fullWidth="true",label="姓名",@blur="updateDetails")
@@ -53,21 +56,31 @@
 
 <script>
 import DateTime from '@/common/datetime'
+import Base64 from '@/common/base64'
 
 export default {
     name: 'my-profile',
     data() {
         return {
-            student: {}
+            student: {},
+            head_image: ''
         }
     },
     mounted: function () {
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
         this.loadProfile();
-        
+
     },
     methods: {
+        uploadHeadDialog() {
+            this.$el.querySelector('[type=file]').click();
+        },
+        uploadHeadChanged() {
+            var windowURL = window.URL || window.webkitURL;
+            this.head_image = windowURL.createObjectURL(this.$el.querySelector('[type=file]').files[0]);
+            this.student.head_image = Base64.ImageToBase64(this.$el.querySelector('#head'));
+        },
         loadProfile() {
             var _this = this;
             this.$db.getStudentDetails(this, { sid: this.$cookie.getCookie('sid') }).then(res => {
@@ -75,7 +88,7 @@ export default {
                 _this.student.dob = DateTime.dateFormat(_this.student.dob).substring(0, 10);
             });
         },
-        updateDetails(){
+        updateDetails() {
             var _this = this;
             this.$db.setStudentDetails(this, this.student).then(res => {
                 console.log(res);
