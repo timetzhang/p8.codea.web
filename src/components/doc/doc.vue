@@ -2,13 +2,30 @@
 div.padded
     mu-paper(style='padding:10px 30px; margin-bottom: 15px;')
         mu-text-field(label="搜索文档",style='width:100%',color="white")
+    //Label filter condition
+    mu-paper(style="padding:10px;")
+        //Choose to view the document type
+        span 选择查看类型：
+        &nbsp;&nbsp;
+        a(@click="chooseDocType(0)") 所有
+        div(style="display:inline-block",v-for="item in docType",:key="item.id",@click="chooseDocType(item.id)")
+            &nbsp;&nbsp;
+            a {{item.name}}
+        &nbsp;&nbsp;
+        span 关键词：
+        div.tag_list(v-for="(item,index) in tagList",:key="index",@click="removeTag(index)")
+            em
+                {{item}}&nbsp;&nbsp;x
+        
+    br
     mu-paper
         mu-tabs.api-view-tabs(:value="activeTab",@change="handleTabChange")
             mu-tab(value="tab1",title="讨论区")
             mu-tab(value="tab2",title="课程文档")
-        
+    
         // document
         div(v-if="activeTab === 'tab1'")
+            //select type
             mu-tabs.api-view-tabs(:value="activeDoc",@change="handleDocChange")
                 mu-tab(value="docTab1",title="所有",@click="handleDoc(1)")
                 mu-tab(value="docTab2",title="最热",@click="handleDoc(2)")
@@ -17,15 +34,19 @@ div.padded
                 mu-tab(value="docTab5",title="月",@click="handleDoc(5)")
             
             div(v-if="activeDoc === docTab")
+                //Document display interface
                 div(v-for="item in docs",:key="item.id")
                     doc_list(:studentHref="'/student/id=' + item.student_id",:docHref="'/doc/id='+item.id",:headimg="item.head_image",:name="item.student_name",:type="item.type_id",:time="item.time",:views="item.click_count",:comments="item.comment_count",:isLike="item.like_count",:title="item.name",:brief="item.brief",:tags="item.tag",:isSolved="item.isSolved",:is_star="item.is_star",@listen-type="showTypePage",@listen-tag="showTagPage")
+                //none document hint text
                 div.center.aligned
                     h4 {{documentNoneHintText}}
                 div(style="padding:20px;")
+                    // Paging tool
                     div.center.aligned(style="padding:20px;")
                         mu-pagination(:total="docTotal",:current="current",@pageChange="switchPage",style="float:right")
                     br
                     hr
+                    //Release the document
                     h2 发布 
                     mu-card#submit(style="border:1px solid #f0f0f0;padding:10px",v-if="sid > 0")
                         mu-row
@@ -44,6 +65,7 @@ div.padded
                             quill-editor(ref="editor",v-model="document.details",:options="editorOption")
                         br
                         mu-raised-button(label="发布",:fullWidth="true",primary,@click="submit")
+                    //Not login
                     div.center.aligned(v-if="sid <= 0")
                         p 登录才能发布！
                         mu-raised-button(label="前往登陆",href="/login")
@@ -73,11 +95,13 @@ export default {
     },
     data() {
         return {
+            //Switch interface
             activeDoc: 'docTab1',
             docTab : 'docTab1',
             activeTab: 'tab1',
             activeMinTab: 'minTab0',
             timeNum: 'minTab1', // time classify page index
+
             courseDoc: ['软件开发','硬件开发','艺术','创意课程'],
             allMenuData:[],// all course Document Data
             menuIndex: 1,// course Document subject index
@@ -86,7 +110,8 @@ export default {
             docType:[],//document all type
             getDocType:"all",
             getDocTypeNum:0,
-            getTag:"",//筛选具有此tag的文档
+            getTag:[],//筛选具有此tag的文档
+            tagList:[],//Deletions tag to filter
             docTypeValue:'001',
             docs: [],//all doc
             pageNum:0,//page number
@@ -112,7 +137,7 @@ export default {
             var _this = this;
             this.documentNoneHintText = "";
             this.pagenum = 0;
-            this.$db.getDocument(this,{pagenum : this.pageNum, pagesize : 10, type: this.getDocType, typenum: this.getDocTypeNum, tag: this.getTag}).then(res => {
+            this.$db.getDocument(this,{pagenum : this.pageNum, pagesize : 10, type: this.getDocType, typenum: this.getDocTypeNum, tag: this.arrayTransstring()}).then(res => {
                 _this.docs = res[0];
                 if(res[1][0].count == 0){
                     this.documentNoneHintText = "暂时没有此类文档以及提问！";
@@ -131,11 +156,29 @@ export default {
                 });
             });
         },
+        //this.getTag  Array => String 
+        arrayTransstring(){
+            var tagString = "";
+            if(this.getTag.length != 0){
+                this.getTag.forEach(function(element,i) {
+                    if(i == 0){
+                        tagString = element;
+                    }else{
+                        tagString = tagString + "," + element;
+                    }
+                }, this);
+            }
+            return tagString;
+        },
         getDocumentType(){
             var _this = this;
             this.$db.getDocumentType(_this,{}).then(res => {
                 _this.docType = res;
             })
+        },
+        chooseDocType(id){
+            this.getDocTypeNum = id;
+            this.getDocs();
         },
         // load all course data
         getMenu(){
@@ -145,18 +188,18 @@ export default {
             });
             this.handleMenu(0);
         },
-        //checkout table
+        //Switch table
         handleDocChange(val) {
             this.activeDoc = val;
         },
-        //get type and checkout page
+        //get type and switch interface
         handleDoc(e) {
             this.docTab = 'docTab' + e;
             switch(e){
                 case 1:
                     this.getDocType = "all";
                     this.getDocTypeNum = 0;//获取所有类型
-                    this.getTag = "";
+                    this.getTag = [];
                     break;
                 case 2:
                     this.getDocType = "hot";
@@ -185,11 +228,11 @@ export default {
             this.timeNum = 'minTab'+e;
             this.menuIndex = e + 1;
         },
-        //checkout page & NEXT PAGE
+        //switch interface & NEXT PAGE
         switchPage(newIndex){
             var _this = this;
             this.pageNum = newIndex-1;
-            this.$db.getDocument(this,{pagenum : this.pageNum, pagesize : 10,type: this.getDocType, typenum: this.getDocTypeNum, tag: this.getTag}).then(res => {
+            this.$db.getDocument(this,{pagenum : this.pageNum, pagesize : 10,type: this.getDocType, typenum: this.getDocTypeNum, tag: this.arrayTransstring()}).then(res => {
                 _this.docs = res[0];
                 _this.docs.forEach(function(element) {
                     if(element.time != null){
@@ -200,13 +243,13 @@ export default {
         },
         //select course tag
         selectCourseTag(value){
-            this.getTag = value;
+            this.getTag.push(value);
             this.getDocType = "all";
             this.pageNum = 0;
             this.activeTab = "tab1";
             this.getDocs();
         },
-        //checkout type
+        //switch type
         checkoutType(value){
             this.docTypeValue = value;
         },
@@ -215,8 +258,27 @@ export default {
             this.getDocs();
         },
         showTagPage(data){
-            this.getTag = data;
+            this.getTag.push(data);
+            this.addTag(data);
             this.getDocs();
+        },
+        addTag(data){
+            if(this.tagList.indexOf(data) <= -1){
+                this.tagList.push(data);
+            }
+        },
+        //remove tag
+        removeTag(index){
+            var _this = this;
+            this.getTag.forEach(function(element,i) {
+                if(element == this.tagList[index]){
+                    this.getTag.splice(i,1);
+                }
+            }, this);
+            this.tagList.splice(index,1);
+            this.$nextTick(function () {
+                this.getDocs();
+            });
         },
         //submit
         submit(){
@@ -224,7 +286,7 @@ export default {
             if (this.verify()){
                 this.$db.newDocument(this,{
                     name : this.document.title,
-                    type_id : this.docTypeValue + 1,
+                    type_id : this.docTypeValue,
                     brief : this.document.brief,
                     details : Encode.htmlEncode(this.document.details),
                     student_id : this.sid,
@@ -291,4 +353,27 @@ a{
     cursor: pointer;
 }
 
+.tag_list {
+    display: inline-block;
+    margin: 3px 5px;
+}
+em{
+    font-size: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 6px;
+    line-height: 1.6;
+    font-size: 12px;
+    font-style: normal;
+    background-color: #969696;
+    color: white;
+    border-radius: 3px;
+    overflow: hidden;
+}
+em:hover{
+    background-color: #d1d1d1;
+    color: rgb(239, 83, 80);
+    cursor: pointer;
+}
 </style>
