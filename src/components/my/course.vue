@@ -22,7 +22,7 @@ export default {
     data() {
         return {
             logo_img: '',
-            courses:[]
+            courses: []
         }
     },
     mounted: function () {
@@ -32,12 +32,12 @@ export default {
         this.getCourseTake();
     },
     methods: {
-        getCourseTake(){
+        getCourseTake() {
             var _this = this;
-            this.$db.getStudentCourseTake(this,{student_id: this.$cookie.getCookie('sid')}).then(res=>{
-                _this.courses =res;
-                _this.courses.forEach(function(element) {
-                    element.time = DateTime.dateFormat(element.time).substring(0,10)
+            this.$db.getStudentCourseTake(this, { student_id: this.$cookie.getCookie('sid') }).then(res => {
+                _this.courses = res;
+                _this.courses.forEach(function (element) {
+                    element.time = DateTime.dateFormat(element.time).substring(0, 10)
                 }, this);
             });
         }
@@ -46,9 +46,9 @@ export default {
 </script>
 
 <style scoped>
-.vertical.centered.aligned{
-    justify-content:center;
-    align-items:center;
-    display:-webkit-flex;
+.vertical.centered.aligned {
+    justify-content: center;
+    align-items: center;
+    display: -webkit-flex;
 }
 </style>
