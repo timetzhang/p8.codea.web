@@ -221,7 +221,7 @@ export default {
     /**
      * 获取Documents Total
      * @param {*} obj 为this
-     * @param {*} options team.id
+     * @param {*} options document.id
      */
     getDocumentCount(obj, options) {
         return new Promise(
@@ -240,7 +240,7 @@ export default {
     /**
      * 获取Documents
      * @param {*} obj 为this
-     * @param {*} options team.id
+     * @param {*} options {typeNum: 文档类型 , type: 关于all、hot、is_star、week、month , tag: 关键词 ,search: 搜索内容 }
      */
     getDocument(obj, options) {
         return new Promise(
@@ -249,7 +249,7 @@ export default {
                 if (options.id) {
                     dbUrl = Config.dbBaseUrl + '/getDocument?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum + '&' + options.id;
                 } else {
-                    dbUrl = Config.dbBaseUrl + '/getDocument?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum + '&type=' + options.type + '&typenum=' + options.typenum + '&tag=' + options.tag;
+                    dbUrl = Config.dbBaseUrl + '/getDocument?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum + '&type=' + options.type + '&typenum=' + options.typenum + '&tag=' + options.tag + '&search=' + options.search;
                 }
                 obj.$http({
                     url: dbUrl,
@@ -282,7 +282,7 @@ export default {
     /**
      * 获取Documents详情
      * @param {*} obj 为this
-     * @param {*} options team.id
+     * @param {*} options docuemnt.id
      */
     getDocumentDetails(obj, options) {
         return new Promise(

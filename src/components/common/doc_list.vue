@@ -8,9 +8,12 @@
             span.time {{time}}
             a(@click="pushType")
                 mu-badge(:content="typeStr",:color="typeColor")
-            &nbsp;&nbsp;
-            a
-                mu-badge(content="精华",color="gold",v-if="is_star == 1")
+            a(v-if="is_star == 1")
+                &nbsp;&nbsp;
+                mu-badge(content="精华",color="gold")
+            a(v-if="is_top != null")
+                &nbsp;&nbsp;
+                mu-badge(content="置顶",color="purple600")
         div(style="float:right")
             mu-icon(value="visibility",style="vertical-align:middle;",:size="20")
             label &nbsp;{{views}}&nbsp;&nbsp;
@@ -89,6 +92,10 @@ export default {
         is_star: {
             type:Number,
             default: 0
+        },
+        is_top: {
+            type:Number,
+            default:null
         }
     },
     data() {

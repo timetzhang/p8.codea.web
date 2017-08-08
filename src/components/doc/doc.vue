@@ -1,7 +1,11 @@
 <template lang="jade">
 div.padded
     mu-paper(style='padding:10px 30px; margin-bottom: 15px;')
-        mu-text-field(label="搜索文档",style='width:100%',color="white")
+        mu-row
+            mu-col(desktop="85")
+                mu-text-field(label="搜索文档",style='width:100%',color="white",v-model="searchDetail")
+            mu-col.aligned.center(desktop="15")
+                mu-flat-button(label="搜索",style="margin:28px 0 12px 0;",@click="searchDoc")
     //Label filter condition
     mu-paper(style="padding:10px;")
         //Choose to view the document type
@@ -35,6 +39,8 @@ div.padded
             
             div(v-if="activeDoc === docTab")
                 //Document display interface
+                div(v-for="item in isTopDoc",:key="item.id")
+                    doc_list(:studentHref="'/student/id=' + item.student_id",:docHref="'/doc/id='+item.id",:headimg="item.head_image",:name="item.student_name",:type="item.type_id",:time="item.time",:views="item.click_count",:comments="item.comment_count",:isLike="item.like_count",:title="item.name",:brief="item.brief",:tags="item.tag",:isSolved="item.isSolved",:is_top="item.is_top",:is_star="item.is_star",@listen-type="showTypePage",@listen-tag="showTagPage")
                 div(v-for="item in docs",:key="item.id")
                     doc_list(:studentHref="'/student/id=' + item.student_id",:docHref="'/doc/id='+item.id",:headimg="item.head_image",:name="item.student_name",:type="item.type_id",:time="item.time",:views="item.click_count",:comments="item.comment_count",:isLike="item.like_count",:title="item.name",:brief="item.brief",:tags="item.tag",:isSolved="item.isSolved",:is_star="item.is_star",@listen-type="showTypePage",@listen-tag="showTagPage")
                 //none document hint text
@@ -42,8 +48,8 @@ div.padded
                     h4 {{documentNoneHintText}}
                 div(style="padding:20px;")
                     // Paging tool
-                    div.center.aligned(style="padding:20px;")
-                        mu-pagination(:total="docTotal",:current="current",@pageChange="switchPage",style="float:right")
+                    div.center.aligned(style="padding:0 20px 20px 20px;")
+                        mu-pagination(:total="docTotal",:current="current",@pageChange="switchPage",style="float:right",v-if="documentNoneHintText == ''")
                     br
                     hr
                     //Release the document
@@ -95,6 +101,7 @@ export default {
     },
     data() {
         return {
+            searchDetail: '',
             //Switch interface
             activeDoc: 'docTab1',
             docTab : 'docTab1',
@@ -114,6 +121,7 @@ export default {
             tagList:[],//Deletions tag to filter
             docTypeValue:'001',
             docs: [],//all doc
+            isTopDoc: [],//置顶文档
             pageNum:0,//page number
             sid: this.$cookie.getCookie('sid'),
             editorOption: {
@@ -133,12 +141,16 @@ export default {
         this.getMenu();
     },
     methods: {
+        searchDoc(){
+            this.getDocs();
+        },
         getDocs(){
             var _this = this;
             this.documentNoneHintText = "";
             this.pagenum = 0;
-            this.$db.getDocument(this,{pagenum : this.pageNum, pagesize : 10, type: this.getDocType, typenum: this.getDocTypeNum, tag: this.arrayTransstring()}).then(res => {
+            this.$db.getDocument(this,{pagenum : this.pageNum, pagesize : 10, type: this.getDocType, typenum: this.getDocTypeNum, tag: this.arrayTransstring(), search:this.searchDetail }).then(res => {
                 _this.docs = res[0];
+                _this.isTopDoc = res[2];
                 if(res[1][0].count == 0){
                     this.documentNoneHintText = "暂时没有此类文档以及提问！";
                     _this.docTotal = 1;
@@ -232,7 +244,7 @@ export default {
         switchPage(newIndex){
             var _this = this;
             this.pageNum = newIndex-1;
-            this.$db.getDocument(this,{pagenum : this.pageNum, pagesize : 10,type: this.getDocType, typenum: this.getDocTypeNum, tag: this.arrayTransstring()}).then(res => {
+            this.$db.getDocument(this,{pagenum : this.pageNum, pagesize : 10,type: this.getDocType, typenum: this.getDocTypeNum, tag: this.arrayTransstring(), search:this.searchDetail }).then(res => {
                 _this.docs = res[0];
                 _this.docs.forEach(function(element) {
                     if(element.time != null){
