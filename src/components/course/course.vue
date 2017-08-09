@@ -68,6 +68,10 @@ export default {
         this.getType();
         this.getCourse(this.$route.params.course_type);
         document.title = '教程 - ' + this.$config.title;
+        //判断是否为Mobile
+        if (this.isMobile) {
+            this.showMenu = false;
+        }
     },
     methods: {
         getType() {
