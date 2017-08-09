@@ -248,9 +248,16 @@ export default {
                 var dbUrl = '';
                 if (options.id) {
                     dbUrl = Config.dbBaseUrl + '/getDocument?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum + '&' + options.id;
-                } else {
+                } else if (options.search) {
+                    dbUrl = Config.dbBaseUrl + '/getDocument?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum + '&type=' + options.type + '&typenum=' + options.typenum + '&search=' + options.search;
+                } else if (options.tag) {
+                    dbUrl = Config.dbBaseUrl + '/getDocument?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum + '&type=' + options.type + '&typenum=' + options.typenum + '&tag=' + options.tag;
+                } else if (options.search && options.tag) {
                     dbUrl = Config.dbBaseUrl + '/getDocument?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum + '&type=' + options.type + '&typenum=' + options.typenum + '&tag=' + options.tag + '&search=' + options.search;
+                } else {
+                    dbUrl = Config.dbBaseUrl + '/getDocument?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum + '&type=' + options.type + '&typenum=' + options.typenum;
                 }
+
                 obj.$http({
                     url: dbUrl,
                     method: 'GET'
