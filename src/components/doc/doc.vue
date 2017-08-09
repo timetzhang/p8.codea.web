@@ -5,7 +5,7 @@ div.padded
             mu-col(desktop="85")
                 mu-text-field(label="搜索文档",style='width:100%',color="white",v-model="searchDetail")
             mu-col.aligned.center(desktop="15")
-                mu-flat-button(label="搜索",style="margin:28px 0 12px 0;",@click="searchDoc")
+                mu-flat-button(label="搜索",style="margin:28px 0 12px 0;",:href='"/doc/search="+searchDetail')
     //Label filter condition
     mu-paper(style="padding:10px;")
         //Choose to view the document type
@@ -101,7 +101,7 @@ export default {
     },
     data() {
         return {
-            searchDetail: '',
+            searchDetail: this.$route.params.search,
             //Switch interface
             activeDoc: 'docTab1',
             docTab : 'docTab1',
@@ -141,31 +141,55 @@ export default {
         this.getMenu();
     },
     methods: {
-        searchDoc(){
-            this.getDocs();
-        },
         getDocs(){
             var _this = this;
             this.documentNoneHintText = "";
             this.pagenum = 0;
-            this.$db.getDocument(this,{pagenum : this.pageNum, pagesize : 10, type: this.getDocType, typenum: this.getDocTypeNum, tag: this.arrayTransstring(), search:this.searchDetail }).then(res => {
-                _this.docs = res[0];
-                _this.isTopDoc = res[2];
-                if(res[1][0].count == 0){
-                    this.documentNoneHintText = "暂时没有此类文档以及提问！";
-                    _this.docTotal = 1;
-                    return false;
-                }
-                _this.docs.forEach(function(element) {
-                    if(element.time != null){
-                        element.time = DateTime.getTimespan(element.time);
-                    }
-                }, this);
-                _this.current = 0;
-                _this.$nextTick(function () {
-                    _this.current = 1;
-                    _this.docTotal = res[1][0].count;
+            if(this.$route.params.search != '' && this.$route.params.tag != ''){
+                this.$db.getDocument(this,{pagenum : this.pageNum, pagesize : 10, type: this.getDocType, typenum: this.getDocTypeNum, tag: this.arrayTransstring(), search:this.$route.params.search }).then(res => {
+                    this.documentProcessing(res);
                 });
+                
+                return false;
+            }
+            if(this.$route.params.search != ''){
+                this.$db.getDocument(this,{pagenum : this.pageNum, pagesize : 10, type: this.getDocType, typenum: this.getDocTypeNum, search:this.$route.params.search }).then(res => {
+                    this.documentProcessing(res);
+                });
+
+                return false;
+            }
+            if(this.$route.params.tag != ''){
+                this.$db.getDocument(this,{pagenum : this.pageNum, pagesize : 10, type: this.getDocType, typenum: this.getDocTypeNum, tag: this.arrayTransstring() }).then(res => {
+                    this.documentProcessing(res);
+                });
+
+                return false;
+            }
+        },
+        documentProcessing(res){
+            console.log(res);
+            var _this = this;
+            this.docs = res[0];
+            if(res[0] != ''){
+                this.isTopDoc = res[2];
+            }else{
+                this.isTopDoc = "";
+            }
+            if(res[1][0].count == 0){
+                this.documentNoneHintText = "暂时没有此类文档以及提问！";
+                this.docTotal = 1;
+                return false;
+            }
+            this.docs.forEach(function(element) {
+                if(element.time != null){
+                    element.time = DateTime.getTimespan(element.time);
+                }
+            }, this);
+            this.current = 0;
+            this.$nextTick(function () {
+                _this.current = 1;
+                _this.docTotal = res[1][0].count;
             });
         },
         //this.getTag  Array => String 
@@ -244,7 +268,7 @@ export default {
         switchPage(newIndex){
             var _this = this;
             this.pageNum = newIndex-1;
-            this.$db.getDocument(this,{pagenum : this.pageNum, pagesize : 10,type: this.getDocType, typenum: this.getDocTypeNum, tag: this.arrayTransstring(), search:this.searchDetail }).then(res => {
+            this.$db.getDocument(this,{pagenum : this.pageNum, pagesize : 10,type: this.getDocType, typenum: this.getDocTypeNum, tag: this.arrayTransstring(), search:this.$route.params.search }).then(res => {
                 _this.docs = res[0];
                 _this.docs.forEach(function(element) {
                     if(element.time != null){

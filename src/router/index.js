@@ -103,6 +103,14 @@ export default new Router({
             component: (resolve) => { require(['@/components/doc/doc.vue'], resolve) },
         },
         {
+            path: '/doc/search=:search',
+            component: (resolve) => { require(['@/components/doc/doc.vue'], resolve) },
+        },
+        {
+            path: '/doc/search=',
+            redirect: '/doc'
+        },
+        {
             path: '/doc/issueid=:id',
             component: (resolve) => { require(['@/components/doc/issue.vue'], resolve) },
         },
