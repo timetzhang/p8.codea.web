@@ -141,7 +141,6 @@ export default {
             this.checkFollow();
             this.checkTeamLeader();
         }
-        this.getDocumentCount()
         this.getDocument();
         this.getCommentCount();
         this.getFollowCount();
@@ -393,16 +392,11 @@ export default {
         /*=======================================================================================*/
         /*= ##DOCUMENT ==========================================================================*/
         /*=======================================================================================*/
-        getDocumentCount() {
-            var _this = this;
-            this.$db.getDocumentCount(this, { id: "team_id=" + this.$route.params.id }).then(res => {
-                _this.documentTotal = res[0].count;
-            });
-        },
         getDocument() {
             var _this = this;
             this.$db.getDocument(this, { id: "team_id=" + this.$route.params.id, pagenum: (this.documentCurrentPage - 1), pagesize: 10 }).then(res => {
-                _this.documents = res;
+                _this.documents = res[0];
+                _this.documentTotal = res[1][0].count;
                 _this.documents.forEach(function (element) {
                     element.time = DateTime.dateFormat(element.time);
                 })

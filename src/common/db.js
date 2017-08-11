@@ -245,6 +245,37 @@ export default {
     getDocument(obj, options) {
         return new Promise(
             function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/getDocument?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum;
+                if (options.id) { //for student_id or team_id
+                    dbUrl += '&' + options.id;
+                }
+                if (options.tag) {
+                    dbUrl += '&tag=' + options.tag;
+                }
+                if (options.type) {
+                    dbUrl += "&type=" + options.type;
+                }
+                if (options.sort) {
+                    dbUrl += '&sort=' + options.sort;
+                }
+
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+    /**
+     * Search Documents
+     * @param {*} obj 为this
+     * @param {*} options {typeNum: 文档类型 , type: 关于all、hot、is_star、week、month , tag: 关键词 ,search: 搜索内容 }
+     */
+    searchDocument(obj, options) {
+        return new Promise(
+            function(resolve) {
                 var dbUrl = '';
                 if (options.id) {
                     dbUrl = Config.dbBaseUrl + '/getDocument?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum + '&' + options.id;
