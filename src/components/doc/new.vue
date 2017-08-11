@@ -1,11 +1,14 @@
 <template lang="jade">
     div.padded
+        mu-breadcrumb.breadcrumb
+          mu-breadcrumb-item(href="/doc") 维基
+          mu-breadcrumb-item 新建文档
         mu-paper
             mu-content-block
-                mu-text-field(hintText="文档标题",:fullWidth='true',style="font-size:18px; font-weight:bold;",v-model="document.name")
-                mu-text-field(hintText="文档简介",:fullWidth='true',style="font-size:12px;",v-model="document.brief")
-                mu-select-field(v-model="course_id",label="课程分类", :maxHeight="300")
-                    mu-menu-item(v-for="course,index in courses",:key="index",:value="course.id",:title="course.name")
+                mu-text-field(hintText="文档标题",:fullWidth='true',style="font-size:18px; font-weight:bold;",v-model="document.name",:maxLength="100")
+                mu-text-field(hintText="文档简介",:fullWidth='true',style="font-size:12px;",v-model="document.brief",:maxLength="200",:row="3",:rowMax="6")
+                mu-text-field(hintText="关键词: 请用逗号,分隔开来",:fullWidth="true",style="padding-bottom:0",v-model="document.tag",:maxLength="30")
+                br
                 quill-editor(ref="editor",v-model="document.details",:options="editorOption")
                 div.center.aligned
                     mu-raised-button(icon="edit",style="margin:20px;",label="提交修改",@click="confirmSubmit",secondary)
@@ -21,7 +24,7 @@
                     //-                     mu-menu-item(value="001",title="选择类型")
                     //-                     mu-menu-item(v-for="item in docType",:key="item.id",:value="item.id",:title="item.name")
                     //-             mu-col(width="100",desktop="85",tablet="85")
-                    //-                 mu-text-field(label="标题",hintText="字数限制30字",:fullWidth="true",style="padding-bottom:0",v-model="document.title",:maxLength="30")
+                    //-                 mu-text-field(label="标题",hintText="字数限制30字",:fullWidth="true",style="padding-bottom:0",v-model="document.title")
                     //-             mu-col(desktop="100",tablet="100")
                     //-                 mu-text-field(label="关键词",hintText="请用逗号,分隔开来",:fullWidth="true",style="padding-bottom:0",v-model="document.tag")
                     //-             mu-col(desktop="100",tablet="100")

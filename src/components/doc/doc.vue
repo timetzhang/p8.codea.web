@@ -78,9 +78,6 @@ export default {
             docSort:"all",
             docEmptyHint:"",    
             isMoreDoc: true,       
-            
-            //user
-            sid: this.$cookie.getCookie('sid'),
 
             //editors
             editorOption: {

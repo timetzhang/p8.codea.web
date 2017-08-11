@@ -63,3 +63,12 @@ hr {
         padding: 10px;
     }
 }
+
+.breadcrumb {
+    margin: 10px 0;
+}
+
+.ql-editor {
+    height: 400px !important;
+    max-height: 400px !important;
+}
