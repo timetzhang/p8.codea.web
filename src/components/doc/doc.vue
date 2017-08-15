@@ -2,14 +2,15 @@
     div.padded
         mu-paper(style='padding:10px 30px; margin-bottom: 15px;')
             mu-row
-                mu-col(desktop="85")
-                    mu-text-field(label="搜索文档",style='width:100%',color="white",v-model="searchKeyword")
-                mu-col.aligned.center(desktop="15")
-                    mu-flat-button(label="搜索",icon="search",style="margin:28px 0 12px 0;",:to='"/doc/search/search="+searchKeyword')
+                mu-col(desktop="75", style="padding-top: 5px;")
+                    mu-text-field(hintText="搜索文档",color="white",v-model="searchKeyword", :fullWidth='true')
+                mu-col.aligned.center(desktop="10")
+                    mu-raised-button(label="搜索",icon="search",:to='"/doc/search/search="+searchKeyword', :fullWidth='true', style="margin-top:13px")
+                mu-col.aligned.center(desktop="10")
+                    mu-raised-button(label="添加",icon="add", :fullWidth='true', style="margin-top:13px", @click="openAddDialog")
             b(v-if="tags.length > 0") 关键词：
             div.tag_list(v-for="(item,index) in tags",:key="index",@click="delTag(index)")
-                em
-                    {{item}}&nbsp;&nbsp;x
+                em {{item}}&nbsp;&nbsp;x
         mu-paper
             mu-tabs.api-view-tabs(:value="activeSubjectTab",@change="handleSubjectTabChange")
                 mu-tab(:value="0",title="讨论")
@@ -33,10 +34,19 @@
                     mu-tab(v-for="(item,index) in courseType",:key="index",:value="index",:title="item")
                 mu-row(gutter,style="padding-top:10px")
                     mu-col(desktop="25",v-for="item in filterBy(courses, courseSubjectIndex, 'subject_id')", :key="item.id")
-                        a(@click="newTag(item.name)") {{item.name | filterBy(item, item.type_id, 'type_id')}}
+                        a(@click="newTag(item.name)") {{item.name}}
                         hr
 
         mu-snackbar(v-if="snackbar",:message="snackbarContent",action="关闭",@actionClick="hideSnackbar",@close="hideSnackbar",actionColor="blue")
+
+        mu-dialog(:open="isDialogAddShow",title="请选择添加的类型")
+            mu-row
+                mu-col(desktop="50", width="50")
+                    mu-raised-button(label="文档", secondary, to="/doc/new/type=1", :fullWidth="true")
+                mu-col(desktop="50", width="50")
+                    mu-raised-button(label="提问", secondary, to="/doc/new/type=2", :fullWidth="true")
+            mu-flat-button(slot="actions",@click="closeAddDialog",primary,label="取消")
+                
 </template>
 
 <script>
@@ -52,22 +62,22 @@ export default {
         quillEditor
     },
     data() {
-        return {           
+        return {
             //doc typies
-            docTypies:[],//all document typies
-            
+            docTypies: [],//all document typies
+
             //active tabs flag
-            activeSubjectTab: 0, 
+            activeSubjectTab: 0,
             activeSortTab: 0,
             activeCourseTypeTab: 0,
 
             //courses
-            courseType: ['软件开发','硬件开发','艺术','创意课程'],
-            courses:[],// all course Document Data
+            courseType: ['软件开发', '硬件开发', '艺术', '创意课程'],
+            courses: [],// all course Document Data
             courseSubjectIndex: 1,
 
             //tags
-            tags:[],
+            tags: [],
 
             //docs
             docs: [],//all doc
@@ -75,9 +85,9 @@ export default {
             docPageScroller: null,
             docPageLoading: false,
             docCurrentPage: 0,
-            docSort:"all",
-            docEmptyHint:"",    
-            isMoreDoc: true,       
+            docSort: "all",
+            docEmptyHint: "",
+            isMoreDoc: true,
 
             //editors
             editorOption: {
@@ -87,6 +97,9 @@ export default {
             //snackbar
             snackbar: false,
             snackbarContent: '',
+
+            //others
+            isDialogAddShow: false,
         }
     },
     mounted: function () {
@@ -94,10 +107,10 @@ export default {
         this.getDoc();
         this.getCourses();
     },
-    watch:{
-        activeSortTab: function(){
+    watch: {
+        activeSortTab: function () {
             this.clearDocList();
-            switch(this.activeSortTab){
+            switch (this.activeSortTab) {
                 case 0:
                     this.docSort = "all";
                     break;
@@ -110,8 +123,8 @@ export default {
             }
             this.getDoc();
         },
-        activeCourseTypeTab: function(){
-            this.courseSubjectIndex = this.activeCourseTypeTab+1;
+        activeCourseTypeTab: function () {
+            this.courseSubjectIndex = this.activeCourseTypeTab + 1;
         }
     },
     methods: {
@@ -127,7 +140,7 @@ export default {
         },
 
         /* COURSES ***********************************************************************************************************/
-        getCourses(){
+        getCourses() {
             var _this = this;
             this.$db.getDocumentCourse(_this, {}).then(res => {
                 _this.courses = res;
@@ -135,23 +148,23 @@ export default {
         },
 
         /* TAGS **************************************************************************************************************/
-        delTag(index){
+        delTag(index) {
             var _this = this;
-            this.tags.forEach(function(element,i) {
-                if(element == this.tags[index]){
-                    this.tags.splice(i,1);
+            this.tags.forEach(function (element, i) {
+                if (element == this.tags[index]) {
+                    this.tags.splice(i, 1);
                 }
             }, this);
-            this.tags.splice(index,1);
-            
+            this.tags.splice(index, 1);
+
             this.$nextTick(function () {
                 this.clearDocList();
                 this.getDoc();
             });
         },
 
-        newTag(value){
-            if(this.tags.indexOf(value) <= -1){
+        newTag(value) {
+            if (this.tags.indexOf(value) <= -1) {
                 this.tags.push(value);
                 this.docSort = "all";
                 this.docCurrentPage = 0;
@@ -164,117 +177,130 @@ export default {
         },
 
         /* DOCS **************************************************************************************************************/
-        getDoc(){
+        getDoc() {
             var _this = this;
             this.documentNoneHintText = "";
             var options = {
-                pagenum : this.docCurrentPage, 
-                pagesize : 10, 
+                pagenum: this.docCurrentPage,
+                pagesize: 10,
                 sort: this.docSort
             }
-            if(this.tags.length > 0){
+            if (this.tags.length > 0) {
                 options.tag = this.tags.join(',');
             }
-            if(this.docType){
+            if (this.docType) {
                 options.type = this.docType;
             }
-            this.$db.getDocument(this,options).then(res => {
-                if(res.length > 0){
+            this.$db.getDocument(this, options).then(res => {
+                if (res.length > 0) {
 
                     // fill data
-                    res.forEach(function(element) {
+                    res.forEach(function (element) {
                         this.docs.push(element)
                     }, this);
 
                     // format time
-                    this.docs.forEach(function(element) {
-                        if(element.time != null){
+                    this.docs.forEach(function (element) {
+                        if (element.time != null) {
                             element.time = DateTime.getTimespan(element.time);
                         }
                     }, this);
                 }
-                else{
+                else {
                     this.docEmptyHint = '没有更多文档了';
                     this.showSnackbar('没有更多文档了')
                     this.isMoreDoc = false;
                 }
             });
         },
-        getMoreDoc(){
+        getMoreDoc() {
             this.docPageLoading = true;
             this.docCurrentPage++;
             this.getDoc();
         },
-        setDocType(data){
+        setDocType(data) {
             this.clearDocList();
             this.docType = data;
             this.getDoc();
         },
-        clearDocList(){
+        clearDocList() {
             this.docCurrentPage = 0;
             this.docs = [];
         },
 
         /* SNACKBAR ***********************************************************************************************************/
-        showSnackbar (content) {
+        showSnackbar(content) {
             this.snackbarContent = content;
             this.snackbar = true
             if (this.snackTimer) clearTimeout(this.snackTimer)
             this.snackTimer = setTimeout(() => { this.snackbar = false }, 2000)
         },
-        hideSnackbar () {
+        hideSnackbar() {
             this.snackbar = false
             if (this.snackTimer) clearTimeout(this.snackTimer)
         },
+
+        /* OTHERS *************/
+        openAddDialog() {
+            this.isDialogAddShow = true;
+        },
+        closeAddDialog() {
+            this.isDialogAddShow = false;
+        }
     }
 }
 </script>
 
 <style scoped>
-    .api-view-tabs {
-        background-color: transparent;
-        color: rgba(0,0,0,.87);
-    }
-    .api-view-tabs .mu-tab-active{
-            color: #7e57c2;
-            
-    }
-    .api-view-tabs .mu-tab-link{
-        color: rgba(0,0,0,.54);
-    }
-    .badge {
-        padding: 4px;
-        background-color: #457cce;
-        color: white;
-        font-size: 12px;
-        border-radius: 4px;
-        margin-left: 4px;
-    }
-    a{
-        cursor: pointer;
-    }
+.api-view-tabs {
+    background-color: transparent;
+    color: rgba(0, 0, 0, .87);
+}
 
-    .tag_list {
-        display: inline-block;
-        margin: 3px 5px;
-    }
-    em{
-        font-size: 10px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 0 6px;
-        line-height: 1.6;
-        font-size: 12px;
-        font-style: normal;
-        background-color: #969696;
-        color: white;
-        border-radius: 3px;
-        overflow: hidden;
-    }
-    em:hover{
-        background-color: #d1d1d1;
-        color: rgb(239, 83, 80);
-        cursor: pointer;
-    }
+.api-view-tabs .mu-tab-active {
+    color: #7e57c2;
+}
+
+.api-view-tabs .mu-tab-link {
+    color: rgba(0, 0, 0, .54);
+}
+
+.badge {
+    padding: 4px;
+    background-color: #457cce;
+    color: white;
+    font-size: 12px;
+    border-radius: 4px;
+    margin-left: 4px;
+}
+
+a {
+    cursor: pointer;
+}
+
+.tag_list {
+    display: inline-block;
+    margin: 3px 5px;
+}
+
+em {
+    font-size: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 6px;
+    line-height: 1.6;
+    font-size: 12px;
+    font-style: normal;
+    background-color: #969696;
+    color: white;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+em:hover {
+    background-color: #d1d1d1;
+    color: rgb(239, 83, 80);
+    cursor: pointer;
+}
 </style>

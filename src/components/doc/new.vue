@@ -5,44 +5,26 @@
           mu-breadcrumb-item 新建文档
         mu-paper
             mu-content-block
-                mu-text-field(hintText="文档标题",:fullWidth='true',style="font-size:18px; font-weight:bold;",v-model="document.name",:maxLength="100")
-                mu-text-field(hintText="文档简介",:fullWidth='true',style="font-size:12px;",v-model="document.brief",:maxLength="200",:row="3",:rowMax="6")
-                mu-text-field(hintText="关键词: 请用逗号,分隔开来",:fullWidth="true",style="padding-bottom:0",v-model="document.tag",:maxLength="30")
+                mu-text-field(@blur="verifyName",:errorText="errorTextName",hintText="标题",:fullWidth='true',style="font-size:18px; font-weight:bold;",v-model="document.name",:maxLength="100")
+                mu-text-field(@blur="verifyBrief",:errorText="errorTextBrief",hintText="简介",:fullWidth='true',style="font-size:12px;",v-model="document.brief",:maxLength="200",:row="3",:rowMax="6",:multiLine="true")
+                mu-text-field(@blur="verifyTag",:errorText="errorTextTag", hintText="关键词: 请用逗号,分隔开来",:fullWidth="true",style="padding-bottom:0",v-model="document.tag",:maxLength="30")
                 br
-                quill-editor(ref="editor",v-model="document.details",:options="editorOption")
+                br
+                quill-editor(@blur="verifyDetails",ref="editor",v-model="document.details",:options="editorOption")
                 div.center.aligned
                     mu-raised-button(icon="edit",style="margin:20px;",label="提交修改",@click="confirmSubmit",secondary)
         mu-dialog(:open="isDialogConfirmSubmitDisplay",title="提示",@close="closeConfirmSubmitDialog") 是否确定提交？
             mu-flat-button(slot="actions",@click="closeConfirmSubmitDialog",primary,label="取消")
             mu-flat-button(slot="actions",secondary,@click="submit",label="确定")
-            //-     hr
-                    //-     h2 发布 
-                    //-     mu-card#submit(style="border:1px solid #f0f0f0;padding:10px",v-if="sid > 0")
-                    //-         mu-row
-                    //-             mu-col.center.aligned(width="100",desktop="15",tablet="15")
-                    //-                 mu-dropDown-menu(:value="docTypeValue",@change="checkoutType",:fullWidth="true")
-                    //-                     mu-menu-item(value="001",title="选择类型")
-                    //-                     mu-menu-item(v-for="item in docType",:key="item.id",:value="item.id",:title="item.name")
-                    //-             mu-col(width="100",desktop="85",tablet="85")
-                    //-                 mu-text-field(label="标题",hintText="字数限制30字",:fullWidth="true",style="padding-bottom:0",v-model="document.title")
-                    //-             mu-col(desktop="100",tablet="100")
-                    //-                 mu-text-field(label="关键词",hintText="请用逗号,分隔开来",:fullWidth="true",style="padding-bottom:0",v-model="document.tag")
-                    //-             mu-col(desktop="100",tablet="100")
-                    //-                 mu-text-field(label="简介",hintText="对帖子进行一段简短的描述",:fullWidth="true",style="padding-bottom:0",:row="3",:rowMax="6",v-model="document.brief",:maxLength="140")
-                    //-         br
-                    //-         div
-                    //-             quill-editor(ref="editor",v-model="document.details",:options="editorOption")
-                    //-         br
-                    //-         mu-raised-button(label="发布",:fullWidth="true",primary,@click="submit")
-                    //-     div.center.aligned(v-if="sid <= 0")
-                    //-         p 登录才能发布！
-                    //-         mu-raised-button(label="前往登陆",href="/login")
-                    //- mu-snackbar(v-if="snackbar",:message="snackbarContent",action="关闭",@actionClick="hideSnackbar",@close="hideSnackbar")
-
+        mu-dialog(:open="isDialogSubmittedDisplay",title="成功") 发布成功, 是否查看文档？
+            mu-flat-button(slot="actions",to="/doc",primary,label="取消")
+            mu-flat-button(slot="actions",@click="goNewDoc",secondary,label="确定")
+        mu-snackbar.warning-snackbar(v-if="isSnackbarDisplay",:message="warningMessage")
 </template>
 
 <script>
 import { quillEditor } from 'vue-quill-editor'
+import Encode from '@/common/encode'
 
 export default {
     name: 'doc-edit',
@@ -52,15 +34,27 @@ export default {
     data() {
         return {
             document: {},
-            courses: [],
-            course_id: 0,
             isContentChanged: false,
-            isDialogConfirmSubmitDisplay: false,
             notice: '文档提交成功!',
             submitResult: false,
+            newDocId: 0,                          //提交后的新文档ID
             editorOption: {
                 placeholder: "请输入文档内容"
-            }
+            },
+
+            //dialog
+            isDialogConfirmSubmitDisplay: false,
+            isDialogSubmittedDisplay: false,
+
+            //error text
+            errorTextName: '',
+            errorTextBrief: '',
+            errorTextTag: '',
+
+            //snackbar
+            isSnackbarDisplay: false,
+            warningMessage: '',
+            snackTimer: '',
         }
     },
     mounted: function () {
@@ -69,16 +63,128 @@ export default {
         }
         else {
             document.title = '新建文档 - ' + this.$config.title;
-            this.getCourses();
+        }
+    },
+    watch: {
+        isSnackbarDisplay: function () {
+            if (this.snackTimer) clearTimeout(this.snackTimer);
+            this.snackTimer = setTimeout(() => { this.isSnackbarDisplay = false }, 2000)
         }
     },
     methods: {
-        getCourses() {
-            var _this = this;
-            this.$db.getCourse(this, {}).then(res => {
-                _this.courses = res;
-            })
+        /**
+         * 验证表单
+         */
+        verifyName() {
+            var valid = false;
+            if (!this.document.name) {
+                this.errorTextName = "不能为空";
+                valid = false;
+            }
+            else {
+                if (this.document.name.length > 100) {
+                    this.errorTextName = "标题过长";
+                    valid = false;
+                }
+                else {
+                    this.errorTextName = "";
+                    valid = true;
+                }
+            }
+            return valid;
         },
+        verifyBrief() {
+            var valid = false;
+            if (!this.document.brief) {
+                this.errorTextBrief = "不能为空";
+                valid = false;
+            }
+            else {
+                if (this.document.brief.length > 200) {
+                    this.errorTextBrief = "简介过长";
+                    valid = false;
+                }
+                else {
+                    this.errorTextBrief = "";
+                    valid = true;
+                }
+            }
+            return valid;
+        },
+        verifyTag() {
+            var valid = false;
+            if (this.document.tag) {
+                if (this.document.tag.length > 30) {
+                    this.errorTextTag = "关键字过长"
+                    valid = false
+                }
+                else {
+                    this.errorTextTag = ""
+                    valid = true
+                }
+            }
+            else {
+                this.document.tag = null
+                valid = true
+            }
+            return valid;
+        },
+        verifyDetails() {
+            var valid = false;
+            if (!this.document.details) {
+                this.showSnackbar('内容不能为空');
+                valid = false;
+            }
+            else {
+                valid = true;
+            }
+            return valid;
+        },
+        verify() {
+            //三者都不为空，返回true
+            if (
+                this.verifyName() &&
+                this.verifyBrief() &&
+                this.verifyTag() &&
+                this.verifyDetails()) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        },
+
+        //submit
+        submit() {
+            var _this = this;
+            if (this.verify()) {
+                this.$db.newDocument(this, {
+                    name: this.document.name,
+                    type_id: this.$route.params.type,
+                    brief: this.document.brief,
+                    details: Encode.htmlEncode(this.document.details),
+                    student_id: this.$cookie.getCookie('sid'),
+                    tag: this.document.tag,
+                }).then(res => {
+                    this.newDocId = res.insertId;
+                    this.isDialogSubmittedDisplay = true
+                });
+            }
+        },
+        goNewDoc() {
+            this.$router.push('/doc/id=' + this.newDocId);
+        },
+
+        //snackbar
+        hideSnackbar() {
+            this.isSnackbarDisplay = false
+        },
+        showSnackbar(content) {
+            this.warningMessage = content
+            this.isSnackbarDisplay = true
+        },
+
+        //dialog
         closeConfirmSubmitDialog() {
             this.isDialogConfirmSubmitDisplay = false;
         },
@@ -87,62 +193,14 @@ export default {
                 this.isDialogConfirmSubmitDisplay = true;
             }
         },
-        submit() {
-            if (this.verify()) {
-                var _this = this;
-                this.$db.newDocument(this, {
-                    id: this.document.id,
-                    name: this.document.name,
-                    brief: this.document.brief,
-                    details: this.document.details,
-                    course_id: this.course_id,
-                    student_id: this.$cookie.getCookie('sid')
-                }).then(res => {
-                    if (res.affectedRows > 0) {
-                        this.$router.push('/doc/id=' + res.insertId);
-                    }
-                });
-            }
-        },
-        /**
-         * 验证表单
-         */
-        verify() {
-            //三者都不为空，返回true
-            return this.document.name && this.document.brief && this.document.details ? true : false;
-        }
-        // //submit
-        // submit(){
-        //     var _this = this;
-        //     if (this.verify()){
-        //         this.$db.newDocument(this,{
-        //             name : this.document.title,
-        //             type_id : this.docTypeValue,
-        //             brief : this.document.brief,
-        //             details : Encode.htmlEncode(this.document.details),
-        //             student_id : this.sid,
-        //             tag : this.document.tag,
-        //         }).then(res => {
-        //             _this.snackbarContent = "发布成功";
-        //             _this.getDoc();
-        //             _this.showSnackbar();
-        //             _this.clearmit();
-        //             _this.returnTop();
-        //         });
-        //     }
-        // },
-        // // clear form
-        // clearmit(){
-        //     this.document.title = "";
-        //     this.docTypeValue = "";
-        //     this.document.brief = "";
-        //     this.document.details = "";
-        //     this.document.tag = "";
-        // },
     }
 }
 </script>
 
-<style scoped>
-
+<style>
+    .ql-editor {
+        min-height: 400px !important;
+        height: 400px !important;
+        max-height: 400px !important;
+    }
 </style>

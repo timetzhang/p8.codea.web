@@ -111,10 +111,6 @@ export default new Router({
             redirect: '/doc'
         },
         {
-            path: '/doc/issueid=:id',
-            component: (resolve) => { require(['@/components/doc/issue.vue'], resolve) },
-        },
-        {
             path: '/doc/id=:id',
             component: (resolve) => { require(['@/components/doc/details.vue'], resolve) },
         },
@@ -123,7 +119,7 @@ export default new Router({
             component: (resolve) => { require(['@/components/doc/edit.vue'], resolve) },
         },
         {
-            path: '/doc/new',
+            path: '/doc/new/type=:type',
             component: (resolve) => { require(['@/components/doc/new.vue'], resolve) },
         },
         {

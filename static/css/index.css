@@ -65,10 +65,10 @@ hr {
 }
 
 .breadcrumb {
-    margin: 10px 0;
+    padding: 10px;
 }
 
-.ql-editor {
-    height: 400px !important;
-    max-height: 400px !important;
+.warning-snackbar {
+    background-color: red;
+    color: white;
 }

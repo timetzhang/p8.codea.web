@@ -380,36 +380,33 @@ export default {
     },
 
     /**
-     * document访问量
+     * 获取是否对此文章点赞
      * @param {*} obj 
-     * @param {*} data 
+     * @param {*} options 
      */
-    newDocumentClickCount(obj, data) {
+    isStudentLikeDocument(obj, options) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/newDocumentClickCount';
-                obj.$http.post(dbUrl, { data: data }, {
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    emulateJSON: true
+                var dbUrl = Config.dbBaseUrl + '/isStudentLikeDocument?student_id=' + options.student_id + '&document_id=' + options.document_id;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
                 }).then(res => {
                     resolve(res.data);
                 });
-
             }
         );
     },
 
     /**
-     * 获取是否对此文章点赞
+     * 获取是否对此文章收藏
      * @param {*} obj 
      * @param {*} options 
      */
-    getDocumentLike(obj, options) {
+    isStudentFavDocument(obj, options) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/getDocumentLike?student_id=' + options.student_id + '&document_id=' + options.document_id;
+                var dbUrl = Config.dbBaseUrl + '/isStudentFavDocument?student_id=' + options.student_id + '&document_id=' + options.document_id;
                 obj.$http({
                     url: dbUrl,
                     method: 'GET'
