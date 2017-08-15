@@ -276,17 +276,18 @@ export default {
     searchDocument(obj, options) {
         return new Promise(
             function(resolve) {
-                var dbUrl = '';
-                if (options.id) {
-                    dbUrl = Config.dbBaseUrl + '/getDocument?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum + '&' + options.id;
-                } else if (options.search) {
-                    dbUrl = Config.dbBaseUrl + '/getDocument?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum + '&type=' + options.type + '&typenum=' + options.typenum + '&search=' + options.search;
-                } else if (options.tag) {
-                    dbUrl = Config.dbBaseUrl + '/getDocument?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum + '&type=' + options.type + '&typenum=' + options.typenum + '&tag=' + options.tag;
-                } else if (options.search && options.tag) {
-                    dbUrl = Config.dbBaseUrl + '/getDocument?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum + '&type=' + options.type + '&typenum=' + options.typenum + '&tag=' + options.tag + '&search=' + options.search;
-                } else {
-                    dbUrl = Config.dbBaseUrl + '/getDocument?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum + '&type=' + options.type + '&typenum=' + options.typenum;
+                var dbUrl = Config.dbBaseUrl + '/searchDocument?search=' + options.search + '&pagesize=' + options.pagesize + '&pagenum=' + options.pagenum;
+                if (options.id) { //for student_id or team_id
+                    dbUrl += '&' + options.id;
+                }
+                if (options.tag) {
+                    dbUrl += '&tag=' + options.tag;
+                }
+                if (options.type) {
+                    dbUrl += "&type=" + options.type;
+                }
+                if (options.sort) {
+                    dbUrl += '&sort=' + options.sort;
                 }
 
                 obj.$http({

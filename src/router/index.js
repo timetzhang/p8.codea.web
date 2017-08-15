@@ -104,7 +104,7 @@ export default new Router({
         },
         {
             path: '/doc/search=:search',
-            component: (resolve) => { require(['@/components/doc/doc.vue'], resolve) },
+            component: (resolve) => { require(['@/components/doc/search.vue'], resolve) },
         },
         {
             path: '/doc/search=',

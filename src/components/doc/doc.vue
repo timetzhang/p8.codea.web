@@ -5,7 +5,7 @@
                 mu-col(desktop="75", style="padding-top: 5px;")
                     mu-text-field(hintText="搜索文档",color="white",v-model="searchKeyword", :fullWidth='true')
                 mu-col.aligned.center(desktop="10")
-                    mu-raised-button(label="搜索",icon="search",:to='"/doc/search/search="+searchKeyword', :fullWidth='true', style="margin-top:13px")
+                    mu-raised-button(label="搜索",icon="search",:to='"/doc/search="+searchKeyword', :fullWidth='true', style="margin-top:13px")
                 mu-col.aligned.center(desktop="10")
                     mu-raised-button(label="添加",icon="add", :fullWidth='true', style="margin-top:13px", @click="openAddDialog")
             b(v-if="tags.length > 0") 关键词：
@@ -82,8 +82,6 @@ export default {
             //docs
             docs: [],//all doc
             docType: 0,
-            docPageScroller: null,
-            docPageLoading: false,
             docCurrentPage: 0,
             docSort: "all",
             docEmptyHint: "",
@@ -100,10 +98,12 @@ export default {
 
             //others
             isDialogAddShow: false,
+
+            //search
+            searchKeyword: '',
         }
     },
     mounted: function () {
-        this.docPageScroller = this.$el;
         this.getDoc();
         this.getCourses();
     },
@@ -214,7 +214,6 @@ export default {
             });
         },
         getMoreDoc() {
-            this.docPageLoading = true;
             this.docCurrentPage++;
             this.getDoc();
         },
