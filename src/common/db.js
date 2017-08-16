@@ -423,10 +423,10 @@ export default {
      * @param {*} obj 
      * @param {*} data 
      */
-    newDocumentLike(obj, data) {
+    newStudentDocumentLike(obj, data) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/newDocumentLike';
+                var dbUrl = Config.dbBaseUrl + '/newStudentDocumentLike';
                 obj.$http.post(dbUrl, { data: data }, {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -445,10 +445,54 @@ export default {
      * @param {*} obj 
      * @param {*} data 
      */
-    delDocumentLike(obj, data) {
+    delStudentDocumentLike(obj, data) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/delDocumentLike';
+                var dbUrl = Config.dbBaseUrl + '/delStudentDocumentLike';
+                obj.$http.post(dbUrl, { data: data }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    emulateJSON: true
+                }).then(res => {
+                    resolve(res.data);
+                });
+
+            }
+        );
+    },
+
+    /**
+     * 收藏文档
+     * @param {*} obj 
+     * @param {*} data 
+     */
+    newStudentDocumentFav(obj, data) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/newStudentDocumentFav';
+                obj.$http.post(dbUrl, { data: data }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    emulateJSON: true
+                }).then(res => {
+                    resolve(res.data);
+                });
+
+            }
+        );
+    },
+
+    /**
+     * 取消赞
+     * @param {*} obj 
+     * @param {*} data 
+     */
+    delStudentDocumentFav(obj, data) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/delStudentDocumentFav';
                 obj.$http.post(dbUrl, { data: data }, {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -486,7 +530,6 @@ export default {
      * @param {*} obj 
      * @param {*} options 
      */
-
     newDocumentComment(obj, data) {
         return new Promise(
             function(resolve) {

@@ -72,3 +72,12 @@ hr {
     background-color: red;
     color: white;
 }
+
+.snackbar {
+    background-color: #5D9AF2;
+    color: white;
+}
+
+.snackbar .mu-flat-button-label {
+    color: white;
+}

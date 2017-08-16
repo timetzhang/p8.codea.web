@@ -19,7 +19,7 @@ div.padded
                     mu-flat-button(label="分享",icon="share",@click="toggleShare")
                     mu-flat-button(:label="'评论(' + document.comment_count + ')'",icon="comment",@click="focusComment")
                     mu-flat-button(@click="setLike",:label="(isLike ? '已赞' : '赞') + '(' + document.like_count + ')'",icon="thumb_up", :color="isLike ? 'red' : 'black'")
-                    mu-flat-button(:label="(isFav ? '已收藏' : '收藏') + '(' + document.fav_count + ')'",:icon="isFav ? 'favorite' : 'favorite_border'", :color="isFav ? 'red' : 'black'")
+                    mu-flat-button(@click="setFav",:label="(isFav ? '已收藏' : '收藏') + '(' + document.fav_count + ')'",icon="favorite", :color="isFav ? 'red' : 'black'")
                     mu-flat-button(:label="'查看(' + document.click_count + ')'",icon="whatshot")
                 div(v-if="isQrcodeDisplay")
                     br
@@ -35,7 +35,7 @@ div.padded
             div.center.aligned(v-if="sid <= 0")
                 p 登录才能评论！
                 mu-raised-button(label="前往登陆",href="/login")
-            mu-snackbar(v-if="isSnackbarDisplay",:message="snackbarMessage",action="关闭",@actionClick="hideSnackbar",@close="hideSnackbar")
+            
             br
             hr
             h3 评论 ({{document.comment_count}} 条)
@@ -53,6 +53,8 @@ div.padded
             div.center.aligned(style="padding:20px;",v-if="comment_count > 20")
                 mu-pagination(:total="document.comment_count",:current="currentCommentPage",:pageSize="20",@pageChange="onCommentPageChange",style="float:right")
                 br
+            
+            mu-snackbar.snackbar(v-if="isSnackbarDisplay",:message="snackbarMessage",action="关闭",@actionClick="hideSnackbar",@close="hideSnackbar")
 </template>
 
 <script>
@@ -81,8 +83,9 @@ export default {
             isQrcodeDisplay: false,
 
             //snackbar
-            snackbar: false,
+            isSnackbarDisplay: false,
             snackbarMessage: '',
+            snackTimer: '',
 
             comments: [],
 
@@ -133,29 +136,83 @@ export default {
             var _this = this;
             this.comments = [];
             //get comment
-            this.$db.getDocumentComment(this, { document_id: this.$route.params.id, pagenum: this.pageNum, pagesize: 20 }).then(res => {
-                res.forEach(function (element) {
-                    element.time = DateTime.getTimespan(element.time)
-                    element.detail = Encode.htmlDecode(element.detail)
-                    _this.comments.push(element);
-                }, this);
-            });
+            this.$db.getDocumentComment(this,
+                {
+                    document_id: this.$route.params.id,
+                    pagenum: this.pageNum, pagesize: 20
+                })
+                .then(res => {
+                    res.forEach(function (element) {
+                        element.time = DateTime.getTimespan(element.time)
+                        element.detail = Encode.htmlDecode(element.detail)
+                        _this.comments.push(element);
+                    }, this);
+                });
         },
 
         //处理“赞”功能
         setLike(value) {
-            if (this.isLike) {
-                this.$db.delDocumentLike(this, { document_id: this.$route.params.id, student_id: this.$cookie.getCookie('sid') }).then(() => {
-                    this.isLike = false
-                    this.document.like_count--
-
-                })
+            if (this.$cookie.getCookie('sid')) {
+                if (this.isLike) {
+                    this.$db.delStudentDocumentLike(this,
+                        {
+                            document_id: this.$route.params.id,
+                            student_id: this.$cookie.getCookie('sid')
+                        })
+                        .then(() => {
+                            this.isLike = false
+                            this.document.like_count--
+                            this.showSnackbar('取消成功')
+                        })
+                }
+                else {
+                    this.$db.newStudentDocumentLike(this,
+                        {
+                            document_id: this.$route.params.id,
+                            student_id: this.$cookie.getCookie('sid')
+                        })
+                        .then(() => {
+                            this.isLike = true
+                            this.document.like_count++
+                            this.showSnackbar('成功')
+                        })
+                }
             }
             else {
-                this.$db.newDocumentLike(this, { document_id: this.$route.params.id, student_id: this.$cookie.getCookie('sid') }).then(() => {
-                    this.isLike = true
-                    this.document.like_count++
-                })
+                this.$router.push('/login');
+            }
+        },
+
+        //处理“收藏”功能
+        setFav(value) {
+            if (this.$cookie.getCookie('sid')) {
+                if (this.isFav) {
+                    this.$db.delStudentDocumentFav(this,
+                        {
+                            document_id: this.$route.params.id,
+                            student_id: this.$cookie.getCookie('sid')
+                        })
+                        .then(() => {
+                            this.isFav = false
+                            this.document.fav_count--
+                            this.showSnackbar('取消成功')
+                        })
+                }
+                else {
+                    this.$db.newStudentDocumentFav(this,
+                        {
+                            document_id: this.$route.params.id,
+                            student_id: this.$cookie.getCookie('sid')
+                        })
+                        .then(() => {
+                            this.isFav = true
+                            this.document.fav_count++
+                            this.showSnackbar('收藏成功')
+                        })
+                }
+            }
+            else {
+                this.$router.push('/login');
             }
         },
 
@@ -199,6 +256,12 @@ export default {
         //share
         toggleShare() {
             this.isQrcodeDisplay = !this.isQrcodeDisplay;
+        }
+    },
+    watch: {
+        isSnackbarDisplay: function () {
+            if (this.snackTimer) clearTimeout(this.snackTimer)
+            this.snackTimer = setTimeout(() => { this.isSnackbarDisplay = false }, 2000)
         }
     }
 }
