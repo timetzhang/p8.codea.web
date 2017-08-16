@@ -104,7 +104,7 @@ export default {
 
 <style>
 .app {
-    background-color: #f4f4f4;
+    background-color: #F7F7F7;
 }
 
 .desktop-menu {
@@ -143,14 +143,7 @@ export default {
     padding: 70px 0 10px 0 !important;
 }
 
-@media (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
-    /*iphone 6*/
-    .content {
-        padding: 0 !important;
-    }
-}
-
-@media (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) {
+@media (min-device-width: 320px) and (max-device-width: 736px) {
     /*iphone 6 plus*/
     .content {
         padding: 0 !important;
