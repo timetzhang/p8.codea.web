@@ -37,9 +37,9 @@
                         a(@click="newTag(item.name)") {{item.name}}
                         hr
 
-        mu-snackbar.snackbar(v-if="snackbar",:message="snackbarContent",action="关闭",@actionClick="hideSnackbar",@close="hideSnackbar")
+        mu-snackbar.snackbar(v-if="isSnackbarDisplay",:message="snackbarMessage",action="关闭",@actionClick="hideSnackbar",@close="hideSnackbar")
 
-        mu-dialog(:open="isDialogAddShow",title="请选择添加的类型")
+        mu-dialog(:open="isDialogAddDisplay",title="请选择添加的类型")
             mu-row
                 mu-col(desktop="50", width="50")
                     mu-raised-button(label="文档", secondary, to="/doc/new/type=1", :fullWidth="true")
@@ -93,11 +93,11 @@ export default {
             },
 
             //snackbar
-            snackbar: false,
-            snackbarContent: '',
+            isSnackbarDisplay: false,
+            snackbarMessage: '',
 
             //others
-            isDialogAddShow: false,
+            isDialogAddDisplay: false,
 
             //search
             searchKeyword: '',
@@ -229,13 +229,13 @@ export default {
 
         /* SNACKBAR ***********************************************************************************************************/
         showSnackbar(content) {
-            this.snackbarContent = content;
-            this.snackbar = true
+            this.snackbarMessage = content;
+            this.isSnackbarDisplay = true
             if (this.snackTimer) clearTimeout(this.snackTimer)
-            this.snackTimer = setTimeout(() => { this.snackbar = false }, 2000)
+            this.snackTimer = setTimeout(() => { this.isSnackbarDisplay = false }, 2000)
         },
         hideSnackbar() {
-            this.snackbar = false
+            this.isSnackbarDisplay = false
             if (this.snackTimer) clearTimeout(this.snackTimer)
         },
 

@@ -380,6 +380,10 @@ export default {
         );
     },
 
+    /*------------------------------------------------------------------------------------------------------*/
+    /*--- ##Document FAV AND LIKE --------------------------------------------------------------------------*/
+    /*------------------------------------------------------------------------------------------------------*/
+
     /**
      * 获取是否对此文章点赞
      * @param {*} obj 
@@ -423,10 +427,10 @@ export default {
      * @param {*} obj 
      * @param {*} data 
      */
-    newStudentDocumentLike(obj, data) {
+    newStudentLikeDocument(obj, data) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/newStudentDocumentLike';
+                var dbUrl = Config.dbBaseUrl + '/newStudentLikeDocument';
                 obj.$http.post(dbUrl, { data: data }, {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -445,10 +449,10 @@ export default {
      * @param {*} obj 
      * @param {*} data 
      */
-    delStudentDocumentLike(obj, data) {
+    delStudentLikeDocument(obj, data) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/delStudentDocumentLike';
+                var dbUrl = Config.dbBaseUrl + '/delStudentLikeDocument';
                 obj.$http.post(dbUrl, { data: data }, {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -467,10 +471,10 @@ export default {
      * @param {*} obj 
      * @param {*} data 
      */
-    newStudentDocumentFav(obj, data) {
+    newStudentFavDocument(obj, data) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/newStudentDocumentFav';
+                var dbUrl = Config.dbBaseUrl + '/newStudentFavDocument';
                 obj.$http.post(dbUrl, { data: data }, {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -489,10 +493,10 @@ export default {
      * @param {*} obj 
      * @param {*} data 
      */
-    delStudentDocumentFav(obj, data) {
+    delStudentFavDocument(obj, data) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/delStudentDocumentFav';
+                var dbUrl = Config.dbBaseUrl + '/delStudentFavDocument';
                 obj.$http.post(dbUrl, { data: data }, {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
@@ -996,12 +1000,14 @@ export default {
 
 
     /*-------------------------------------------------------------------------------------------------------*/
-    /*--- ##STUDENT FOLLOW TEAM -----------------------------------------------------------------------------*/
+    /*--- ##STUDENT Document --------------------------------------------------------------------------------*/
     /*-------------------------------------------------------------------------------------------------------*/
     getStudentDocument(obj, options) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/getStudentDocument?student_id=' + options.student_id;
+                var dbUrl = Config.dbBaseUrl + '/getStudentDocument?pagenum=' + options.pagenum +
+                    '&pagesize=' + options.pagesize +
+                    '&student_id=' + options.student_id;
                 obj.$http({
                     url: dbUrl,
                     method: 'GET'
@@ -1331,6 +1337,27 @@ export default {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
                     emulateJSON: true
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+
+    /*-------------------------------------------------------------------------------------------------------*/
+    /*--- ##STUDENT FAV DOC ---------------------------------------------------------------------------------*/
+    /*-------------------------------------------------------------------------------------------------------*/
+
+
+    getStudentFavDocument(obj, options) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/getStudentFavDocument?pagenum=' + options.pagenum +
+                    '&pagesize=' + options.pagesize +
+                    '&student_id=' + options.student_id;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
                 }).then(res => {
                     resolve(res.data);
                 });

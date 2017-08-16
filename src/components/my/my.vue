@@ -22,7 +22,6 @@
                             span &nbsp; 讨论与文档
                         mu-list-item.item(title="我的文档",to='/my/doc')
                         mu-list-item.item(title="我收藏的文档",to='/my/fav_doc')
-                        mu-list-item.item(title="我参与的讨论",to='/my/joined_talk')  
                         mu-divider
                         mu-sub-header 
                             i.icon.user

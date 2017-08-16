@@ -179,10 +179,6 @@ export default new Router({
                     component: (resolve) => { require(['@/components/my/fav_doc.vue'], resolve) }
                 },
                 {
-                    path: '/my/joined_talk',
-                    component: (resolve) => { require(['@/components/my/joined_talk.vue'], resolve) }
-                },
-                {
                     path: '/my/doc',
                     component: (resolve) => { require(['@/components/my/doc.vue'], resolve) }
                 },

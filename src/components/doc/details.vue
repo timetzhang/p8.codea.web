@@ -154,7 +154,7 @@ export default {
         setLike(value) {
             if (this.$cookie.getCookie('sid')) {
                 if (this.isLike) {
-                    this.$db.delStudentDocumentLike(this,
+                    this.$db.delStudentLikeDocument(this,
                         {
                             document_id: this.$route.params.id,
                             student_id: this.$cookie.getCookie('sid')
@@ -166,7 +166,7 @@ export default {
                         })
                 }
                 else {
-                    this.$db.newStudentDocumentLike(this,
+                    this.$db.newStudentLikeDocument(this,
                         {
                             document_id: this.$route.params.id,
                             student_id: this.$cookie.getCookie('sid')
@@ -187,7 +187,7 @@ export default {
         setFav(value) {
             if (this.$cookie.getCookie('sid')) {
                 if (this.isFav) {
-                    this.$db.delStudentDocumentFav(this,
+                    this.$db.delStudentFavDocument(this,
                         {
                             document_id: this.$route.params.id,
                             student_id: this.$cookie.getCookie('sid')
@@ -199,7 +199,7 @@ export default {
                         })
                 }
                 else {
-                    this.$db.newStudentDocumentFav(this,
+                    this.$db.newStudentFavDocument(this,
                         {
                             document_id: this.$route.params.id,
                             student_id: this.$cookie.getCookie('sid')
