@@ -37,7 +37,7 @@
                         a(@click="newTag(item.name)") {{item.name}}
                         hr
 
-        mu-snackbar(v-if="snackbar",:message="snackbarContent",action="关闭",@actionClick="hideSnackbar",@close="hideSnackbar",actionColor="blue")
+        mu-snackbar.snackbar(v-if="snackbar",:message="snackbarContent",action="关闭",@actionClick="hideSnackbar",@close="hideSnackbar")
 
         mu-dialog(:open="isDialogAddShow",title="请选择添加的类型")
             mu-row

@@ -5,7 +5,7 @@
                 mu-col(desktop="75", style="padding-top: 5px;")
                     mu-text-field(hintText="搜索文档",color="white",v-model="searchKeyword", :fullWidth='true')
                 mu-col.aligned.center(desktop="10")
-                    mu-raised-button(label="搜索",icon="search",:to='"/doc/search="+searchKeyword', :fullWidth='true', style="margin-top:13px")
+                    mu-raised-button(label="搜索",icon="search",:href='"/doc/search="+searchKeyword', :fullWidth='true', style="margin-top:13px")
                 mu-col.aligned.center(desktop="10")
                     mu-raised-button(label="添加",icon="add", :fullWidth='true', style="margin-top:13px", @click="openAddDialog")
         mu-paper
@@ -15,7 +15,7 @@
                 mu-tab(:value="2",title="精华")
             div#doc-list
                 div(v-for="item in docs",:key="item.id")
-                    doc_list(:studentHref="'/student/id=' + item.student_id",:docHref="'/doc/id='+item.id",:headimg="item.head_image",:name="item.student_name",:type="item.type_id",:time="item.time",:views="item.click_count",:comments="item.comment_count",:isLike="item.like_count",:title="item.name",:brief="item.brief",:tags="item.tag",:isSolved="item.isSolved",:is_star="item.is_star",@listen-type="setDocType",@listen-tag="newTag")
+                    doc_list(:studentHref="'/student/id=' + item.student_id",:docHref="'/doc/id='+item.id",:headimg="item.head_image",:name="item.student_name",:type="item.type_id",:time="item.time",:views="item.click_count",:comments="item.comment_count",:isLike="item.like_count",:title="item.name",:brief="item.brief",:tags="item.tag",:isSolved="item.isSolved",:is_star="item.is_star")
                 div.center.aligned(v-if='docEmptyHint',style='padding-bottom:1px; color:#457cce')
                     h4 {{docEmptyHint}}
                 div.center.aligned(v-if="isMoreDoc")
@@ -27,6 +27,8 @@
                 mu-col(desktop="50", width="50")
                     mu-raised-button(label="提问", secondary, to="/doc/new/type=2", :fullWidth="true")
                 mu-flat-button(slot="actions",@click="closeAddDialog",primary,label="取消")
+
+        mu-snackbar(v-if="isSnackbarDisplay",:message="snackbarMessage",action="关闭",@actionClick="hideSnackbar",@close="hideSnackbar",actionColor="blue")
 </template>
 
 <script>
@@ -44,7 +46,7 @@ export default {
     data() {
         return {
             //search
-            searchKeyword: '',
+            searchKeyword: this.$route.params.search,
             
             //active tabs flag
             activeSortTab: 0,
@@ -62,6 +64,10 @@ export default {
 
             //dialog
             isDialogAddShow: false,
+
+            //snackbar
+            isSnackbarDisplay: false,
+            snackbarMessage: '',
         }
     },
     mounted: function () {
@@ -138,7 +144,19 @@ export default {
         },
         closeAddDialog() {
             this.isDialogAddShow = false;
-        }
+        },
+
+        /* SNACKBAR ***********************************************************************************************************/
+        showSnackbar(content) {
+            this.snackbarContent = content;
+            this.snackbar = true
+            if (this.snackTimer) clearTimeout(this.snackTimer)
+            this.snackTimer = setTimeout(() => { this.snackbar = false }, 2000)
+        },
+        hideSnackbar() {
+            this.snackbar = false
+            if (this.snackTimer) clearTimeout(this.snackTimer)
+        },
     }
 }
 </script>
