@@ -1,5 +1,5 @@
 <template lang="jade">
-    div
+    div.container
         mu-appbar(title='登录')
             mu-icon-button(icon='keyboard_arrow_left', slot='left', @click='goBack')
         div.padded

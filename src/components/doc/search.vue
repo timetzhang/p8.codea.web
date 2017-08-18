@@ -1,5 +1,5 @@
 <template lang="jade">
-    div.padded
+    div.padded.container
         mu-paper(style='padding:10px 30px; margin-bottom: 15px;')
             mu-row
                 mu-col(desktop="75", style="padding-top: 5px;")

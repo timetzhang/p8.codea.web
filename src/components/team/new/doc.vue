@@ -1,5 +1,5 @@
 <template lang="jade">
-    div.padded
+    div.padded.container
         mu-card#submit(style="padding:20px")
             mu-text-field(label="标题",hintText="字数限制40字",:fullWidth="true",style="padding-bottom:0",v-model="document.name")
             mu-text-field(label="关键词",hintText="请用逗号“,”分隔开来",:fullWidth="true",style="padding-bottom:0",v-model="document.tag")

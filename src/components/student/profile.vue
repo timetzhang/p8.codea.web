@@ -1,5 +1,5 @@
 <template lang="jade">
-    div
+    div.container
         mu-paper
             div.center.aligned(style="background: url('/static/img/profile/profile.jpg'); padding:30px 0")
                 mu-avatar(:src="student.head_image", style='width:120px; height:120px')

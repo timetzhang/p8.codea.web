@@ -1,5 +1,5 @@
 <template lang="jade">
-    div.padded
+    div.padded.container
         mu-paper(style="padding:10px")
             mu-content-block.para
                 mu-row(gutter)

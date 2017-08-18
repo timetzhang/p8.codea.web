@@ -1,6 +1,7 @@
 .mu-appbar {
-    background-color: #474a4f;
-    color: #ffffff;
+    background-color: #f0f0f0;
+    color: #222;
+    border-left: 3px solid #e0e0e0;
     padding-left: 15px;
 }
 
@@ -382,7 +383,7 @@ a {
 }
 
 .mu-paper {
-    background-color: #ffffff;
+    background-color: #fefefe;
     color: #474a4f;
 }
 

@@ -53,10 +53,6 @@ export default new Router({
                     component: (resolve) => { require(['@/components/school/team.vue'], resolve) }
                 },
                 {
-                    path: '/school/career',
-                    component: (resolve) => { require(['@/components/school/career.vue'], resolve) }
-                },
-                {
                     path: '/school/project',
                     component: (resolve) => { require(['@/components/school/project.vue'], resolve) }
                 },

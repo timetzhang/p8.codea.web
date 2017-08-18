@@ -1,5 +1,5 @@
 <template lang="jade">
-    div.padded
+    div.padded.container
         mu-paper
             mu-content-block
                 mu-text-field(hintText="文档标题",:fullWidth='true',style="font-size:18px; font-weight:bold;",v-model="document.name")

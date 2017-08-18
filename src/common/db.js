@@ -16,6 +16,28 @@ export default {
      * 获取课程的大主题（如软件开发，硬件开发等）
      * @param {*} obj 为this
      */
+    getHome(obj) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/getHome';
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+
+    /*------------------------------------------------------------------------------------------------------*/
+    /*--- ##COURSE -----------------------------------------------------------------------------------------*/
+    /*------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * 获取课程的大主题（如软件开发，硬件开发等）
+     * @param {*} obj 为this
+     */
     getCourseSubject(obj) {
         return new Promise(
             function(resolve) {

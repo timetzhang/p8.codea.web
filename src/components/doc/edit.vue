@@ -1,5 +1,5 @@
 <template lang="jade">
-    div.padded
+    div.padded.container
         mu-breadcrumb.breadcrumb
           mu-breadcrumb-item(href="/doc") 维基
           mu-breadcrumb-item 编辑文档

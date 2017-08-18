@@ -1,5 +1,5 @@
 <template lang="jade">
-    div
+    div.container
         mu-row(gutter)
             mu-col(desktop="20", width="100", v-if='showMenu')
                 mu-paper(height="100")

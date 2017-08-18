@@ -1,9 +1,10 @@
 <template lang="jade">
-    div
-        mu-paper(style='padding:10px 30px; margin-bottom: 15px')
-            mu-text-field(label="搜索课程",style='width:100%',v-model="keyword")
+    div.container
         mu-appbar(title="课程", v-if='isMobile')
             mu-icon-button(icon="menu",slot="right",@click='toggleMenu')
+            mu-icon-button(icon="search",slot="right",@click='toggleSearch')
+        mu-paper(style='padding:10px 30px; margin-bottom: 15px',v-if="isSearchDisplay")
+            mu-text-field(label="搜索课程",style='width:100%',v-model="keyword")
         mu-row(gutter)
             mu-col(desktop="20", width="100", v-if='isMenuDisplay')
                 mu-paper(height="100")
@@ -60,6 +61,7 @@ export default {
             currentMenu: 13,
             isMobile: Browser.mobile,
             isMenuDisplay: true,
+            isSearchDisplay: true,
             keyword: '',
             contentWidth: '80'
         }
@@ -70,7 +72,8 @@ export default {
         document.title = '教程 - ' + this.$config.title;
         //判断是否为Mobile
         if (this.isMobile) {
-            this.showMenu = false;
+            this.isMenuDisplay = false;
+            this.isSearchDisplay = false;
         }
     },
     methods: {
@@ -101,7 +104,7 @@ export default {
             };
             this.goTop();
         },
-        search(e){
+        search(e) {
             console.log(e)
         },
         goTop() {
@@ -110,6 +113,9 @@ export default {
         },
         toggleMenu() {
             this.isMenuDisplay = !this.isMenuDisplay;
+        },
+        toggleSearch() {
+            this.isSearchDisplay = !this.isSearchDisplay;
         }
     },
     watch: {
@@ -125,7 +131,6 @@ export default {
                 });
             }
             else {
-                this.isMenuDisplay = true;
                 this.getCourse(this.$route.params.course_type);
             }
         }

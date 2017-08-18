@@ -1,7 +1,7 @@
 ﻿<template lang="jade">
     div.app
         div.desktop-menu
-            mu-row.container(v-if='isMobile == false')
+            mu-row.container(v-if='!isMobile')
                 mu-col(desktop='70')
                     a(href='/home')
                         mu-flat-button.item(label='首页',:class='curMenu == "home" ? "router-link-active" : ""')
@@ -37,18 +37,94 @@
                     mu-bottom-nav-item(value="team",title="项目",icon="cloud_download",:class='curMenu == "team" ? "router-link-active" : ""')
                 a(href='/my')
                     mu-bottom-nav-item(value="my",title="我的",icon="account_circle",:class='curMenu == "my" ? "router-link-active" : ""')
-        router-view.container.content
+        router-view.content
         mu-raised-button(@click="returnTop",icon="eject",id="gotoTop",v-show="isHide") 返回顶部
-        div.bottom
-            mu-row.container(gutter)
-                mu-col(desktop="50")
+        div.bottom(:style="isMobile ? 'margin-bottom: 25px' : ''")
+            mu-row.container.center.aligned(gutter, v-if="!isMobile")
+                mu-col(desktop="25")
+                    h3.title 学校介绍
+                    p
+                        a(href="/school/vision") 愿景与目标
+                    p
+                        a(href="/school/revolution") 革新
+                    p
+                        a(href="/school/geek") Geek文化
+                    p
+                        a(href="/school/study_space") 学习空间
+                    p
+                        a(href="/school/dorm_space") 居住空间
+                    h3.title 登录与注册
+                    p
+                        a(href="/login") 登录
+                    p
+                        a(href="/register") 注册   
+                mu-col(desktop="25")
+                    h3.title 学校课程与项目
+                    p
+                        a(href="/school/parkathon") 集训营
+                    p
+                        a(href="/school/course") 1+1年课程
+                    p
+                        a(href="/school/team") 项目组
+                    p
+                        a(href="/school/project") 项目
+                    h3.title 报名
+                    p
+                        a(href="/school/entrance") 入学考试
+                    p
+                        a(href="/school/contact") 联系我们
+                    h3.title 项目组与文档
+                    p
+                        a(href="/team") 学生项目组
+                    p
+                        a(href="/doc") 维基
+                mu-col(desktop="25")
+                    h3.title 软件开发教程
+                    p
+                        a(href="/course/type=13") 升级攻略
+                    p
+                        a(href="/course/type=1") 前端
+                    p
+                        a(href="/course/type=2") 后端
+                    p
+                        a(href="/course/type=3") 数据库
+                    p
+                        a(href="/course/type=4") 移动端
+                    p
+                        a(href="/course/type=5") 图形开发
+                    p
+                        a(href="/course/type=6") 开发工具
+                    p
+                        a(href="/course/type=7") 操作系统
+                    p
+                        a(href="/course/type=16") 服务器
+                    p
+                        a(href="/course/type=8") 基础/进阶
+                mu-col(desktop="25")
+                    h3.title 硬件开发教程
+                    p
+                        a(href="/course/type=14") 升级攻略
+                    p
+                        a(href="/course/type=9") 嵌入式
+                    p
+                        a(href="/course/type=10") 基础/进阶
+                    h3.title 艺术
+                    p
+                        a(href="/course/type=15") 升级攻略
+                    p
+                        a(href="/course/type=11") 音乐
+                    p
+                        a(href="/course/type=12") 设计
+                    h3.title 创意课程
+                    p
+                        a(href="/course/type=17") 404
+                mu-divider(style="margin-top:10px;")
+                br
+                mu-col(desktop="100")
                     p 地址：长沙远大三路远大城J57
                     p 电话：0731-84086832
                     p 邮箱：p8@joinp8.com
-                mu-col(desktop="50",style="text-align:right")
-                mu-divider
-                mu-col(desktop="100")
-                    p ©长沙噼啪星球文化传媒有限公司 / 湘ICP备16002937号
+                    p ©湖南乐蒲态教育发展有限公司 / 湘ICP备16002937号
 </template>
 
 <script>
@@ -102,13 +178,17 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .app {
-    background-color: #F7F7F7;
+    background-color: #f7f7f7;
+}
+
+.content {
+    padding: 70px 0 10px 0 !important;
 }
 
 .desktop-menu {
-    background-color: #424242;
+    background-color: #f0f0f0;
     position: fixed;
     left: 0;
     top: 0;
@@ -116,6 +196,14 @@ export default {
     z-index: 100;
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
+    border-bottom: 1px solid #ddd;
+
+    .item {
+        line-height: 54px;
+        height: 54px;
+        color: #222;
+        background-color: #f0f0f0;
+    }
 }
 
 .mobile-menu {
@@ -125,23 +213,12 @@ export default {
     bottom: 0;
     width: 100%;
     z-index: 100;
+
+    .mu-bottom-item-active {
+        background-color: #ddd;
+    }
 }
 
-.mobile-menu .mu-bottom-item-active {
-    background-color: #ddd;
-}
-
-
-.desktop-menu .item {
-    line-height: 54px;
-    height: 54px;
-    color: white;
-    background-color: #424242;
-}
-
-.content {
-    padding: 70px 0 10px 0 !important;
-}
 
 @media (min-device-width: 320px) and (max-device-width: 736px) {
     /*iphone 6 plus*/
@@ -155,6 +232,22 @@ export default {
     color: #888;
     padding: 10px;
     font-size: 12px;
+
+    a {
+        color: #999;
+    }
+
+    .title {
+        color: #BBB;
+
+        &:before {
+            content: "- ";
+        }
+
+        &:after {
+            content: " -";
+        }
+    }
 }
 
 .router-link-active .mu-flat-button-wrapper {

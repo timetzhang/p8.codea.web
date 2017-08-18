@@ -1,5 +1,5 @@
 <template lang="jade">
-div
+div.container
     mu-paper(style='padding:10px 30px; margin-bottom: 15px')
         mu-text-field(label="搜索项目组",style='width:100%',v-model="keyword")
     mu-paper

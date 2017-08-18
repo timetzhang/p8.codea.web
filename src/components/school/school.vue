@@ -1,5 +1,5 @@
 <template lang="jade">
-    div
+    div.container
         mu-row(gutter)
             mu-col(desktop="20", width="100", v-if='showMenu')
                 mu-paper(height="100")
@@ -27,8 +27,6 @@
                             mu-list-item.item(title="1+1年课程", :class='currentPage == "course" ? "router-link-active" : ""')
                         a(href='/school/team')
                             mu-list-item.item(title="项目组", :class='currentPage == "team" ? "router-link-active" : ""')
-                        a(href='/school/career')
-                            mu-list-item.item(title="就业", :class='currentPage == "career" ? "router-link-active" : ""')
                         mu-divider
                         mu-sub-header 
                             i.icon.laptop
