@@ -1,115 +1,78 @@
 <template lang="jade">
     div(:class="isMobile ? 'mobile' : ''")
         div.home.container
-            a(:href="homeData.url")
+            a(:href="homeBigscreen[homeBigscreenIndex].url")
                 img.logo(src="/static/img/home/logo.png", style="padding:0 30px;", v-if="!isMobile")
-                div.center.aligned.title(:class="isMobile? 'mobile' : 'desktop'",:style="'height:' + homeHeight + 'px;min-height:400px; padding-top:' + homeHeight/2.5 + 'px'",v-html="homeData.text")
-        div.home.button.container
-            a(href="/team")
+                div.center.aligned.animation#home(v-if="isMobile",:style="'height:' + homeHeight + 'px;min-height:400px; padding-top:' + homeHeight/2.5 + 'px; font-size: ' + homeBigscreen[homeBigscreenIndex].font_size_mobile + 'em'",v-html="homeBigscreen[homeBigscreenIndex].text_mobile")
+                div.center.aligned.animation#home(v-if="!isMobile",:style="'height:' + homeHeight + 'px;min-height:400px; padding-top:' + homeHeight/2.5 + 'px; font-size: ' + homeBigscreen[homeBigscreenIndex].font_size_desktop + 'em'",v-html="homeBigscreen[homeBigscreenIndex].text_desktop")
+        div.home.list.container(v-for="item in homeList", :key="item.id")
+            a(:href="item.url")
                 mu-row(gutter)
                     mu-col(desktop="10", width="0")
                     mu-col(desktop="20", width="100",:class="isMobile ? 'center aligned' : 'right aligned'")
-                        img(src="/static/img/home/projects.png")
+                        img(:src="item.image")
                     mu-col.text(desktop="60", width="100",:class="isMobile ? 'center aligned' : 'left aligned'")
-                        h4 最新的项目组
-                        div.details 在CODEA学习软硬件产品开发，选择你最感兴趣的项目组，或者创建你自己的项目组，开始你的全栈工程师之旅。
-                        p.more 点击查看更多>>
-                    mu-col(desktop="10", width="0")
-        div.home.button.container
-            a(href="http://www.broad.com/ProductShow-76.aspx")
-                mu-row(gutter)
-                    mu-col(desktop="10", width="0")
-                    mu-col(desktop="20", width="100",:class="isMobile ? 'center aligned' : 'right aligned'")
-                        img(src="/static/img/home/xin.png")
-                    mu-col.text(desktop="60", width="100",:class="isMobile ? 'center aligned' : 'left aligned'")
-                        h4 远大科技革命性材料 "芯"
-                        div.details 了解比钢筋混泥土轻10倍，强度高3倍，寿命几乎无限长，低生产成本的 “芯” 材料。
+                        h4 {{item.title}}
+                        div.details {{item.details}}
                         p.more 点击查看更多>>
                     mu-col(desktop="10", width="0")
         //- div.news.gray
         //-     div.container
         //-         div.title CodeA Today
-        //-         div.sub-title 散落在指尖的阳光，我试着轻轻抓住光影的踪迹，它却在眉宇间
+        //-         div.sub-title 学院最新动态和新闻
         //-         mu-row(gutter)
-        //-             mu-col(desktop="25", width="100")
-        //-                 mu-card
-        //-                     mu-card-media
-        //-                         img(src="/static/img/home/today01.jpg")
-        //-                     mu-card-title(title="Content Title",subTitle="Content Title")
-        //-                     mu-card-text
-        //-                         span 散落在指尖的阳光，我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影。
-        //-                         span 调皮的阳光掀动了四月的心帘，温暖如约的歌声渐起。
-        //-             mu-col(desktop="25", width="100")
-        //-                 mu-card
-        //-                     mu-card-media
-        //-                         img(src="/static/img/home/today01.jpg")
-        //-                     mu-card-title(title="Content Title",subTitle="Content Title")
-        //-                     mu-card-text
-        //-                         span 散落在指尖的阳光，我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影。
-        //-                         span 调皮的阳光掀动了四月的心帘，温暖如约的歌声渐起。
-        //-             mu-col(desktop="25", width="100")
-        //-                 mu-card
-        //-                     mu-card-media
-        //-                         img(src="/static/img/home/today01.jpg")
-        //-                     mu-card-title(title="Content Title",subTitle="Content Title")
-        //-                     mu-card-text
-        //-                         span 散落在指尖的阳光，我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影。
-        //-                         span 调皮的阳光掀动了四月的心帘，温暖如约的歌声渐起。
-        //-             mu-col(desktop="25", width="100")
-        //-                 mu-card
-        //-                     mu-card-media
-        //-                         img(src="/static/img/home/today01.jpg")
-        //-                     mu-card-title(title="Content Title",subTitle="Content Title")
-        //-                     mu-card-text
-        //-                         span 散落在指尖的阳光，我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影。
-        //-                         span 调皮的阳光掀动了四月的心帘，温暖如约的歌声渐起。
-        //- div.news.white
-        //-     div.container
-        //-         div.title CodeA 社区活动
-        //-         div.sub-title 散落在指尖的阳光，我试着轻轻抓住光影的踪迹，它却在眉宇间
-        //-         mu-row(gutter)
-        //-             mu-col(desktop="33", width="100")
-        //-                 mu-card
-        //-                     mu-card-media
-        //-                         img(src="/static/img/home/today01.jpg")
-        //-                     mu-card-title(title="Content Title",subTitle="Content Title")
-        //-                     mu-card-text
-        //-                         span 散落在指尖的阳光，我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影。
-        //-                         span 调皮的阳光掀动了四月的心帘，温暖如约的歌声渐起。
-        //-             mu-col(desktop="33", width="100")
-        //-                 mu-card
-        //-                     mu-card-media
-        //-                         img(src="/static/img/home/today01.jpg")
-        //-                     mu-card-title(title="Content Title",subTitle="Content Title")
-        //-                     mu-card-text
-        //-                         span 散落在指尖的阳光，我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影。
-        //-                         span 调皮的阳光掀动了四月的心帘，温暖如约的歌声渐起。
-        //-             mu-col(desktop="33", width="100")
-        //-                 mu-card
-        //-                     mu-card-media
-        //-                         img(src="/static/img/home/today01.jpg")
-        //-                     mu-card-title(title="Content Title",subTitle="Content Title")
-        //-                     mu-card-text
-        //-                         span 散落在指尖的阳光，我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影。
-        //-                         span 调皮的阳光掀动了四月的心帘，温暖如约的歌声渐起。
+        //-             mu-col(desktop="25", width="100", v-for="item in news", :key="item.id")
+        //-                 a(:href="item.url")
+        //-                     mu-card
+        //-                         mu-card-media
+        //-                             img(:src="item.head_image", style="height:200px;")
+        //-                         mu-card-text
+        //-                             div.item-title {{item.name}}
+        //-                             div.item-sub-title {{item.time}}
+        //-                             p.brief {{item.brief}}
+        div.news
+            div.container
+                div.title P8 社区活动
+                div.sub-title CODEA所在社区P8是一个未来垂直实验社区和共享共建文化的孵化体系
+                mu-row(gutter)
+                    mu-col(desktop="33", width="100", v-for="item in newsEvents", :key="item.id")
+                        a(:href="item.url")
+                            mu-card
+                                mu-card-media(:title="item.name",:subTitle="item.time",:to="item.url")
+                                    img(:src="item.head_image", style="height:200px;")
+                                mu-card-text
+                                    div.brief {{item.brief}}
+                                    p
+                                        b 开始时间:
+                                        span &nbsp;{{item.start_time}}
+                                        br
+                                        b 结束时间:
+                                        span &nbsp;{{item.end_time}}
+                                        br
+                                        b 地点:
+                                        span &nbsp;{{item.location}}
 </template>
 
 <script>
 
 import Browser from '@/common/browser'
+import DateTime from '@/common/datetime'
 
 export default {
     name: 'home',
     data() {
         return {
             isMobile: Browser.mobile,
-            homeData: {},
-            homeHeight: Browser.mobile ? (window.innerHeight - 60) : (window.innerHeight - 280)
+            homeBigscreen: [{ url: '' }],                //第一屏内容
+            homeBigscreenIndex: 0,                    //第一屏Index
+            homeList: [],                             //第二屏List
+            homeHeight: Browser.mobile ? (window.innerHeight - 60) : (window.innerHeight - 280),
+
+            newsEvents: [],
+            news: [],
         }
     },
     mounted: function () {
-        var _this = this
-
         window.onresize = () => {
             return (() => {
                 window.screenWidth = document.body.clientWidth
@@ -119,38 +82,73 @@ export default {
 
         document.title = '首页 - ' + this.$config.title
 
-        //get home's text
-        this.$db.getHome(this).then(res => {
-            this.homeData = res[0]
-        })
+        this.getHomeBigscreen();
+        this.getHomeList();
+        this.getNews();
+        this.getNewsEvent();
+        this.AnimationBegin();
     },
     methods: {
-
+        getHomeBigscreen() {
+            this.$db.getHomeBigscreen(this).then(res => {
+                this.homeBigscreen = res
+            })
+        },
+        getHomeList() {
+            this.$db.getHomeList(this).then(res => {
+                this.homeList = res
+            })
+        },
+        getNews() {
+            this.$db.getNews(this, { pagenum: 0, pagesize: 5 }).then(res => {
+                this.news = res
+                res.forEach(function (element) {
+                    element.time = DateTime.dateFormat(element.time)
+                }, this);
+            })
+        },
+        getNewsEvent() {
+            this.$db.getNewsEvent(this, { pagenum: 0, pagesize: 3 }).then(res => {
+                this.newsEvents = res
+                res.forEach(function (element) {
+                    element.time = DateTime.dateFormat(element.time)
+                    element.start_time = DateTime.dateFormat(element.start_time)
+                    element.end_time = DateTime.dateFormat(element.end_time)
+                }, this);
+            })
+        },
+        AnimationBegin() {
+            setInterval(() => {
+                document.querySelector('#home').classList.add('show')
+                setTimeout(() => {
+                    this.homeBigscreenIndex = this.homeBigscreenIndex < 2 ? this.homeBigscreenIndex + 1 : 0
+                    document.querySelector('#home').classList.remove('show')
+                }, 200)
+            }, 4000)
+        }
     }
 }
 </script>
 
-<style lang="scss" scoped>
-.home {
-    .title.desktop {
-        font-size: 3em;
-        font-family: "习宋体";
-    }
-    .title.mobile {
-        font-size: 1.5em;
-        font-family: "习宋体";
-    }
-}
-
+<style lang="scss">
 p {
     line-height: 25px;
+}
+
+.home {
+    .animation {
+        transition: transform 0.2s linear;
+    }
+    .animation.show {
+        transform: rotateX(90deg)
+    }
 }
 
 .mobile {
     width: 100%;
 }
 
-.home.button {
+.home.list {
     border-top: 1px solid #ddd margin-top 10px;
 
     .more {
@@ -165,6 +163,14 @@ p {
 .news {
     padding: 30px 30px;
     width: 100%;
+
+    &:nth-child(odd) {
+        background-color: #f7f7f7;
+    }
+
+    &:nth-child(even) {
+        background-color: #eee;
+    }
 
     .title {
         text-align: center;
@@ -181,13 +187,26 @@ p {
         color: #888;
         padding-bottom: 10px;
     }
-}
 
-.news.gray {
-    background-color: #EEE;
-}
+    .brief {
+        display: -webkit-box;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-wrap: break-word;
+        white-space: normal !important;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+    }
 
-.news.white {
-    background-color: #F7F7F7;
+    .item-title {
+        font-size: 1.1em;
+        font-weight: bold;
+    }
+
+    .item-sub-title {
+        font-size: 0.8em;
+        font-weight: bold;
+        color: #aaa;
+    }
 }
 </style>

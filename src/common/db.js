@@ -16,10 +16,49 @@ export default {
      * 获取课程的大主题（如软件开发，硬件开发等）
      * @param {*} obj 为this
      */
-    getHome(obj) {
+    getHomeBigscreen(obj) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/getHome';
+                var dbUrl = Config.dbBaseUrl + '/getHomeBigscreen';
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+    getHomeList(obj) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/getHomeList';
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+    getNews(obj, options) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/getNews?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum;
+                obj.$http({
+                    url: dbUrl,
+                    method: 'GET'
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+    getNewsEvent(obj, options) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/getNewsEvent?pagesize=' + options.pagesize + '&pagenum=' + options.pagenum;
                 obj.$http({
                     url: dbUrl,
                     method: 'GET'

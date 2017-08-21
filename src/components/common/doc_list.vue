@@ -9,10 +9,10 @@
             a(@click="pushType")
                 mu-badge(:content="typeStr",:color="typeColor")
             a(v-if="is_star == 1")
-                &nbsp;&nbsp;
+                span &nbsp;&nbsp;
                 mu-badge(content="精华",color="gold")
             a(v-if="is_top != null")
-                &nbsp;&nbsp;
+                span &nbsp;&nbsp;
                 mu-badge(content="置顶",color="purple600")
         div(style="float:right")
             mu-icon(value="visibility",style="vertical-align:middle;",:size="20")

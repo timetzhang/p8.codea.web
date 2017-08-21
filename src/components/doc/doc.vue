@@ -241,10 +241,10 @@ export default {
 
         /* OTHERS *************/
         openAddDialog() {
-            this.isDialogAddShow = true;
+            this.isDialogAddDisplay = true;
         },
         closeAddDialog() {
-            this.isDialogAddShow = false;
+            this.isDialogAddDisplay = false;
         }
     }
 }
