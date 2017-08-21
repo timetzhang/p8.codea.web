@@ -251,55 +251,55 @@ export default {
 </script>
 
 <style scoped>
-.api-view-tabs {
-    background-color: transparent;
-    color: rgba(0, 0, 0, .87);
-}
+    .api-view-tabs {
+        background-color: transparent;
+        color: rgba(0, 0, 0, .87);
+    }
 
-.api-view-tabs .mu-tab-active {
-    color: #7e57c2;
-}
+    .api-view-tabs .mu-tab-active {
+        color: #7e57c2;
+    }
 
-.api-view-tabs .mu-tab-link {
-    color: rgba(0, 0, 0, .54);
-}
+    .api-view-tabs .mu-tab-link {
+        color: rgba(0, 0, 0, .54);
+    }
 
-.badge {
-    padding: 4px;
-    background-color: #457cce;
-    color: white;
-    font-size: 12px;
-    border-radius: 4px;
-    margin-left: 4px;
-}
+    .badge {
+        padding: 4px;
+        background-color: #457cce;
+        color: white;
+        font-size: 12px;
+        border-radius: 4px;
+        margin-left: 4px;
+    }
 
-a {
-    cursor: pointer;
-}
+    a {
+        cursor: pointer;
+    }
 
-.tag_list {
-    display: inline-block;
-    margin: 3px 5px;
-}
+    .tag_list {
+        display: inline-block;
+        margin: 3px 5px;
+    }
 
-em {
-    font-size: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 6px;
-    line-height: 1.6;
-    font-size: 12px;
-    font-style: normal;
-    background-color: #969696;
-    color: white;
-    border-radius: 3px;
-    overflow: hidden;
-}
+    em {
+        font-size: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 6px;
+        line-height: 1.6;
+        font-size: 12px;
+        font-style: normal;
+        background-color: #969696;
+        color: white;
+        border-radius: 3px;
+        overflow: hidden;
+    }
 
-em:hover {
-    background-color: #d1d1d1;
-    color: rgb(239, 83, 80);
-    cursor: pointer;
-}
+    em:hover {
+        background-color: #d1d1d1;
+        color: rgb(239, 83, 80);
+        cursor: pointer;
+    }
 </style>
