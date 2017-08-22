@@ -140,12 +140,12 @@ p {
         transition: transform 0.2s linear;
     }
     .animation.show {
-        transform: rotateX(90deg)
+        transform: rotateX(90deg);
     }
 }
 
 .home.back{
-    background: url('/static/img/home/back.jpg') no-repeat;
+    background: url('/static/img/home/back.png') no-repeat;
 }
 
 .mobile {
