@@ -1,5 +1,5 @@
 <template lang="jade">
-    div(:class="isMobile ? 'mobile' : ''")
+    div.home.back(:class="isMobile ? 'mobile' : ''", :style="'background-size: 100% '+(homeHeight+100)+'px'")
         div.home.container
             a(:href="homeBigscreen[homeBigscreenIndex].url")
                 img.logo(src="/static/img/home/logo.png", style="padding:0 30px;", v-if="!isMobile")
@@ -142,6 +142,10 @@ p {
     .animation.show {
         transform: rotateX(90deg)
     }
+}
+
+.home.back{
+    background: url('/static/img/home/back.jpg') no-repeat;
 }
 
 .mobile {

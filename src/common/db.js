@@ -7,9 +7,54 @@
 import Config from '@/common/config'
 
 export default {
+    /*------------------------------------------------------------------------------------------------------*/
+    /*--- ##FILE -----------------------------------------------------------------------------------------*/
+    /*------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * 上传文件到 /uploaded
+     * 上传时触发事件 "uploadProgress" 0-100 上传完成度
+     * @param {*} obj 为this
+     * @param {*} blob 为文件
+     */
+    fileUpload(obj, blob) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/fileUpload';
+
+                var formData = new FormData();
+                formData.append("image", blob, "head.jpg");
+                obj.$http.post(dbUrl, formData, {
+                    progress(event) {
+                        //上传时触发事件 uploadProgress
+                        //0-100
+                        obj.$emit('uploadProgress', parseFloat(event.loaded / event.total * 100), true)
+                    }
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+
+    deleteFile(obj, data) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/deleteFile';
+                obj.$http.post(dbUrl, { data: data }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    emulateJSON: true
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
 
     /*------------------------------------------------------------------------------------------------------*/
-    /*--- ##COURSE -----------------------------------------------------------------------------------------*/
+    /*--- ##HOME -----------------------------------------------------------------------------------------*/
     /*------------------------------------------------------------------------------------------------------*/
 
     /**
@@ -721,6 +766,27 @@ export default {
         return new Promise(
             function(resolve) {
                 var dbUrl = Config.dbBaseUrl + '/setStudentDetails';
+                obj.$http.post(dbUrl, { data: data }, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    emulateJSON: true
+                }).then(res => {
+                    resolve(res.data);
+                });
+            }
+        );
+    },
+
+    /**
+     * 获取用户详情
+     * @param {*} obj 为this
+     * @param {*} options { uid: user id}
+     */
+    setStudentHeadImage(obj, data) {
+        return new Promise(
+            function(resolve) {
+                var dbUrl = Config.dbBaseUrl + '/setStudentHeadImage';
                 obj.$http.post(dbUrl, { data: data }, {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'

@@ -3,10 +3,8 @@
         mu-paper
             mu-content-block
                 p.center.aligned(style='padding: 30px 0')
-                    mu-avatar(:src="student.head_image", style='width:120px; height:120px', @click="uploadHeadDialog")
-                    img#head(:src='head_image', style="display:none")
+                    mu-avatar(:src="student.head_image", style='width:120px; height:120px', @click="openUploadDialog")
                     br
-                    input(type='file', style="display:none", accept="image/png,image/jpg", value='student.head_image', @change="uploadHeadChanged")
                 mu-sub-header 
                     b 基本信息
                 mu-text-field(v-model="student.name",:fullWidth="true",label="姓名",@blur="updateDetails")
@@ -52,18 +50,37 @@
                 mu-text-field(v-model="student.guardian_02_name",label="第二监护人姓名",:fullWidth="true",@blur="updateDetails")
                 mu-text-field(v-model="student.guardian_02_relation",label="第二监护人关系",:fullWidth="true",@blur="updateDetails")
                 mu-text-field(v-model="student.guardian_02_cellphone",label="第二监护人联系方式",:fullWidth="true",@blur="updateDetails")
+
+        mu-dialog(:open="isUploadDialogDisplay",title="修改头像",@close="closeUploadDialog")
+            mu-row(gutter)
+                mu-col(desktop="50", width="100")
+                    croppa(v-model="croppedImage", style="padding: 20px; border:1px solid #eee",:width="300", :height="300", placeholder="请单击选择图片",:placeholder-font-size="21",placeholder-color="#457cce")
+                    mu-linear-progress(mode="determinate",:value="uploadProgress")
+                mu-col(desktop="50", width="100")
+                    h3 说明:
+                    p 1. 使用鼠标拖动可以调整图片显示区域
+                    p 2. 滚动鼠标可放大或缩小图片 
+            mu-flat-button(slot="actions" @click="closeUploadDialog" primary label="取消")
+            mu-flat-button(slot="actions" primary @click="uploadCroppedImage" label="上传")
+            
 </template>
 
 <script>
 import DateTime from '@/common/datetime'
 import Base64 from '@/common/base64'
+import Croppa from 'vue-croppa'
 
 export default {
     name: 'my-profile',
+    components: {
+        Croppa: Croppa.component
+    },
     data() {
         return {
-            student: {},
-            head_image: ''
+            student: {},                     //local student db
+            croppedImage: {},                //user cropped head image
+            isUploadDialogDisplay: false,    //upload dialog flag
+            uploadProgress: 0                //upload progress indicator
         }
     },
     mounted: function () {
@@ -71,29 +88,51 @@ export default {
         document.documentElement.scrollTop = 0;
         this.loadProfile();
 
+        this.$on('uploadProgress', res => {
+            this.uploadProgress = parseInt(res);
+        })
     },
     methods: {
-        uploadHeadDialog() {
-            this.$el.querySelector('[type=file]').click();
-        },
-        uploadHeadChanged() {
-            var windowURL = window.URL || window.webkitURL;
-            this.head_image = windowURL.createObjectURL(this.$el.querySelector('[type=file]').files[0]);
-            this.student.head_image = Base64.ImageToBase64(this.$el.querySelector('#head'));
-        },
         loadProfile() {
             var _this = this;
             this.$db.getStudentDetails(this, { sid: this.$cookie.getCookie('sid') }).then(res => {
                 _this.student = res[0];
                 _this.student.dob = DateTime.dateFormat(_this.student.dob).substring(0, 10);
+                this.student.head_image = this.student.head_image ? this.student.head_image : '/static/img/my/noheadimg.png';
             });
         },
         updateDetails() {
             var _this = this;
             this.$db.setStudentDetails(this, this.student).then(res => {
-                console.log(res);
+
             });
+        },
+
+        uploadCroppedImage() {
+            //如果存在老的头像，删除老头像
+            if (this.student.head_image != '/static/img/my/noheadimg.png') {
+                //delete old head image
+                this.$db.deleteFile(this, { file: this.student.head_image }).then(res => {
+
+                });
+            }
+            this.croppedImage.generateBlob((blob) => {
+                this.$db.fileUpload(this, blob).then(res => {
+                    this.student.head_image = res;      //update to local db
+                    this.updateDetails();               //update to server db
+                    this.isUploadDialogDisplay = false; //hide the dialog
+                });
+            }, 'image/jpeg', 0.6)
+        },
+
+        //dialog
+        closeUploadDialog() {
+            this.isUploadDialogDisplay = false;
+        },
+        openUploadDialog() {
+            this.isUploadDialogDisplay = true;
         }
+
     }
 }
 </script>

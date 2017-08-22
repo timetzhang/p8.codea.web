@@ -196,7 +196,6 @@ export default {
     z-index: 100;
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
-    border-bottom: 1px solid #ddd;
 
     .item {
         line-height: 54px;

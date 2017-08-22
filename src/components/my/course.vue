@@ -7,9 +7,9 @@
                 p 我们鼓励您学习更多的项目之外的课程，这也是成为一个“全栈工程师”的必经之路，您也可以与导师联系与探讨，来定制学习计划。
                 mu-list
                     mu-row(v-for="course, index in courses",:key="index")
-                        mu-col.vertical.center.aligned(:desktop="20", :width="20", style="vertical-align: middle")
+                        mu-col.vertical.center.aligned(desktop="20", width="20", style="vertical-align: middle")
                             img.item(:src='course.logo',style="width:100%")
-                        mu-col(:desktop="80", :width="80")
+                        mu-col(desktop="80", width="80")
                             mu-list-item(:disableRipple='true',:title="course.name + ' (完成度: ' + course.finish_percentage + '%)'")
                                 mu-linear-progress(:size="20",color="lightBlue700", mode="determinate", :value='course.finish_percentage', style='margin-top:10px', slot='describe')
                                 p.right.aligned 开始学习时间：{{course.time}}

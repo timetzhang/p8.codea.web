@@ -1,12 +1,15 @@
 <template lang="jade">
     div.padded.container
-        mu-paper(style='padding:10px 30px; margin-bottom: 15px;')
+        mu-appbar(title="维基", v-if='isMobile')
+            mu-icon-button(icon="add",slot="right",@click='openAddDialog')
+            mu-icon-button(icon="search",slot="right",@click='toggleSearch')
+        mu-paper(style='padding:10px 30px; margin-bottom: 15px;', v-if="isSearchDisplay")
             mu-row
                 mu-col(desktop="75", style="padding-top: 5px;")
                     mu-text-field(hintText="搜索文档",color="white",v-model="searchKeyword", :fullWidth='true')
                 mu-col.aligned.center(desktop="10")
                     mu-raised-button(label="搜索",icon="search",:to='"/doc/search="+searchKeyword', :fullWidth='true', style="margin-top:13px")
-                mu-col.aligned.center(desktop="10")
+                mu-col.aligned.center(desktop="10",v-if="!isMobile")
                     mu-raised-button(label="添加",icon="add", :fullWidth='true', style="margin-top:13px", @click="openAddDialog")
             b(v-if="tags.length > 0") 关键词：
             div.tag_list(v-for="(item,index) in tags",:key="index",@click="delTag(index)")
@@ -54,6 +57,7 @@ import doc_list from '../common/doc_list.vue'
 import { quillEditor } from 'vue-quill-editor'
 import Encode from '@/common/encode'
 import DateTime from '@/common/datetime'
+import Browser from '@/common/browser'
 
 export default {
     name: 'doc',
@@ -63,6 +67,8 @@ export default {
     },
     data() {
         return {
+            //basic
+            isMobile: Browser.mobile,
             //doc typies
             docTypies: [],//all document typies
 
@@ -101,11 +107,17 @@ export default {
 
             //search
             searchKeyword: '',
+            isSearchDisplay: true,
         }
     },
     mounted: function () {
         this.getDoc();
         this.getCourses();
+
+        //判断是否为Mobile
+        if (this.isMobile) {
+            this.isSearchDisplay = false;
+        }
     },
     watch: {
         activeSortTab: function () {
@@ -245,6 +257,9 @@ export default {
         },
         closeAddDialog() {
             this.isDialogAddDisplay = false;
+        },
+        toggleSearch() {
+            this.isSearchDisplay = !this.isSearchDisplay;
         }
     }
 }
@@ -253,7 +268,7 @@ export default {
 <style scoped>
     .api-view-tabs {
         background-color: transparent;
-        color: rgba(0, 0, 0, .87);
+        color: rgba(0, 0, 0, .87);        
     }
 
     .api-view-tabs .mu-tab-active {
@@ -271,10 +286,6 @@ export default {
         font-size: 12px;
         border-radius: 4px;
         margin-left: 4px;
-    }
-
-    a {
-        cursor: pointer;
     }
 
     .tag_list {
