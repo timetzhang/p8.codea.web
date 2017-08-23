@@ -144,7 +144,7 @@ export default {
     getCourseType(obj, options) {
         return new Promise(
             function(resolve) {
-                var dbUrl = Config.dbBaseUrl + '/getCourseType?subject_id=' + options.subject_id;
+                var dbUrl = Config.dbBaseUrl + '/getCourseType';
                 obj.$http({
                     url: dbUrl,
                     method: 'GET'

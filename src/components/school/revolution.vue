@@ -18,12 +18,12 @@ div.padded
             p 老师就是你身边的任何一个人,他可以是学校聘任的编程大师，也可以是刚入学的同学。同时，你也会成为其他人的老师，也不要吝啬你的知识，分享给你身边的人
             p 求知若饥 虚心若愚
             mu-row(gutter)
-                mu-col(width='50', desktop='50',style='margin-bottom:10px')
-                    mu-grid-tile(rows='2')
+                mu-col(width="50", desktop="50",style="margin-bottom:10px")
+                    mu-grid-tile(:rows="2")
                         img(src="/static/img/school/revolution01.jpg")
                         span(slot="title") Scrum
-                mu-col(width='50', desktop='50',style='margin-bottom:10px')
-                    mu-grid-tile(rows='2')
+                mu-col(width="50", desktop="50",style="margin-bottom:10px")
+                    mu-grid-tile(:rows="2")
                         img(src="/static/img/school/revolution02.jpg")
                         span(slot="title") 404 项目组
             p
@@ -37,12 +37,12 @@ div.padded
             p 我们提供能够很好互动的空间，来吸引更多的像你这样的年轻人，和我们在这里一起交流，交换想法，碰撞火花。
             p 空间准则：不用提高声音，就可以同时和7位同学进行交流
             mu-row(gutter)
-                mu-col(width='50', desktop='50',style='margin-bottom:10px')
-                    mu-grid-tile(rows='2')
+                mu-col(width="50", desktop="50",style="margin-bottom:10px")
+                    mu-grid-tile(:rows="2")
                         img(src="/static/img/school/revolution03.jpg")
                         span(slot="title") 6楼开放空间某处
-                mu-col(width='50', desktop='50',style='margin-bottom:10px')
-                    mu-grid-tile(rows='2')
+                mu-col(width="50", desktop="50",style="margin-bottom:10px")
+                    mu-grid-tile(:rows="2")
                         img(src="/static/img/school/revolution04.jpg")
                         span(slot="title") 6楼开放空间某处
             p

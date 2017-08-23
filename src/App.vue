@@ -3,40 +3,27 @@
         div.desktop-menu
             mu-row.container(v-if='!isMobile')
                 mu-col(desktop='70')
-                    a(href='/home')
-                        mu-flat-button.item(label='首页',:class='curMenu == "home" ? "router-link-active" : ""')
-                    a(href='/school')
-                        mu-flat-button.item(label='学校',:class='curMenu == "school" ? "router-link-active" : ""')
-                    a(href='/course')
-                        mu-flat-button.item(label='教程',:class='curMenu == "course" ? "router-link-active" : ""')
-                    a(href='/doc')
-                        mu-flat-button.item(label='维基',:class='curMenu == "doc" ? "router-link-active" : ""')
-                    a(href='/team')
-                        mu-flat-button.item(label='项目',:class='curMenu == "team" ? "router-link-active" : ""')
-                    a(href='/my')
-                        mu-flat-button.item(label='我的',:class='curMenu == "my" ? "router-link-active" : ""')
+                    mu-flat-button.item(label='首页',to="/home")
+                    mu-flat-button.item(label='学校',to='/school')
+                    mu-flat-button.item(label='教程',to='/course')
+                    mu-flat-button.item(label='维基',to='/doc')
+                    mu-flat-button.item(label='项目',to='/team')
+                    mu-flat-button.item(label='我的',to='/my')
                 mu-col(desktop='30',style='text-align:right',v-if='sid <= 0')
-                    a(href='/login')
-                        mu-flat-button.item(label='登录',:class='curMenu == "login" ? "router-link-active" : ""')
-                    a(href='/register')
-                        mu-flat-button.item(label='注册',:class='curMenu == "register" ? "router-link-active" : ""')
+                    mu-flat-button.item(label='登录',to='/login')
+                    mu-flat-button.item(label='注册',to='/register')
                 mu-col(desktop='30',style='text-align:right',v-if='sid > 0')
-                    a(href='/my/notify',v-if="notify > 0")
+                    router-link(to='/my/notify',v-if="notify > 0")
                         mu-badge(:content="notify",secondary)
-                    a(href='/logoff')
+                    router-link(to='/logoff')
                         mu-flat-button.item(label='退出登录')
         div.mobile-menu(v-if='isMobile')
             mu-bottom-nav(:value="bottomNav",@change="handleMobileMenuChange")
-                a(href='/school')
-                    mu-bottom-nav-item(value="school",title="学校",icon="school",:class='curMenu == "school" ? "router-link-active" : ""')
-                a(href='/course')
-                    mu-bottom-nav-item(value="course",title="教程",icon="book",:class='curMenu == "course" ? "router-link-active" : ""')
-                a(href='/doc')
-                    mu-bottom-nav-item(value="doc",title="维基",icon="note",:class='curMenu == "doc" ? "router-link-active" : ""')
-                a(href='/team')
-                    mu-bottom-nav-item(value="team",title="项目",icon="cloud_download",:class='curMenu == "team" ? "router-link-active" : ""')
-                a(href='/my')
-                    mu-bottom-nav-item(value="my",title="我的",icon="account_circle",:class='curMenu == "my" ? "router-link-active" : ""')
+                mu-bottom-nav-item(value="school",title="学校",icon="school",to='/school')
+                mu-bottom-nav-item(value="course",title="教程",icon="book",to='/course')
+                mu-bottom-nav-item(value="doc",title="维基",icon="note",to='/doc')
+                mu-bottom-nav-item(value="team",title="项目",icon="cloud_download",to='/team')
+                mu-bottom-nav-item(value="my",title="我的",icon="account_circle",to='/my')
         router-view.content
         mu-raised-button(@click="returnTop",icon="eject",id="gotoTop",v-show="isHide") 返回顶部
         div.bottom(:style="isMobile ? 'margin-bottom: 25px' : ''")
@@ -44,80 +31,80 @@
                 mu-col(desktop="25")
                     h3.title 学校介绍
                     p
-                        a(href="/school/vision") 愿景与目标
+                        router-link(to="/school/vision") 愿景与目标
                     p
-                        a(href="/school/revolution") 革新
+                        router-link(to="/school/revolution") 革新
                     p
-                        a(href="/school/geek") Geek文化
+                        router-link(to="/school/geek") Geek文化
                     p
-                        a(href="/school/study_space") 学习空间
+                        router-link(to="/school/study_space") 学习空间
                     p
-                        a(href="/school/dorm_space") 居住空间
+                        router-link(to="/school/dorm_space") 居住空间
                     h3.title 登录与注册
                     p
-                        a(href="/login") 登录
+                        router-link(to="/login") 登录
                     p
-                        a(href="/register") 注册   
+                        router-link(to="/register") 注册   
                 mu-col(desktop="25")
                     h3.title 学校课程与项目
                     p
-                        a(href="/school/parkathon") 集训营
+                        router-link(to="/school/parkathon") 集训营
                     p
-                        a(href="/school/course") 1+1年课程
+                        router-link(to="/school/course") 1+1年课程
                     p
-                        a(href="/school/team") 项目组
+                        router-link(to="/school/team") 项目组
                     p
-                        a(href="/school/project") 项目
+                        router-link(to="/school/project") 项目
                     h3.title 报名
                     p
-                        a(href="/school/entrance") 入学考试
+                        router-link(to="/school/entrance") 入学考试
                     p
-                        a(href="/school/contact") 联系我们
+                        router-link(to="/school/contact") 联系我们
                     h3.title 项目组与文档
                     p
-                        a(href="/team") 学生项目组
+                        router-link(to="/team") 学生项目组
                     p
-                        a(href="/doc") 维基
+                        router-link(to="/doc") 维基
                 mu-col(desktop="25")
                     h3.title 软件开发教程
                     p
-                        a(href="/course/type=13") 升级攻略
+                        router-link(to="/course/type=13") 升级攻略
                     p
-                        a(href="/course/type=1") 前端
+                        router-link(to="/course/type=1") 前端
                     p
-                        a(href="/course/type=2") 后端
+                        router-link(to="/course/type=2") 后端
                     p
-                        a(href="/course/type=3") 数据库
+                        router-link(to="/course/type=3") 数据库
                     p
-                        a(href="/course/type=4") 移动端
+                        router-link(to="/course/type=4") 移动端
                     p
-                        a(href="/course/type=5") 图形开发
+                        router-link(to="/course/type=5") 图形开发
                     p
-                        a(href="/course/type=6") 开发工具
+                        router-link(to="/course/type=6") 开发工具
                     p
-                        a(href="/course/type=7") 操作系统
+                        router-link(to="/course/type=7") 操作系统
                     p
-                        a(href="/course/type=16") 服务器
+                        router-link(to="/course/type=16") 服务器
                     p
-                        a(href="/course/type=8") 基础/进阶
+                        router-link(to="/course/type=8") 基础/进阶
                 mu-col(desktop="25")
                     h3.title 硬件开发教程
                     p
-                        a(href="/course/type=14") 升级攻略
+                        router-link(to="/course/type=14") 升级攻略
                     p
-                        a(href="/course/type=9") 嵌入式
+                        router-link(to="/course/type=9") 嵌入式
                     p
-                        a(href="/course/type=10") 基础/进阶
+                        router-link(to="/course/type=10") 基础/进阶
                     h3.title 艺术
                     p
-                        a(href="/course/type=15") 升级攻略
+                        router-link(to="/course/type=15") 升级攻略
                     p
-                        a(href="/course/type=11") 音乐
+                        router-link(to="/course/type=11") 音乐
                     p
-                        a(href="/course/type=12") 设计
+                        router-link(to="/course/type=12") 设计
                     h3.title 创意课程
                     p
-                        a(href="/course/type=17") 404
+                        router-link(to="/course/type=17") 404
                 mu-divider(style="margin-top:10px;")
                 br
                 mu-col(desktop="100")

@@ -1,9 +1,9 @@
 <template lang="jade">
     div.doc_list
-        a(:href="studentHref")
+        router-link(:to="studentHref")
             mu-avatar(:src="headimg",:size="30",style="vertical-align:middle;")
         div.name
-            a(:href="studentHref",style="color:black")
+            router-link(:to="studentHref",style="color:black")
                 span {{name}}
             span.time {{time}}
             a(@click="pushType")
@@ -22,7 +22,7 @@
             mu-icon(value="favorite",style="vertical-align:middle;",:size="20")
             label &nbsp;{{isLike}}&nbsp;&nbsp;
         div
-            a(:href="docHref")
+            router-link(:to="docHref")
                 h2 {{title}}
             p {{brief}}
             br

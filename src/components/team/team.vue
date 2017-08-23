@@ -6,7 +6,7 @@ div.container
         mu-text-field(label="搜索项目组",style='width:100%',v-model="keyword")
     mu-paper
         mu-list(v-for="team in teams", :key="team.id")
-            mu-list-item(:title="team.name",:href="'/team/id='+team.id")
+            mu-list-item(:title="team.name",:to="'/team/id='+team.id")
                 mu-avatar(:src="team.logo",slot="leftAvatar")
                 span(slot="describe")
                     span {{team.intro}}

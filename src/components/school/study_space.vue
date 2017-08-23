@@ -6,7 +6,7 @@
                 p 空间准则：不用提高声音，就可以同时和7位同学进行交流
                 mu-row(gutter)
                     mu-col(width='100', desktop='50',v-for='pic in pics', :key='pic.filename', style='margin-bottom:10px')
-                        mu-grid-tile(rows='2')
+                        mu-grid-tile(:rows='2')
                             img(:src='"/static/img/school/"+pic.filename')
                             span(slot="title") {{pic.title}}
                             span(slot="subTitle") {{pic.subTitle}}

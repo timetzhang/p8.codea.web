@@ -71,7 +71,7 @@ export default new Router({
             redirect: '/course/type=13'
         },
         {
-            path: '/course/type=:course_type',
+            path: '/course/type=:type',
             component: (resolve) => { require(['@/components/course/course.vue'], resolve) }
         },
         {

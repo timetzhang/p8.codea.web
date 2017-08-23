@@ -10,7 +10,7 @@
                 p.center.aligned - OR -
                 p.center.aligned
                     mu-raised-button(label='已经注册？还没有通过在线测试？点击此处。',to='/school/entrance',secondary)
-                mu-grid-tile(rows='2')
+                mu-grid-tile(:rows='2')
                     img(src="/static/img/school/parkathon01.jpg")
                     span(slot="title") 啪客松集训营场地
                 p
@@ -27,7 +27,7 @@
                     mu-raised-button(label='Python',to='/school/register',secondary)
                 br
                 br
-                mu-grid-tile(rows='2')
+                mu-grid-tile(:rows='2')
                     img(src="/static/img/school/parkathon02.jpg")
                     span(slot="title") 某次 Park-a-thon 现场
                 p
@@ -45,7 +45,7 @@
                 h3 我们在金字塔等你
                 p 通过 Park-a-thon™ 黑客营, 你将决定继续或者放弃挑战成为 P8 CodeA 的成员
                 p
-                mu-grid-tile(rows='2')
+                mu-grid-tile(:rows='2')
                     img(src="/static/img/school/parkathon03.jpg")
                     span(slot="title") 某次 Park-a-thon 现场
                 p
