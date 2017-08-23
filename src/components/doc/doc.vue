@@ -54,7 +54,6 @@
 
 <script>
 import doc_list from '../common/doc_list.vue'
-import { quillEditor } from 'vue-quill-editor'
 import Encode from '@/common/encode'
 import DateTime from '@/common/datetime'
 import Browser from '@/common/browser'

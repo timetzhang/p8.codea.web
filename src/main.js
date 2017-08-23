@@ -2,10 +2,8 @@ import Vue from 'vue'
 import VueResource from 'vue-resource'
 import App from './App'
 import router from './router'
-
 import MuseUI from 'muse-ui'
 import Vue2Filters from 'vue2-filters'
-
 
 Vue.use(Vue2Filters);
 Vue.use(MuseUI);

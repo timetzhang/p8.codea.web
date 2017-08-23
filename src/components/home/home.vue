@@ -62,14 +62,20 @@ export default {
     name: 'home',
     data() {
         return {
-            isMobile: Browser.mobile,
-            homeBigscreen: [{ url: '' }],                //第一屏内容
+            //basic
+            isMobile: Browser.mobile,                 //mobile or pc
+
+            //home screen
+            homeBigscreen: [{ url: '' }],             //第一屏内容
             homeBigscreenIndex: 0,                    //第一屏Index
-            homeList: [],                             //第二屏List
             homeHeight: Browser.mobile ? (window.innerHeight - 60) : (window.innerHeight - 280),
 
-            newsEvents: [],
-            news: [],
+            //home list
+            homeList: [],                             //第二屏List
+
+            //news
+            newsEvents: [],    //news event data
+            news: [],          //news data
         }
     },
     mounted: function () {
@@ -89,16 +95,19 @@ export default {
         this.AnimationBegin();
     },
     methods: {
+        /* 首页顶部的写传大图或TEXT */
         getHomeBigscreen() {
             this.$db.getHomeBigscreen(this).then(res => {
                 this.homeBigscreen = res
             })
         },
+        /* 首页顶部大图下面的宣传的list */
         getHomeList() {
             this.$db.getHomeList(this).then(res => {
                 this.homeList = res
             })
         },
+        /* News: News分为today, events */
         getNews() {
             this.$db.getNews(this, { pagenum: 0, pagesize: 5 }).then(res => {
                 this.news = res
@@ -110,6 +119,8 @@ export default {
         getNewsEvent() {
             this.$db.getNewsEvent(this, { pagenum: 0, pagesize: 3 }).then(res => {
                 this.newsEvents = res
+
+                //format times.
                 res.forEach(function (element) {
                     element.time = DateTime.dateFormat(element.time)
                     element.start_time = DateTime.dateFormat(element.start_time)
@@ -117,6 +128,8 @@ export default {
                 }, this);
             })
         },
+
+        //animation
         AnimationBegin() {
             setInterval(() => {
                 document.querySelector('#home').classList.add('show')
@@ -144,7 +157,7 @@ p {
     }
 }
 
-.home.back{
+.home.back {
     background: url('/static/img/home/back.png') no-repeat;
 }
 
