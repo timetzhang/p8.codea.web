@@ -61,8 +61,7 @@ import Browser from '@/common/browser'
 export default {
     name: 'doc',
     components: {
-        doc_list,
-        quillEditor
+        doc_list
     },
     data() {
         return {
@@ -152,7 +151,7 @@ export default {
 
         /* COURSES ***********************************************************************************************************/
         getCourses() {
-            var _this = this;
+            let _this = this;
             this.$db.getDocumentCourse(_this, {}).then(res => {
                 _this.courses = res;
             });
@@ -160,7 +159,7 @@ export default {
 
         /* TAGS **************************************************************************************************************/
         delTag(index) {
-            var _this = this;
+            let _this = this;
             this.tags.forEach(function (element, i) {
                 if (element == this.tags[index]) {
                     this.tags.splice(i, 1);
@@ -189,9 +188,9 @@ export default {
 
         /* DOCS **************************************************************************************************************/
         getDoc() {
-            var _this = this;
+            let _this = this;
             this.documentNoneHintText = "";
-            var options = {
+            let options = {
                 pagenum: this.docCurrentPage,
                 pagesize: 10,
                 sort: this.docSort
@@ -207,20 +206,20 @@ export default {
 
                     // fill data
                     res.forEach(function (element) {
-                        this.docs.push(element)
-                    }, this);
+                        _this.docs.push(element)
+                    }, _this);
 
                     // format time
-                    this.docs.forEach(function (element) {
+                    _this.docs.forEach(function (element) {
                         if (element.time != null) {
                             element.time = DateTime.getTimespan(element.time);
                         }
-                    }, this);
+                    }, _this);
                 }
                 else {
-                    this.docEmptyHint = '没有更多文档了';
-                    this.showSnackbar('没有更多文档了')
-                    this.isMoreDoc = false;
+                    _this.docEmptyHint = '没有更多文档了';
+                    _this.showSnackbar('没有更多文档了')
+                    _this.isMoreDoc = false;
                 }
             });
         },

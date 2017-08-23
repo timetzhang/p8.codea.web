@@ -144,12 +144,13 @@ export default {
     },
     mounted: function () {
         window.addEventListener('scroll', this.handleScroll);
-    },
-    beforeUpdate: function () {
-        this.bottomNav = this.$route.path.split('/')[1];
+        
         if (this.$cookie.getCookie('sid')) {
             this.getUnreadNotifyCount();
         }
+    },
+    beforeUpdate: function () {
+        this.bottomNav = this.$route.path.split('/')[1];
     },
     methods: {
         handleScroll() {

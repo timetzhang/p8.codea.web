@@ -1,5 +1,6 @@
 <template lang="jade">
     div.container
+        loading(v-if="isLoading")
         mu-appbar(title="课程", v-if='isMobile')
             mu-icon-button(icon="menu",slot="right",@click='toggleMenu')
             mu-icon-button(icon="search",slot="right",@click='toggleSearch')
@@ -47,9 +48,12 @@
 
 <script>
 import Browser from '@/common/browser'
-
+import loading from '@/components/common/loading'
 export default {
     name: 'course',
+    components:{
+        loading
+    },
     data() {
         return {
             menuCrea: [],
@@ -63,7 +67,9 @@ export default {
             isMenuDisplay: true,
             isSearchDisplay: true,
             keyword: '',
-            contentWidth: '80'
+            contentWidth: '80',
+
+            isLoading: true
         }
     },
     mounted: function () {
@@ -98,6 +104,7 @@ export default {
             this.currentMenu = id;
             this.$db.getCourse(this, { type_id: id }).then(res => {
                 _this.course = res;
+                _this.isLoading=false;
             });
             if (this.isMobile) {
                 this.showMenu = false;

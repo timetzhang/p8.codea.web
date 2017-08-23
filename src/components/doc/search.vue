@@ -39,8 +39,7 @@ import DateTime from '@/common/datetime'
 export default {
     name: 'doc',
     components: {
-        doc_list,
-        quillEditor
+        doc_list
     },
     data() {
         return {

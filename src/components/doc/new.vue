@@ -7,7 +7,7 @@
             mu-content-block
                 mu-text-field(@blur="verifyName",:errorText="errorTextName",hintText="标题",:fullWidth='true',style="font-size:18px; font-weight:bold;",v-model="document.name",:maxLength="100")
                 mu-text-field(@blur="verifyBrief",:errorText="errorTextBrief",hintText="简介",:fullWidth='true',style="font-size:12px;",v-model="document.brief",:maxLength="200",:row="3",:rowMax="6",:multiLine="true")
-                mu-text-field(@blur="verifyTag",:errorText="errorTextTag", hintText="关键词: 请用逗号,分隔开来",:fullWidth="true",style="padding-bottom:0",v-model="document.tag",:maxLength="30")
+                mu-text-field(@blur="verifyTag",:errorText="errorTextTag", hintText="关键词: 请用逗号,分隔开来",:fullWidth="true",style="padding-bottom:0",v-model="document.tag",:maxLength="200")
                 br
                 br
                 quill-editor(@blur="verifyDetails",ref="editor",v-model="document.details",:options="editorOption")
@@ -114,7 +114,7 @@ export default {
         verifyTag() {
             var valid = false;
             if (this.document.tag) {
-                if (this.document.tag.length > 30) {
+                if (this.document.tag.length > 200) {
                     this.errorTextTag = "关键字过长"
                     valid = false
                 }
@@ -161,7 +161,7 @@ export default {
                 this.$db.newDocument(this, {
                     name: this.document.name,
                     type_id: this.$route.params.type,
-                    brief: this.document.brief,
+                    brief: Encode.htmlEncode(this.document.brief),
                     details: Encode.htmlEncode(this.document.details),
                     student_id: this.$cookie.getCookie('sid'),
                     tag: this.document.tag,

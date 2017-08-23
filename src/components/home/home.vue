@@ -38,7 +38,7 @@
                     mu-col(desktop="33", width="100", v-for="item in newsEvents", :key="item.id")
                         a(:href="item.url")
                             mu-card
-                                mu-card-media(:title="item.name",:subTitle="item.time",:to="item.url")
+                                mu-card-media(:title="item.name",:subTitle="item.time", titleClass="item-title", subTitleClass="item-sub-title")
                                     img(:src="item.head_image", style="height:200px;")
                                 mu-card-text
                                     div.brief {{item.brief}}

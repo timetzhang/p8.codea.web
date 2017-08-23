@@ -4,7 +4,8 @@ div.padded.container
         mu-breadcrumb-item(href="/doc") 维基
         mu-breadcrumb-item {{document.name}}
     mu-paper(style="padding:10px")
-        mu-content-block.para
+        loading(v-if="isLoading")
+        mu-content-block.para(v-if="!isLoading")
             div.center.aligned(gutter)
                 h1 {{document.name}} 
                 //- Name and Time
@@ -54,7 +55,7 @@ div.padded.container
                 mu-pagination(:total="document.comment_count",:current="currentCommentPage",:pageSize="20",@pageChange="onCommentPageChange",style="float:right")
                 br
             
-            mu-snackbar.snackbar(v-if="isSnackbarDisplay",:message="snackbarMessage",action="关闭",@actionClick="hideSnackbar",@close="hideSnackbar")
+            mu-snackbar.snackbar(v-if="isSnackbarDisplay",:message="snackbarMessage",action="关闭",@actionClick="hideSnackbar",@close="hideSnackbar")            
 </template>
 
 <script>
@@ -62,15 +63,18 @@ import DateTime from '@/common/datetime'
 import { quillEditor } from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
 import Encode from '@/common/encode'
+import loading from '@/components/common/loading'
 
 export default {
     name: 'details',
     components: {
-        quillEditor
+        quillEditor,
+        loading
     },
     data() {
         return {
             document: {},                             //document json
+            isLoading: true,
             isFav: false,                             //判断学生是否已经收藏
             isLike: false,                            //判断学生是否已经点赞
             isOwner: false,                           //是否为文档的所有者
@@ -129,6 +133,7 @@ export default {
                 }
 
                 this.getComment();
+                this.isLoading = false;
             });
 
         },

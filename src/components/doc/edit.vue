@@ -45,8 +45,9 @@ export default {
         getDocument() {
             var _this = this;
             this.$db.getDocumentDetails(this, { id: this.$route.params.id }).then(res => {
-                _this.document = res[0]
-                _this.document.details = Encode.htmlDecode(res[0].details)
+                _this.document = res[0][0]
+                _this.document.brief = Encode.htmlDecode(_this.document.brief)
+                _this.document.details = Encode.htmlDecode(_this.document.details)
             })
         },
         confirmSubmit() {
@@ -60,7 +61,7 @@ export default {
                 this.$db.setDocument(this, {
                     id: this.document.id,
                     name: this.document.name,
-                    brief: this.document.brief,
+                    brief: Encode.htmlEncode(this.document.brief),
                     details: Encode.htmlEncode(this.document.details),
                     tag: this.document.tag
                 }).then(res => {
