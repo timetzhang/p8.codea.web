@@ -6,7 +6,7 @@
                     mu-flat-button.item(label='首页',to="/home")
                     mu-flat-button.item(label='学校',to='/school')
                     mu-flat-button.item(label='教程',to='/course')
-                    mu-flat-button.item(label='维基',to='/doc')
+                    mu-flat-button.item(label='文档',to='/doc')
                     mu-flat-button.item(label='项目',to='/team')
                     mu-flat-button.item(label='我的',to='/my')
                 mu-col(desktop='30',style='text-align:right',v-if='sid <= 0')
@@ -21,7 +21,7 @@
             mu-bottom-nav(:value="bottomNav",@change="handleMobileMenuChange")
                 mu-bottom-nav-item(value="school",title="学校",icon="school",to='/school')
                 mu-bottom-nav-item(value="course",title="教程",icon="book",to='/course')
-                mu-bottom-nav-item(value="doc",title="维基",icon="note",to='/doc')
+                mu-bottom-nav-item(value="doc",title="文档",icon="note",to='/doc')
                 mu-bottom-nav-item(value="team",title="项目",icon="cloud_download",to='/team')
                 mu-bottom-nav-item(value="my",title="我的",icon="account_circle",to='/my')
         router-view.content
@@ -64,7 +64,7 @@
                     p
                         router-link(to="/team") 学生项目组
                     p
-                        router-link(to="/doc") 维基
+                        router-link(to="/doc") 文档
                 mu-col(desktop="25")
                     h3.title 软件开发教程
                     p
@@ -176,7 +176,7 @@ export default {
 }
 
 .desktop-menu {
-    background-color: #f0f0f0;
+    background-color: #eee;
     position: fixed;
     left: 0;
     top: 0;
@@ -189,7 +189,7 @@ export default {
         line-height: 54px;
         height: 54px;
         color: #222;
-        background-color: #f0f0f0;
+        margin-bottom:-5px;
     }
 }
 

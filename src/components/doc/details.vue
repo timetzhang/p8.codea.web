@@ -131,7 +131,8 @@ export default {
                         }
                     });
                 }
-
+                
+                document.title = this.document.name + ' - 教程 - ' + this.$config.title
                 this.getComment();
                 this.isLoading = false;
             });

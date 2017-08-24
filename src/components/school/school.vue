@@ -1,7 +1,7 @@
 <template lang="jade">
     div.container
         mu-row(gutter)
-            mu-col(desktop="20", width="100", v-if='showMenu')
+            mu-col(desktop="20", width="100", v-if='isMenuDisplay')
                 mu-paper(height="100")
                     mu-list.column
                         mu-sub-header 
@@ -46,7 +46,7 @@ export default {
     data() {
         return {
             isMobile: Browser.mobile,
-            showMenu: true,
+            isMenuDisplay: true,
             currentPage: window.location.pathname.split('/')[2].toLowerCase(),
             contentWidth: '80',
             title: ''
@@ -58,14 +58,13 @@ export default {
     mounted: function() {
         //判断是否为Mobile
         if (this.isMobile) {
-            this.showMenu = false;
-        }  
-        this.setTitle(this.currentPage);     
+            this.isMenuDisplay = false;
+        }
+        this.setTitle(this.currentPage);
     },
     methods: {
         toggleMenu() {
-            this.showMenu = !this.showMenu;
-            this.contentWidth = this.contentWidth == '100' ? '80' : '100';
+            this.isMenuDisplay = !this.isMenuDisplay;
         },
         setTitle(value) {
             switch (value) {
@@ -112,9 +111,12 @@ export default {
     watch: {
         currentPage: function() {
             this.setTitle(this.currentPage);
-            if(this.isMobile) {
-                this.showMenu = false;
+            if (this.isMobile) {
+                this.isMenuDisplay = false;
             }
+        },
+        isMenuDisplay: function() {
+            this.contentWidth = this.isMenuDisplay ? '80' : '100'
         }
     }
 }

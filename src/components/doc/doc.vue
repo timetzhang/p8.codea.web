@@ -116,6 +116,8 @@ export default {
         if (this.isMobile) {
             this.isSearchDisplay = false;
         }
+
+        document.title = '文档 - ' + this.$config.title
     },
     watch: {
         activeSortTab: function () {
