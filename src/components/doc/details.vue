@@ -17,29 +17,18 @@ div.padded.container
                     router-link(:to="'/doc/edit/id=' + document.id", v-if="isOwner",style="vertical-align:9px") &nbsp;[编辑]
                 //- Functions
                 div(style="margin-top:10px")
-                    mu-flat-button(label="分享",icon="share",@click="toggleShare")
-                    mu-flat-button(:label="'评论(' + document.comment_count + ')'",icon="comment",@click="focusComment")
-                    mu-flat-button(@click="setLike",:label="(isLike ? '已赞' : '赞') + '(' + document.like_count + ')'",icon="thumb_up", :color="isLike ? 'red' : 'black'")
-                    mu-flat-button(@click="setFav",:label="(isFav ? '已收藏' : '收藏') + '(' + document.fav_count + ')'",icon="favorite", :color="isFav ? 'red' : 'black'")
-                    mu-flat-button(:label="'查看(' + document.click_count + ')'",icon="whatshot")
-                div(v-if="isQrcodeDisplay")
+                    mu-flat-button.doc-buttons(label="分享",icon="share",@click="toggleShare", v-if="!isMobile",labelClass="label",iconClass="icons")
+                    mu-flat-button.doc-buttons(:label="'评论(' + document.comment_count + ')'",icon="comment",@click="focusComment",labelClass="label",iconClass="icons")
+                    mu-flat-button.doc-buttons(@click="setLike",:label="(isLike ? '已赞' : '赞') + '(' + document.like_count + ')'", labelClass="label",icon="thumb_up",:color="isLike ? 'red' : 'black'",iconClass="icons")
+                    mu-flat-button.doc-buttons(@click="setFav",:label="(isFav ? '已收藏' : '收藏') + '(' + document.fav_count + ')'", labelClass="label",icon="favorite",:color="isFav ? 'red' : 'black'",iconClass="icons")
+                    mu-flat-button.doc-buttons(:label="'查看(' + document.click_count + ')'", labelClass="label",icon="whatshot",iconClass="icons", v-if="!isMobile")                   
+                div(v-if="isQrcodeDisplay && !isMobile")
                     br
                     img(:src="'http://qr.liantu.com/api.php?m=0&el=l&text=http://codea.joinp8.com'+this.$route.url+'&w=200'")
             
             p.html(v-html="document.details")
             hr
-            h2 发表评论
-            div(v-if="sid > 0")
-                quill-editor(ref="editor",v-model="documentComment",:options="editorOption")
-                br
-                mu-raised-button(label="发布",:fullWidth="true",primary,@click="submitComment")
-            div.center.aligned(v-if="sid <= 0")
-                p 登录才能评论！
-                mu-raised-button(label="前往登陆",href="/login")
-            
-            br
-            hr
-            h3 评论 ({{document.comment_count}} 条)
+            h2 评论 ({{document.comment_count}} 条)
             div(v-if="document.comment_count == 0")
                 p.aligned.center 快来占领沙发吧！
             mu-list(v-for="(item,index) in comments",:key="item.id")
@@ -54,7 +43,17 @@ div.padded.container
             div.center.aligned(style="padding:20px;",v-if="comment_count > 20")
                 mu-pagination(:total="document.comment_count",:current="currentCommentPage",:pageSize="20",@pageChange="onCommentPageChange",style="float:right")
                 br
+            hr
+            h2 发表评论
+            div(v-if="sid > 0")
+                quill-editor(ref="editor",v-model="documentComment",:options="editorOption")
+                br
+                mu-raised-button(label="发布",:fullWidth="true",primary,@click="submitComment")
+            div.center.aligned(v-if="sid <= 0")
+                p 登录才能评论！
+                mu-raised-button(label="前往登陆",href="/login")
             
+            br
             mu-snackbar.snackbar(v-if="isSnackbarDisplay",:message="snackbarMessage",action="关闭",@actionClick="hideSnackbar",@close="hideSnackbar")            
 </template>
 
@@ -64,6 +63,7 @@ import { quillEditor } from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
 import Encode from '@/common/encode'
 import loading from '@/components/common/loading'
+import Browser from '@/common/browser'
 
 export default {
     name: 'details',
@@ -78,9 +78,20 @@ export default {
             isFav: false,                             //判断学生是否已经收藏
             isLike: false,                            //判断学生是否已经点赞
             isOwner: false,                           //是否为文档的所有者
+            isMobile: Browser.mobile,
             sid: this.$cookie.getCookie('sid'),       //student id
+
             editorOption: {
-                placeholder: "请输入评论内容"
+                modules: {
+                    toolbar: [
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    [{ 'color': [] }],
+                    [{ 'align': [] }],
+                    ['link', 'image'],
+                    ]
+                },
+                placeholder: "请输入评论内容",
             },
 
             //share
@@ -97,7 +108,7 @@ export default {
             pageNum: 0,
         }
     },
-    mounted: function () {
+    mounted: function() {
         this.getDocument();
     },
     methods: {
@@ -131,7 +142,7 @@ export default {
                         }
                     });
                 }
-                
+
                 document.title = this.document.name + ' - 教程 - ' + this.$config.title
                 this.getComment();
                 this.isLoading = false;
@@ -148,7 +159,7 @@ export default {
                     pagenum: this.pageNum, pagesize: 20
                 })
                 .then(res => {
-                    res.forEach(function (element) {
+                    res.forEach(function(element) {
                         element.time = DateTime.getTimespan(element.time)
                         element.detail = Encode.htmlDecode(element.detail)
                         _this.comments.push(element);
@@ -224,7 +235,12 @@ export default {
 
         //Comment
         focusComment() {
-            this.$el.querySelector('.ql-editor').focus();
+            if(this.sid > 0){
+                this.$el.querySelector('.ql-editor').focus();
+            }
+            else{
+                this.$router.push('/login');
+            }
         },
         submitComment() {
             var _this = this;
@@ -265,7 +281,7 @@ export default {
         }
     },
     watch: {
-        isSnackbarDisplay: function () {
+        isSnackbarDisplay: function() {
             if (this.snackTimer) clearTimeout(this.snackTimer)
             this.snackTimer = setTimeout(() => { this.isSnackbarDisplay = false }, 2000)
         }
@@ -273,7 +289,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 blockquote {
     padding: 15px;
     border-left: 5px solid #f0f0f0;
@@ -297,5 +313,14 @@ blockquote {
 .ql-editor {
     height: 200px !important;
     max-height: 200px !important;
+}
+
+.doc-buttons{
+    .label{
+        font-size:12px;
+    }
+    .icons{
+        font-size:16px;
+    }
 }
 </style>

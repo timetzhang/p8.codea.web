@@ -29,6 +29,8 @@
                         mu-list-item.item(title="我的资料",to='/my/profile')
                         mu-list-item.item(title="我的研发能力",to='/my/dev_level')
                         mu-list-item.item(title="我的运营能力",to='/my/op_level')
+                        mu-divider
+                        mu-list-item.item(title="退出登录",to='/logoff')
             mu-col(:desktop="contentWidth", width="100")
                 mu-appbar(:title="title")
                     mu-icon-button(icon="menu",slot="right",@click='toggleMenu')

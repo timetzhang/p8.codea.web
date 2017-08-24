@@ -16,8 +16,8 @@
                 em {{item}}&nbsp;&nbsp;x
         mu-paper
             mu-tabs.api-view-tabs(:value="activeSubjectTab",@change="handleSubjectTabChange")
-                mu-tab(:value="0",title="讨论")
-                mu-tab(:value="1",title="课程")
+                mu-tab(:value="0",title="文档")
+                mu-tab(:value="1",title="课程文档")
 
             div(v-if="activeSubjectTab === 0")
                 mu-tabs.api-view-tabs(:value="activeSortTab",@change="handleSortTabChange")
@@ -35,10 +35,9 @@
             div.center.aligned(v-if="activeSubjectTab === 1")
                 mu-tabs.api-view-tabs(:value="activeCourseTypeTab",@change="handleCourseTypeTabChange")
                     mu-tab(v-for="(item,index) in courseType",:key="index",:value="index",:title="item")
-                mu-row(gutter,style="padding-top:10px")
-                    mu-col(desktop="25",v-for="item in filterBy(courses, courseSubjectIndex, 'subject_id')", :key="item.id")
-                        a(@click="newTag(item.name)") {{item.name}}
-                        hr
+                mu-row(gutter)
+                    mu-col.tag(desktop="25",v-for="item in filterBy(courses, courseSubjectIndex, 'subject_id')", :key="item.id")
+                        span(@click="newTag(item.name)") {{item.name}}
 
         mu-snackbar.snackbar(v-if="isSnackbarDisplay",:message="snackbarMessage",action="关闭",@actionClick="hideSnackbar",@close="hideSnackbar")
 
@@ -313,4 +312,14 @@ export default {
         color: rgb(239, 83, 80);
         cursor: pointer;
     }
+
+    .tag{
+        cursor:pointer;
+        padding:10px;
+    }
+
+    .tag:hover{
+        background-color: #eee;
+    }
+    
 </style>
