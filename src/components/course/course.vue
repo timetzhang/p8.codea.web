@@ -72,6 +72,7 @@ export default {
     },
     mounted: function() {
         this.getType();
+        this.setTitle();
         //判断是否为Mobile
         if (this.isMobile) {
             this.isMenuDisplay = false
@@ -88,7 +89,7 @@ export default {
         getCourse(id) {
             var _this = this
             this.isLoading = true
-            
+
             this.$db.getCourse(this, { type_id: this.currentMenu }).then(res => {
                 _this.course = res
                 _this.isLoading = false
@@ -104,6 +105,15 @@ export default {
         },
         toggleSearch() {
             this.isSearchDisplay = !this.isSearchDisplay
+        },
+        setTitle() {
+            //confirm the title
+            this.typies.forEach(function(element) {
+                if (element.id == this.currentMenu) {
+                    this.title = element.name
+                }
+                document.title = this.title + ' - 教程 - ' + this.$config.title
+            }, this);
         }
     },
     watch: {
@@ -127,15 +137,9 @@ export default {
         currentMenu: function() {
             this.getCourse()
 
-            //confirm the title
-            this.typies.forEach(function(element) {
-                if(element.id == this.currentMenu){
-                    this.title = element.name
-                }
-                document.title = this.title + ' - 教程 - ' + this.$config.title
-            }, this);
+            this.setTitle()
 
-            if(this.isMobile) {
+            if (this.isMobile) {
                 this.isMenuDisplay = false
             }
         }
