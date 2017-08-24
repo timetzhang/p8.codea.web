@@ -1,6 +1,6 @@
 <template lang="jade">
     div.padded.container
-        mu-appbar(title="维基", v-if='isMobile')
+        mu-appbar(title="文档", v-if='isMobile')
             mu-icon-button(icon="add",slot="right",@click='openAddDialog')
             mu-icon-button(icon="search",slot="right",@click='toggleSearch')
         mu-paper(style='padding:10px 30px; margin-bottom: 15px;', v-if="isSearchDisplay")

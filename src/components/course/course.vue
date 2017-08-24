@@ -71,8 +71,8 @@ export default {
         this.currentMenu = this.$route.params.type
     },
     mounted: function() {
-        this.getType();
-        this.setTitle();
+        this.getType()
+        document.title = '教程 - ' + this.$config.title
         //判断是否为Mobile
         if (this.isMobile) {
             this.isMenuDisplay = false
@@ -136,7 +136,6 @@ export default {
         },
         currentMenu: function() {
             this.getCourse()
-
             this.setTitle()
 
             if (this.isMobile) {
