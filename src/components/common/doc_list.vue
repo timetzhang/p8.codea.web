@@ -3,7 +3,7 @@
         router-link(:to="studentHref")
             mu-avatar(:src="headimg",:size="30",style="vertical-align:middle;")
         div.name
-            router-link(:to="studentHref",style="color:black")
+            a(:to="studentHref",style="color:black")
                 span {{name}}
             span.time {{time}}
             a(@click="pushType")
@@ -22,7 +22,7 @@
             mu-icon(value="favorite",style="vertical-align:middle;",:size="20")
             label &nbsp;{{isLike}}&nbsp;&nbsp;
         div
-            router-link(:to="docHref")
+            a(:href="docHref")
                 h2 {{title}}
             p {{brief}}
             br
